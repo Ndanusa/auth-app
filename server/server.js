@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const { bankLists, addItem } = require("./controllers/users.controllers");
 const port = 4000;
-const cors = require("cors");
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
