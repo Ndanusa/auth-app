@@ -43,7 +43,7 @@ function App() {
          password,
       };
 
-      fetch(`${BACKEND_URL}/api/post`, {
+      fetch(`${BACKEND_URL}/users/new`, {
          method: "POST",
          headers: {
             "Content-Type": "application/json",

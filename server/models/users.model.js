@@ -6,7 +6,7 @@ function getBanks() {
    });
 }
 
-function addData() {
+function getUsers() {
    return new Promise((resolve, reject) => {
       resolve(postData);
    });
@@ -14,5 +14,5 @@ function addData() {
 
 module.exports = {
    getBanks,
-   addData,
+   getUsers,
 };

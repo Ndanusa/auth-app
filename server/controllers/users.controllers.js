@@ -1,14 +1,12 @@
-const { getBanks, addData } = require("../models/users.model");
+const { getBanks, getUsers } = require("../models/users.model");
 const { addDataToFile } = require("../utils/utils");
-// const fs = require("fs").promises;
-// const path = require("path");
 async function bankLists(req, res) {
    res.json(await getBanks());
 }
 
-async function addItem(req, res) {
-   const data = await addData();
-   const body = req.body;
+async function createUser(req, res) {
+   const data = await getUsers();
+   let body = req.body;
    const matchingItem = data.find((item) => {
       return item.username === body.username;
    });
@@ -28,4 +26,4 @@ async function addItem(req, res) {
    addDataToFile(data);
 }
 
-module.exports = { bankLists, addItem };
+module.exports = { bankLists, createUser };
