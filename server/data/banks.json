@@ -1,0 +1,22 @@
+[
+   {
+      "name": "shell corporation",
+      "type": "banking",
+      "customers": [
+         {
+            "name": "sadeeq",
+            "balance": 20000000,
+            "nationality": "nigerian",
+            "branch": "nyc",
+            "bankingId": 1298271167
+         },
+         {
+            "name": "vikor",
+            "balance": 30817398,
+            "nationality": "russian",
+            "branch": "wdc",
+            "bankingId": 29112938772
+         }
+      ]
+   }
+]
