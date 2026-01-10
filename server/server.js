@@ -6,8 +6,6 @@ const { bankLists } = require("./controllers/users.controllers");
 const port = 4000;
 app.use(cors({ origin: "*" }));
 app.use(express.json());
-app.use(express.static());
-
 app.get("/api/banks", (req, res) => {
    bankLists(req, res);
    console.log(req.originalUrl);

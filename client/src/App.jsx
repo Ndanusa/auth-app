@@ -9,11 +9,6 @@ function App() {
    const [password, setPassword] = useState("");
    const [status, setStatus] = useState({});
 
-   const item = {
-      name: "man",
-      age: 20,
-   };
-
    function postData() {
       if (!firstName || !lastName || !username || !age || !password) {
          console.log("no");
