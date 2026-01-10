@@ -8,30 +8,15 @@ function App() {
    const [age, setAge] = useState("");
    const [password, setPassword] = useState("");
    const [status, setStatus] = useState({});
-   function calculateAge(birthDateString) {
-      const today = new Date();
-      const birthDate = new Date(birthDateString);
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDifference = today.getMonth() - birthDate.getMonth();
-      if (
-         monthDifference < 0 ||
-         (monthDifference === 0 && today.getDate() < birthDate.getDate())
-      ) {
-         age--;
-      }
 
-      return age;
-   }
+   const item = {
+      name: "man",
+      age: 20,
+   };
 
    function postData() {
       if (!firstName || !lastName || !username || !age || !password) {
          console.log("no");
-         return;
-      }
-      const userAge = calculateAge(age);
-      console.log(userAge);
-      if (userAge < 18) {
-         console.log("age not required");
          return;
       }
 
