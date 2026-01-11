@@ -1,12 +1,12 @@
-import http from "http";
-const PORT = 4000;
+import express from "express";
+import fs from "fs";
 
-const server = http.createServer((req, res) => {
-   res.statusCode = 200;
+const app = express();
 
-   res.end("this is a test text");
+app.get("/", (req, res) => {
+   console.log(req.url);
 });
 
-server.listen(4000, () => {
-   console.log("server is listening on port 4000");
+app.listen(4000, () => {
+   console.log("app is listening on port 4000");
 });
