@@ -19,8 +19,8 @@
       }
     </style>
     <linearGradient id="linear-gradient" x1="0" y1="327.82" x2="637.4" y2="327.82" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#4e4e4e"/>
-      <stop offset="1" stop-color="#000"/>
+      <stop offset="0" stop-color="#b1b1b1"/>
+      <stop offset="1" stop-color="#2b2b2b"/>
     </linearGradient>
     <linearGradient id="linear-gradient-2" x1="535.7" y1="327.63" x2="960.95" y2="327.63" xlink:href="#linear-gradient"/>
     <linearGradient id="linear-gradient-3" x1="-913.2" y1="327.63" x2="-487.95" y2="327.63" gradientTransform="translate(223) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient"/>
