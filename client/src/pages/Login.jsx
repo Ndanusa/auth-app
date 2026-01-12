@@ -5,8 +5,8 @@ import { useState } from "react";
 import { Mail, Key } from "lucide-react";
 import google from "../assets/google.png";
 import twitter from "../assets/twitter.png";
-import instagram from "../assets/instagram.png";
 import github from "../assets/github.png";
+import microsoft from "../assets/microsoft.png";
 function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
@@ -20,8 +20,8 @@ function Login() {
             className="flex h-screen items-center justify-between px-30"
             style={{
                backgroundImage: `
-        linear-gradient(45deg, transparent 49%, #e5e7eb 49%, #e5e7eb 51%, transparent 51%),
-        linear-gradient(-45deg, transparent 49%, #e5e7eb 49%, #e5e7eb 51%, transparent 51%)
+                  linear-gradient(45deg, transparent 49%, #e5e7eb 49%, #e5e7eb 51%, transparent 51%),
+                  linear-gradient(-45deg, transparent 49%, #e5e7eb 49%, #e5e7eb 51%, transparent 51%)
       `,
                backgroundSize: "40px 40px",
             }}>
@@ -159,11 +159,11 @@ function Login() {
                         </div>
                         <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
                            {" "}
-                           <img className="w-6" src={twitter} alt="" />{" "}
+                           <img className="w-6" src={microsoft} alt="" />{" "}
                         </div>
                         <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
                            {" "}
-                           <img className="w-6" src={instagram} alt="" />{" "}
+                           <img className="w-6" src={twitter} alt="" />{" "}
                         </div>
                      </div>
                   </div>
