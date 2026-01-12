@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import logoSrcLight from "../assets/logo-light.svg";
 import logoSrcDark from "../assets/logo.svg";
 import { useState } from "react";
-import { Mail, Key } from "lucide-react";\
-import google from '../assets/google.png'
-import twitter from '../assets/twitter.png'
-import instagram from '../assets/instagram.png'
-import github from '../assets/github.png'
+import { Mail, Key } from "lucide-react";
+import google from "../assets/google.png";
+import twitter from "../assets/twitter.png";
+import instagram from "../assets/instagram.png";
+import github from "../assets/github.png";
 function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
@@ -147,6 +147,24 @@ function Login() {
                               <Link to={"/account-reset"}>Reset</Link>
                            </span>
                         </p>
+                     </div>
+                     <div className="flex items-center justify-center gap-12 mt-10">
+                        <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
+                           {" "}
+                           <img className="w-6" src={google} alt="" />{" "}
+                        </div>
+                        <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
+                           {" "}
+                           <img className="w-6" src={github} alt="" />{" "}
+                        </div>
+                        <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
+                           {" "}
+                           <img className="w-6" src={twitter} alt="" />{" "}
+                        </div>
+                        <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
+                           {" "}
+                           <img className="w-6" src={instagram} alt="" />{" "}
+                        </div>
                      </div>
                   </div>
                </div>
