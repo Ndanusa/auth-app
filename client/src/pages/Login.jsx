@@ -2,15 +2,29 @@ import { Link } from "react-router-dom";
 import logoSrcLight from "../assets/logo-light.svg";
 import logoSrcDark from "../assets/logo.svg";
 import { useState } from "react";
-import { Mail, Key } from "lucide-react";
+import { Mail, Key } from "lucide-react";\
+import google from '../assets/google.png'
+import twitter from '../assets/twitter.png'
+import instagram from '../assets/instagram.png'
+import github from '../assets/github.png'
 function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
 
    return (
       <>
-         <div className="flex h-screen items-center justify-between px-30">
+         <div
+            className="flex h-screen items-center justify-between px-30"
+            style={{
+               backgroundImage: `
+        linear-gradient(45deg, transparent 49%, #e5e7eb 49%, #e5e7eb 51%, transparent 51%),
+        linear-gradient(-45deg, transparent 49%, #e5e7eb 49%, #e5e7eb 51%, transparent 51%)
+      `,
+               backgroundSize: "40px 40px",
+            }}>
             <div className="">
                <div className="w-16 flex flex-col gap-3">
                   <img src={logoSrcDark} alt="" />
@@ -81,27 +95,57 @@ function Login() {
                               />
                            </span>
                            <input
-                              className={`placeholder:text-xs placeholder:text-zinc-500 text-sm pl-8 bg-white py-2 px-3 sqc-lg mt-2 w-90 ${
+                              className={`placeholder:text-xs text-sm pl-8 bg-white py-2 px-3 sqc-lg mt-2 w-90 ${
                                  passwordError !== ""
-                                    ? "text-red-600 focus:outline-0 border-2 border-red-600"
-                                    : "text-zinc-900 focus:outline-2 border-0"
+                                    ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
+                                    : "text-zinc-900 focus:outline-2 border-0 placeholder:text-zinc-500"
                               }`}
                               type="password"
                               name="password"
                               placeholder="Password"
                               onChange={(e) => {
                                  const length = e.target.value.length;
+                                 const value = e.target.value;
+                                 setPassword(value);
+                                 console.log(password);
                                  if (length < 8) {
                                     setPasswordError(
                                        "Password must be 8 characters or more"
                                     );
-                                 } else setPasswordError("");
+                                 } else {
+                                    setPasswordError("");
+                                    setPassword(e.target.value);
+                                 }
                               }}
                            />
                         </div>
 
                         <p className="text-red-600 text-xs font-normal">
                            {passwordError}
+                        </p>
+                     </div>
+                     <div className="flex items-center gap-2 mt-3 text-sm">
+                        <input type="checkbox" className="accent-black" />
+                        Remember me
+                     </div>
+                     <button
+                        type="submit"
+                        className="cursor-pointer mt-5 rounded-lg sqc-lg w-90 text-center bg-black text-zinc-100 px-5 py-2 text-sm">
+                        Sign In
+                     </button>
+                     <div className="text-sm">
+                        <p className="my-3">
+                           Don't have an account?{" "}
+                           <span className="underline font-bold">
+                              <Link to={"/signup"}>Sign up</Link>
+                           </span>
+                        </p>
+
+                        <p className="mt-1">
+                           I can't remember my details.{" "}
+                           <span className="underline font-bold">
+                              <Link to={"/account-reset"}>Reset</Link>
+                           </span>
                         </p>
                      </div>
                   </div>
