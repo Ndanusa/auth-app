@@ -12,7 +12,16 @@ function Login() {
    const [passwordError, setPasswordError] = useState("");
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
+   const [detail, setDetail] = useState({});
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+
+   function postData() {
+      if (!email || !password) return;
+      setDetail({
+         email,
+         password,
+      });
+   }
 
    return (
       <>
@@ -64,6 +73,7 @@ function Login() {
                               onChange={(e) => {
                                  if (emailRegex.test(e.target.value.trim())) {
                                     setEmailError("");
+                                    setEmail(e.target.value);
                                  } else {
                                     setEmailError("Email address is not valid");
                                  }
@@ -107,7 +117,6 @@ function Login() {
                                  const length = e.target.value.length;
                                  const value = e.target.value;
                                  setPassword(value);
-                                 console.log(password);
                                  if (length < 8) {
                                     setPasswordError(
                                        "Password must be 8 characters or more"
@@ -129,6 +138,7 @@ function Login() {
                         Remember me
                      </div>
                      <button
+                        onClick={postData}
                         type="submit"
                         className="cursor-pointer mt-5 rounded-lg sqc-lg w-90 text-center bg-black text-zinc-100 px-5 py-2 text-sm">
                         Sign In
@@ -149,19 +159,19 @@ function Login() {
                         </p>
                      </div>
                      <div className="flex items-center justify-center gap-12 mt-10">
-                        <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
+                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
                            {" "}
                            <img className="w-6" src={google} alt="" />{" "}
                         </div>
-                        <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
+                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
                            {" "}
                            <img className="w-6" src={github} alt="" />{" "}
                         </div>
-                        <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
+                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
                            {" "}
                            <img className="w-6" src={microsoft} alt="" />{" "}
                         </div>
-                        <div className="w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
+                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
                            {" "}
                            <img className="w-6" src={twitter} alt="" />{" "}
                         </div>

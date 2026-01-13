@@ -1,12 +1,12 @@
+import { PORT, DB_URI, NODE_ENV } from "./config/env.js";
+import connectDB from "./DATABASE/mongodb.js";
 import express from "express";
-import fs from "fs";
-
 const app = express();
 
-app.get("/", (req, res) => {
-   console.log(req.url);
+app.get("/", async (req, res) => {
+   await connectDB();
 });
 
-app.listen(4000, () => {
-   console.log("app is listening on port 4000");
+app.listen(PORT, () => {
+   console.log("app is listening on http://localhost:" + PORT);
 });
