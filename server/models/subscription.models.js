@@ -11,10 +11,10 @@ const subscriptionSchema = new mongoose.Schema(
       },
       price: {
          type: Number,
-         required: [true, "Subscription proce s required"],
+         required: [true, "Price is required"],
          min: [0, "price must be greater than 0"],
       },
-      currenct: {
+      currency: {
          type: String,
          enum: ["NGN", "USD", "EUR", "GBP"],
          default: "NGN",
@@ -30,12 +30,12 @@ const subscriptionSchema = new mongoose.Schema(
             "sports",
             "news",
             "gaming",
-            "lufestyle",
+            "lifestyle",
             "finance",
             "politics",
             "other",
          ],
-         required: [true, "Categoty is required"],
+         required: [true, "Category is required"],
       },
       paymentMethod: {
          type: String,
@@ -46,6 +46,7 @@ const subscriptionSchema = new mongoose.Schema(
          type: String,
          required: true,
          enum: ["active", "expired", "cancelled"],
+         default: "active",
       },
       startDate: {
          type: Date,
@@ -66,3 +67,22 @@ const subscriptionSchema = new mongoose.Schema(
    },
    { timestamps: true }
 );
+
+subscriptionSchema.pre('next', function (next) {
+    if(!this.renewalDate){
+        const renewalPeriods = {
+            daily: 1,
+            weekly: 7,
+            monthly: 30,
+            yearly: 365
+        }
+    }
+    this.renewalDate = new Date(this.startDate)
+    this.renewalDate.setDate(this.renewalDate.getDate() + renewalPeriods[this.frequency])
+    if (this.renewalDate < new Date ()){
+        this.status = 'expired'
+    }
+    next()
+})
+
+const Subscription = mongoose.model('Subscription', subscriptionSchema)
