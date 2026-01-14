@@ -20,8 +20,6 @@ const middleware = (err, req, res, next) => {
         }
 
         res.status(err.statusCode || 500).json({success: false, error: error.message || "Server Error"})
-
-
     }catch(error){
         next(error)
     }
