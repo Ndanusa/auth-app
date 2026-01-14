@@ -1,24 +1,21 @@
-import {Router} from 'express';
+import {Router} from 'express'
 
-const router = Router();
+const router = Router()
 
-
-router.get('/v1/auth/subscriptions', (req, res) => {
-    res.send('This is the subscriptions route in get method')
+router.get('/api/v1/auth', (req, res) => {
+    res.send('this is a get route for the subscriptions')
 })
 
-router.post('/v1/auth/subscriptions', (req, res) => {
-    res.send('This is the subscriptions router in post method')
+router.post('/api/v1/auth', (req, res) => {
+    res.send('this is a post route for the subscriptions')
 })
 
-
-router.put('/v1/auth/subscriptions', (req, res) => {
-    res.send('This is the subscriptions router in put method')
+router.put('/api/v1/auth', (req, res) => {
+    res.send('this is a get put for the subscriptions')
 })
 
-router.delete('/v1/auth/subscriptions', (req, res) => {
-    res.send('This is the subscriptions router in delete method')
+router.delete('/api/v1/auth', (req, res) => {
+    res.send('this is a get delete for the subscriptions')
 })
-
 
 module.exports = router
