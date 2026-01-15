@@ -7,7 +7,8 @@ import express from "express";
 import authRouter from "./routes/auth.routes.js"
 
 const app = express();
-
+await connectDB();
+app.use(express.json())
 app.use(errorMiddleware)
 //basic routes
 app.use('/api/v1/auth', authRouter);
