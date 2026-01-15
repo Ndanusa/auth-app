@@ -9,7 +9,6 @@ export const signUp = async (req, res, next) => {
     session.startTransaction()
     try{
         const {name, email, password} = req.body
-
         const existingUser = await User.findOne({ email })
 
 
