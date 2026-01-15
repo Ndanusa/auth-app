@@ -8,27 +8,20 @@ export const signUp = async (req, res, next) => {
     const session = await mongoose.startSession()
     session.startTransaction()
     try{
-        const {firstName, lastName, username, email, password} = req.body
+        const {name, email, password} = req.body
 
-        const existingEmail = await User.findOne({ email })
-        const existingUsername = await User.findOne({ username })
+        const existingUser = await User.findOne({ email })
 
 
-        if (existingEmail) {
+        if (existingUser) {
             const error = new Error('User already exists')
-            error.status = 409
-            throw error
-        }
-
-        if (existingUsername) {
-            const error = new Error("Username already exists")
-            error.status = 409
+            error.status = 401
             throw error
         }
 
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
-        const newUser = await User.create([{firstName, lastName, email, password: hashedPassword, username}, {session}])
+        const newUser = await User.create([{name, email, password: hashedPassword}, {session}])
         const token = jwt.sign({userId: newUser[0]._id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN})
         await session.commitTransaction()
         res.status(201).json({
