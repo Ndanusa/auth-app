@@ -6,7 +6,7 @@ if (!DB_URI) {
       "you need to specify the environment variable for the database"
    );
 }
-
+ 
 const connectDB = async (res) => {
    try {
       await mongoose.connect(DB_URI);
