@@ -60,7 +60,11 @@ export const signIn = async (req, res, next) => {
             message: 'User logged in successfully.',
             data: {
                 token,
-                user
+                user:{
+                    email: user.email,
+                    _id: user._id,
+                    name: user.name
+                }
             }
         })
     }catch(error){

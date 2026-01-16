@@ -5,8 +5,9 @@ import userRouter from "./routes/users.routes.js";
 import subscriptionsRouter from "./routes/subscriptions.routes.js";
 import express from "express";
 import authRouter from "./routes/auth.routes.js"
-
+import cors from "cors";
 const app = express();
+app.use(cors({origin: "*"}));
 await connectDB();
 app.use(express.json())
 app.use(errorMiddleware)

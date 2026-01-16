@@ -7,21 +7,39 @@ import google from "../assets/google.png";
 import twitter from "../assets/twitter.png";
 import github from "../assets/github.png";
 import microsoft from "../assets/microsoft.png";
-function Login() {
+function Login(props) {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
-   const [detail, setDetail] = useState({});
+   const [responseData, setResponseData] = useState({});
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
-
+   const DATABASE_URL = props.DATABASE_URL;
    function postData() {
-      if (!email || !password) return;
-      setDetail({
+      if (emailError !== "") return;
+      if (passwordError !== "") return;
+      const body = JSON.stringify({
          email,
          password,
       });
+      try{
+         fetch(`${DATABASE_URL}/api/v1/auth/sign-in`, {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body,
+         })
+             .then((res) => res.json())
+             .then((data) => {
+                setResponseData(data);
+             });
+      }catch(error){
+         console.log(error)
+      }
+
    }
+   console.log(responseData)
 
    return (
       <>
@@ -74,7 +92,11 @@ function Login() {
                                  if (emailRegex.test(e.target.value.trim())) {
                                     setEmailError("");
                                     setEmail(e.target.value);
-                                 } else {
+                                 } else if (e.target.value === "") {
+                                    setEmailError("Field cannot be empty");
+                                 } else if (
+                                    !emailRegex.test(e.target.value.trim())
+                                 ) {
                                     setEmailError("Email address is not valid");
                                  }
                               }}
@@ -114,17 +136,18 @@ function Login() {
                               name="password"
                               placeholder="Password"
                               onChange={(e) => {
-                                 const length = e.target.value.length;
-                                 const value = e.target.value;
-                                 setPassword(value);
-                                 if (length < 8) {
-                                    setPasswordError(
-                                       "Password must be 8 characters or more"
+                                 if (e.target.value.length === 0) {
+                                    return setPasswordError(
+                                       "Field cannot be empty"
                                     );
-                                 } else {
-                                    setPasswordError("");
-                                    setPassword(e.target.value);
                                  }
+                                 if (e.target.value.length < 8) {
+                                    return setPasswordError(
+                                       "Password must be between 8 characters or more"
+                                    );
+                                 }
+                                 setPasswordError("");
+                                 setPassword(e.target.value);
                               }}
                            />
                         </div>

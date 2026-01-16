@@ -7,7 +7,7 @@ function App() {
    return (
       <Routes>
          <Route path="/" element={<Navigate to="/login" />} />
-         <Route path="/login" element={<Login />} />
+         <Route path="/login" element={<Login DATABASE_URL={`http://localhost:4400`}/>} />
          <Route path="/signup" element={<Signup />} />
          <Route path="/home" element={<Home />} />
       </Routes>
