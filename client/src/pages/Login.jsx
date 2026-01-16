@@ -32,7 +32,12 @@ function Login(props) {
          })
              .then((res) => res.json())
              .then((data) => {
-                setResponseData(data);
+                console.log(data)
+                if (data.data.token){
+                   localStorage.setItem("token", data.data.token);
+                   localStorage.setItem('user', JSON.stringify(data.data.user));
+                   window.location.href = '/'
+                }
              });
       }catch(error){
          console.log(error)

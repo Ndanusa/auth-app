@@ -4,9 +4,10 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 
 function App() {
+    const token = localStorage.getItem("token");
    return (
       <Routes>
-         <Route path="/" element={<Navigate to="/login" />} />
+         <Route path="/" element={<Navigate to={token ? '/home' : '/login'} />} />
          <Route path="/login" element={<Login DATABASE_URL={`http://localhost:4400`}/>} />
          <Route path="/signup" element={<Signup />} />
          <Route path="/home" element={<Home />} />
