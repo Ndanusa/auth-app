@@ -1,7 +1,7 @@
-import jwt, {decode} from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import {JWT_SECRET} from "../config/env.js";
 
-function authMiddleware(req, res, next) {
+function protectedMiddleware(req, res, next) {
     const authHeader = req.headers.authorization
     if (!authHeader) {
         return res.status(401).json({ error: 'No token provided' })
@@ -17,4 +17,4 @@ function authMiddleware(req, res, next) {
     })
 }
 
-export default authMiddleware
+export default protectedMiddleware

@@ -1,9 +1,9 @@
-import authMiddleware from "../middleware/auth.middleware.js";
+import protectedMiddleware from "../middleware/protected.middleware.js";
 import {Router} from "express";
 
 const router = Router();
 
-router.get("/protected", authMiddleware, (req, res) => {
+router.get("/protected", protectedMiddleware, (req, res) => {
     res.json({
         message: 'Access granted',
         user: res.user

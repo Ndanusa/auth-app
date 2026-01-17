@@ -33,7 +33,6 @@ function Login(props) {
          })
              .then((res) => res.json())
              .then((data) => {
-                setIsLoading(false);
                 if (data.type === 'password'){
                    setPasswordError(data.error)
                    return
@@ -49,7 +48,7 @@ function Login(props) {
                    return
                 }
 
-             });
+             }).finally(() => setIsLoading(false))
       }catch(error){
          console.log(error)
       }
