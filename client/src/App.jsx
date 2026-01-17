@@ -6,9 +6,13 @@ import { useEffect, useState } from "react";
 
 function App() {
     const token = localStorage.getItem("token");
-    const BACKEND_URL = 'http://localhost:4400/';
+    const BACKEND_URL = 'http://localhost:4400';
     useEffect(() => {
-        fetch()
+        fetch(`${BACKEND_URL}/api/v1/auth/me`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
     })
    return (
       <Routes>

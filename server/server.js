@@ -6,12 +6,14 @@ import subscriptionsRouter from "./routes/subscriptions.routes.js";
 import express from "express";
 import authRouter from "./routes/auth.routes.js"
 import cors from "cors";
+import protectedRoutes from "./routes/protected.routes.js";
 const app = express();
 app.use(cors({origin: "*"}));
 await connectDB();
 app.use(express.json())
 app.use(errorMiddleware)
 //basic routes
+app.use('/api/v1/auth', protectedRoutes)
 app.use('/api/v1/auth', authRouter);
 app.use('/user', userRouter)
 app.use('/subscription', subscriptionsRouter)
