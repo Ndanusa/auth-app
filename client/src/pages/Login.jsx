@@ -12,7 +12,7 @@ function Login(props) {
    const [passwordError, setPasswordError] = useState("");
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
-   const [responseData, setResponseData] = useState({});
+   const [isLoading, setIsLoading] = useState(false);
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
    const DATABASE_URL = props.DATABASE_URL;
    function postData() {
@@ -23,6 +23,7 @@ function Login(props) {
          password,
       });
       try{
+         setIsLoading(true);
          fetch(`${DATABASE_URL}/api/v1/auth/sign-in`, {
             method: "POST",
             headers: {
@@ -32,19 +33,28 @@ function Login(props) {
          })
              .then((res) => res.json())
              .then((data) => {
-                console.log(data)
+                setIsLoading(false);
+                if (data.type === 'password'){
+                   setPasswordError(data.error)
+                   return
+                }
+                if (data.type === 'email'){
+                   setEmailError(data.error)
+                   return
+                }
                 if (data.data.token){
                    localStorage.setItem("token", data.data.token);
                    localStorage.setItem('user', JSON.stringify(data.data.user));
                    window.location.href = '/'
+                   return
                 }
+
              });
       }catch(error){
          console.log(error)
       }
 
    }
-   console.log(responseData)
 
    return (
       <>
@@ -85,7 +95,8 @@ function Login(props) {
                               />
                            </span>
                            <input
-                              className={`placeholder:text-xs text-sm pl-8 bg-white py-2 px-3 sqc-lg mt-2 w-90 ${
+                               disabled={isLoading}
+                              className={`placeholder:text-xs text-sm pl-8 disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 bg-white py-2 px-3 sqc-lg mt-2 w-90 ${
                                  emailError !== ""
                                     ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
                                     : "text-zinc-900 focus:outline-2 border-0 placeholder:text-zinc-500"
@@ -132,7 +143,8 @@ function Login(props) {
                               />
                            </span>
                            <input
-                              className={`placeholder:text-xs text-sm pl-8 bg-white py-2 px-3 sqc-lg mt-2 w-90 ${
+                               disabled={isLoading}
+                              className={`placeholder:text-xs disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 text-sm pl-8 bg-white py-2 px-3 sqc-lg mt-2 w-90 ${
                                  passwordError !== ""
                                     ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
                                     : "text-zinc-900 focus:outline-2 border-0 placeholder:text-zinc-500"
@@ -166,9 +178,10 @@ function Login(props) {
                         Remember me
                      </div>
                      <button
+                         disabled={isLoading}
                         onClick={postData}
                         type="submit"
-                        className="cursor-pointer mt-5 rounded-lg sqc-lg w-90 text-center bg-black text-zinc-100 px-5 py-2 text-sm">
+                        className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-black text-zinc-100 px-5 py-2 text-sm">
                         Sign In
                      </button>
                      <div className="text-sm">

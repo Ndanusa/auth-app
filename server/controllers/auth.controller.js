@@ -45,13 +45,13 @@ export const signIn = async (req, res, next) => {
         const user = await User.findOne({email});
         if (!user){
             const error = new Error('User not found')
-            res.status(404).json({error: error.message, status: false})
+            res.status(404).json({error: error.message, status: false, type: 'email'})
         }
 
         const validPassword = await bcrypt.compare(password, user.password)
         if(!validPassword){
             const error = new Error("Incorrect password")
-            res.status(404).json({error: error.message, status: false})
+            res.status(404).json({error: error.message, status: false, type: 'password'})
         }
         const token = jwt.sign({userId: user._id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN})
         res.status(201).json({
