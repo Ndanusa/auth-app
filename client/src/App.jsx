@@ -6,15 +6,15 @@ import {useState} from "react";
 
 function App() {
 
-    const token = localStorage.getItem("token");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const DATABASE_URL = 'http://localhost:4400'
+    const token = localStorage.getItem("token");
     async function authenticate() {
         const body = {}
-        await fetch(`${DATABASE_URL}/api/auth/verify`, {
+        await fetch(`${DATABASE_URL}/api/v1/auth/me`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             },
             body,
         })
