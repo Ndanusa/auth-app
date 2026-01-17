@@ -14,7 +14,7 @@ function Login(props) {
    const [password, setPassword] = useState("");
    const [isLoading, setIsLoading] = useState(false);
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
-   const DATABASE_URL = props.DATABASE_URL;
+   const BACKEND_URL = props.BACKEND_URL;
    function postData() {
       if (emailError !== "") return;
       if (passwordError !== "") return;
@@ -24,7 +24,7 @@ function Login(props) {
       });
       try{
          setIsLoading(true);
-         fetch(`${DATABASE_URL}/api/v1/auth/sign-in`, {
+         fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
