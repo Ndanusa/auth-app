@@ -31,6 +31,7 @@ function App() {
          })
          .finally(() => setLoading(false));
    }, [token]);
+
    if (loading) {
       return <p>Checking Authentication...</p>;
    }
@@ -38,11 +39,12 @@ function App() {
       <Routes>
          <Route
             path="/"
-            element={<Navigate to={token ? "/home" : "/login"} />}
+            element={<Navigate to={isAuth ? "/home" : "/login"} />}
          />
-         <Route path="/login" element={<Login BACKEND_URL={BACKEND_URL} />} />
+         <Route path="/login" element={isAuth ? <Navigate to={'/home'}/> : <Login BACKEND_URL={BACKEND_URL}/>}></Route>
          <Route path="/signup" element={<Signup />} />
-         <Route path="/home" element={<Home />} />
+
+         <Route path="/home" element={isAuth ? <Home /> : <Login />} />
       </Routes>
    );
 }
