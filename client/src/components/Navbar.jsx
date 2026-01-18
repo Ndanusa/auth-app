@@ -21,7 +21,7 @@ function Navbar(props){
                         <div className={`flex items-center justify-center bg-zinc-700 rounded-full`}>
                             <img src={`${BACKEND_URL}/public/images/image.jpg`} srcSet={``} className={`text-sm text-gray-100 w-10 rounded-full h-10 object-cover`} alt={`Logo`} />
                         </div>
-                        <div className={`cursor-pointer`} onClick={() => {}}>
+                        <div className={`cursor-pointer`} onClick={() => {console.log('clicked')}}>
                         <Settings size={23}
                                   color={'#312c85'}
                                   strokeWidth={1.55}/>
