@@ -1,14 +1,17 @@
 import {Settings} from 'lucide-react'
+import logoImg  from '../assets/logo.svg'
 function Navbar() {
     return (
         <>
-            <div className={`flex items-center justify-between px-10 py-3 w-full bg-gray-300`}>
+            <div className={`flex items-center justify-between px-10 py-3 w-full bg-indigo-50`}>
+                <div>
+                    <img src={logoImg} className={`w-10`} srcSet={``} alt={`logo`}/>
+                </div>
                 <div className={`flex items-center justify-center`}>
-                    <ul className={`flex items-center justify-between gap-6 text-zinc-900`}>
+                    <ul className={`flex items-center justify-between gap-6 text-indigo-900`}>
                         <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative transition-all `}>Feed</a></li>
                         <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative transition-all `}>Friends</a></li>
                         <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative transition-all `}>Chats</a></li>
-                        <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative transition-all `}>Settings</a></li>
                     </ul>
                 </div>
                 <div className={`flex items-center justify-center`}>
@@ -18,7 +21,7 @@ function Navbar() {
                         </div>
                         <div className={`cursor-pointer`}>
                         <Settings size={23}
-                                  color={'#393939'}
+                                  color={'#312c85'}
                                   strokeWidth={1.55}/>
                         </div>
                     </div>

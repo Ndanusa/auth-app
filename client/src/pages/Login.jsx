@@ -45,7 +45,6 @@ function Login(props) {
                    localStorage.setItem("token", data.data.token);
                    localStorage.setItem('user', JSON.stringify(data.data.user));
                    window.location.href = '/'
-                   return
                 }
 
              }).finally(() => setIsLoading(false))
