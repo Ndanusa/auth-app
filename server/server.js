@@ -12,6 +12,7 @@ app.use(cors({origin: "*"}));
 await connectDB();
 app.use(express.json())
 app.use(errorMiddleware)
+
 //basic routes
 app.use('/api/v1/auth', protectedRoutes)
 app.use('/api/v1/auth', authRouter);

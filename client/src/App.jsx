@@ -43,7 +43,7 @@ function App() {
          />
          <Route path="/login" element={isAuth ? <Navigate to={'/home'}/> : <Login BACKEND_URL={BACKEND_URL}/>}></Route>
          <Route path="/signup" element={<Signup />} />
-         <Route path="/home" element={isAuth ? <Home /> : <Login />} />
+         <Route path="/home" element={isAuth ? <Home BACKEND_URL={BACKEND_URL}/> : <Login />} />
       </Routes>
    );
 }

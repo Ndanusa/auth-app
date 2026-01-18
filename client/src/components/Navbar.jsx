@@ -1,6 +1,14 @@
 import {Settings} from 'lucide-react'
 import logoImg  from '../assets/logo.svg'
-function Navbar() {
+import {useEffect, useState} from "react";
+import axios from 'axios'
+function Navbar(props){
+    const BACKEND_URL = props.BACKEND_URL
+    const [axs, setAxs] = useState('')
+    async function getApi() {
+        const api = await axios.get(`${BACKEND_URL}api/v1/auth/user/list`)
+        setAxs(JSON.stringify(api))
+    }
     return (
         <>
             <div className={`flex items-center justify-between px-10 py-3 w-full bg-indigo-50`}>
@@ -26,6 +34,9 @@ function Navbar() {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+                {axs}
             </div>
         </>
     )
