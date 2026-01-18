@@ -1,14 +1,7 @@
 import {Settings} from 'lucide-react'
 import logoImg  from '../assets/logo.svg'
 import {useEffect, useState} from "react";
-import axios from 'axios'
-function Navbar(props){
-    const BACKEND_URL = props.BACKEND_URL
-    const [axs, setAxs] = useState('')
-     function getApi() {
-        axios.get(`${BACKEND_URL}/api/v1/auth/user/list`).then(data => console.log(data.data))
-    }
-    console.log(axs)
+function Navbar(){
     return (
         <>
             <div className={`flex items-center justify-between px-10 py-3 w-full bg-indigo-50`}>
@@ -27,7 +20,7 @@ function Navbar(props){
                         <div className={`flex items-center justify-center w-10 h-10 bg-zinc-700 rounded-full`}>
                             <img src={``} srcSet={``} className={`text-sm text-gray-100`} alt={`Logo`} />
                         </div>
-                        <div className={`cursor-pointer`} onClick={getApi}>
+                        <div className={`cursor-pointer`} onClick={() => {}}>
                         <Settings size={23}
                                   color={'#312c85'}
                                   strokeWidth={1.55}/>
