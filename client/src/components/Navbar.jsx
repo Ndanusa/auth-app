@@ -1,9 +1,8 @@
 import {Settings} from 'lucide-react'
 import logoImg  from '../assets/logo.svg'
 import {useEffect, useState} from "react";
+import {BACKEND_URL} from "../config/config.js";
 function Navbar(props){
-    const [userImg, setUserImg] = useState()
-    const BACKEND_URL = props.BACKEND_URL
     return (
         <>
             <div className={`flex items-center justify-between px-10 py-3 w-full bg-indigo-50`}>
@@ -19,8 +18,8 @@ function Navbar(props){
                 </div>
                 <div className={`flex items-center justify-center`}>
                     <div className={`flex items-center justify-center gap-10`}>
-                        <div className={`flex items-center justify-center w-10 h-10 bg-zinc-700 rounded-full`}>
-                            <img src={`${BACKEND_}`} srcSet={``} className={`text-sm text-gray-100`} alt={`Logo`} />
+                        <div className={`flex items-center justify-center bg-zinc-700 rounded-full`}>
+                            <img src={`${BACKEND_URL}/public/images/image.jpg`} srcSet={``} className={`text-sm text-gray-100 w-10 rounded-full h-10 object-cover`} alt={`Logo`} />
                         </div>
                         <div className={`cursor-pointer`} onClick={() => {}}>
                         <Settings size={23}
