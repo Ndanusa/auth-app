@@ -13,14 +13,15 @@ function Navbar() {
                     </ul>
                 </div>
                 <div className={`flex items-center justify-center`}>
-                    <div className={`flex items-center justify-center gap-20`}>
-
+                    <div className={`flex items-center justify-center gap-10`}>
                         <div className={`flex items-center justify-center w-10 h-10 bg-zinc-700 rounded-full`}>
                             <img src={``} srcSet={``} className={`text-sm text-gray-100`} alt={`Logo`} />
                         </div>
-                        <Settings size={27}
-                                  color={'#000'}
-                                  strokeWidth={1.25}/>
+                        <div className={`cursor-pointer`}>
+                        <Settings size={23}
+                                  color={'#393939'}
+                                  strokeWidth={1.55}/>
+                        </div>
                     </div>
                 </div>
             </div>
