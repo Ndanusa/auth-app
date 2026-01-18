@@ -1,3 +1,4 @@
+import {Settings} from 'lucide-react'
 function Navbar() {
     return (
         <>
@@ -12,7 +13,14 @@ function Navbar() {
                     </ul>
                 </div>
                 <div className={`flex items-center justify-center`}>
-
+                    <div className={`flex items-center justify-center`}>
+                        <Settings size={18}
+                                  color={''}
+                                  strokeWidth={2.25}/>
+                        <div className={`flex items-center justify-center w-10 h-10 bg-zinc-700 rounded-full`}>
+                            <img src={``} srcSet={``} className={`text-sm text-gray-100`} alt={`Logo`} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
