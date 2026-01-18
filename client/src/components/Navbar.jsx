@@ -5,10 +5,10 @@ function Navbar() {
             <div className={`flex items-center justify-between px-10 py-3 w-full bg-gray-300`}>
                 <div className={`flex items-center justify-center`}>
                     <ul className={`flex items-center justify-between gap-6 text-zinc-900`}>
-                        <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative hover:text-lg transition-all `}>Feed</a></li>
-                        <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative hover:text-lg transition-all `}>Friends</a></li>
-                        <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative hover:text-lg transition-all `}>Chats</a></li>
-                        <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative hover:text-lg transition-all `}>Settings</a></li>
+                        <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative transition-all `}>Feed</a></li>
+                        <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative transition-all `}>Friends</a></li>
+                        <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative transition-all `}>Chats</a></li>
+                        <li><a href={'#'} className={`duration-300 hover:text-zinc-500 relative transition-all `}>Settings</a></li>
                     </ul>
                 </div>
                 <div className={`flex items-center justify-center`}>
