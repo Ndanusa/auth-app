@@ -15,7 +15,7 @@ import cors from "cors";
 import protectedRoutes from "./routes/protected.routes.js";
 const app = express();
 app.use(cors({ origin: "*" }));
-// await connectDB();
+await connectDB();
 app.use(express.json());
 app.use(errorMiddleware);
 app.use("/public", express.static("public"));
