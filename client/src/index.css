@@ -6,15 +6,14 @@ body {
 }
 
 @media screen and (min-width: 768px) {
-   .r{
+   .r {
       display: none;
    }
-
 }
 
-
-
-
+.mad {
+   color: #303aff;
+}
 
 @supports (corner-shape: superellipse(2)) {
    .sqc-sm {
