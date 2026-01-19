@@ -12,7 +12,7 @@ body {
 }
 
 .mad {
-   color: #303aff;
+   color: #e9eaff;
 }
 
 @supports (corner-shape: superellipse(2)) {
