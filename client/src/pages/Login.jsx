@@ -66,7 +66,7 @@ function Login() {
                backgroundSize: "40px 40px",
             }}>
             <div className="flex flex-col items-center justify-between">
-               <div className="w-16 flex flex-col gap-3">
+               <div className="w-50 flex flex-col gap-3">
                   <img src={logoSrcDark} alt="" />
                   <p className="font-semibold">A.Vibe</p>
                </div>
