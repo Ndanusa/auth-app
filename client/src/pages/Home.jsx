@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import Navbar from "../components/Navbar.jsx";
 
 function Home() {
-   let count = 0;
-
    return (
       <>
          <div className="flex items-center">

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import logoSrc from "../assets/logo.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Key } from "lucide-react";
 import google from "../assets/google.png";
 import twitter from "../assets/twitter.png";
@@ -14,6 +14,12 @@ function Login() {
    const [password, setPassword] = useState("");
    const [isLoading, setIsLoading] = useState(false);
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+   useEffect(() => {
+      const div = document.querySelector(".form");
+      isLoading
+         ? (div.style.cursor = "not-allowed")
+         : (div.style.cursor = "default");
+   }, [isLoading]);
    function postData() {
       if (emailError !== "") return;
       if (passwordError !== "") return;
