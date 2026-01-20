@@ -57,7 +57,7 @@ function Login() {
    return (
       <>
          <div
-            className="flex h-screen items-center justify-center px-30"
+            className="flex h-screen overflow-y-hidden items-center justify-center px-30"
             style={{
                backgroundImage: `
                   linear-gradient(45deg, transparent 49%, #e5e7eb 49%, #e5e7eb 51%, transparent 51%),
@@ -65,13 +65,13 @@ function Login() {
       `,
                backgroundSize: "40px 40px",
             }}>
-            <div className="flex flex-col items-center justify-between">
-               <div className="w-50 flex flex-col gap-3">
+            <div className="flex flex-col items-center justify-between bg-[#f5f5f515] px-10 py-10 sqc-2xl backdrop-blur-xs shadow-xl">
+               <div className="w-20 ">
                   <img src={logoSrcDark} alt="" />
-                  <p className="font-semibold">A.Vibe</p>
                </div>
-               <form className="form my-7">
-                  <h1 className="text-2xl font-bold">Sign in</h1>
+
+               <form className="form">
+                  <h1 className="text-4xl font-bold">Sign in</h1>
                   <div className="py-10">
                      <div>
                         <label htmlFor="email">
