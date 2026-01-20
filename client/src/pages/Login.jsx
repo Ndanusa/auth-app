@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import logoSrcLight from "../assets/logo-light.svg";
-import logoSrcDark from "../assets/logo.svg";
+import logoSrc from "../assets/logo.svg";
 import { useState } from "react";
 import { Mail, Key } from "lucide-react";
 import google from "../assets/google.png";
@@ -49,7 +48,7 @@ function Login() {
             })
             .finally(() => setIsLoading(false));
       } catch (error) {
-         console.log(error);
+         throw error;
       }
    }
 
@@ -66,7 +65,7 @@ function Login() {
             }}>
             <div className="flex flex-col items-center justify-between bg-[#f5f5f515] px-10 py-10 sqc-2xl backdrop-blur-xs shadow-xl">
                <div className="w-20 ">
-                  <img src={logoSrcDark} alt="" />
+                  <img src={logoSrc} alt="" />
                </div>
 
                <form className="form" onSubmit={() => event.preventDefault()}>
@@ -171,14 +170,18 @@ function Login() {
                         </p>
                      </div>
                      <div className="flex items-center gap-2 mt-3 text-sm">
-                        <input type="checkbox" className="accent-black" />
-                        Remember me
+                        <label htmlFor="remember">Remember me</label>
+                        <input
+                           type="checkbox"
+                           name="remember"
+                           className="accent-black"
+                        />
                      </div>
                      <button
                         disabled={isLoading}
                         onClick={postData}
                         type="submit"
-                        className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-black text-zinc-100 px-5 py-2 text-sm">
+                        className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-zinc-800 text-zinc-100 px-5 py-2 text-sm hover:bg-zinc-300 hover:text-zinc-600 transition-all duration-400 ease-out">
                         Sign In
                      </button>
                      <div className="text-sm">
