@@ -3,7 +3,9 @@ import Navbar from "../components/Navbar.jsx";
 function Home() {
    return (
       <>
-         <Navbar />
+         <div className="flex items-center">
+            <Navbar />
+         </div>
       </>
    );
 }
