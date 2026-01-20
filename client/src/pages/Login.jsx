@@ -15,7 +15,6 @@ function Login() {
    const [password, setPassword] = useState("");
    const [isLoading, setIsLoading] = useState(false);
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
-   console.log(history);
    function postData() {
       if (emailError !== "") return;
       if (passwordError !== "") return;
@@ -70,7 +69,7 @@ function Login() {
                   <img src={logoSrcDark} alt="" />
                </div>
 
-               <form className="form">
+               <form className="form" onSubmit={() => event.preventDefault()}>
                   <h1 className="text-4xl font-bold">Sign in</h1>
                   <div className="py-10">
                      <div>
