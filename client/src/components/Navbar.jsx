@@ -17,23 +17,23 @@ function Navbar() {
             <div className="flex flex-col items-center gap-15">
                <div className="hover:scale-105 relative duration-200 ease-in hover:-translate-y-1.5 cursor-pointer">
                   {" "}
-                  <MessageCircle color="#e9eaff" strokeWidth="1.6" />
+                  <MessageCircle strokeWidth={`1`} color="#e9eaff" />
                </div>
                <div className="hover:scale-105 relative duration-200 ease-in hover:-translate-y-1.5 cursor-pointer">
                   {" "}
-                  <Phone color="#fff" />
+                  <Phone strokeWidth={`1`} color="#fff" />
                </div>
                <div className="hover:scale-105 relative duration-200 ease-in hover:-translate-y-1.5 cursor-pointer">
                   {" "}
-                  <Video color="#fff" />
+                  <Video strokeWidth={`1`} color="#fff" />
                </div>
                <div className="hover:scale-105 relative duration-200 ease-in hover:-translate-y-1.5 cursor-pointer">
                   {" "}
-                  <UsersRound color="#fff" />
+                  <UsersRound strokeWidth={`1`} color="#fff" />
                </div>
             </div>
             <div className="mt-20 hover:scale-105 relative duration-200 ease-in hover:-translate-y-1.5 cursor-pointer">
-               <Settings color="#fff" />
+               <Settings strokeWidth={`1`} color="#fff" />
             </div>
          </div>
       </>
