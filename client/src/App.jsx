@@ -68,21 +68,17 @@ function App() {
    };
    return (
       <>
-         <div>
-            <div className="flex flex-col items-start gap-5 ">
-               <input
-                  name="input"
-                  type="text"
-                  placeholder="enter your message"
-                  className="placeholder:text-sm bg-zinc-200 px-4 py-2 sqc-lg"
-               />
-               <button
-                  onClick={handleClick}
-                  className="px-8 py-1 sqc-sm bg-zinc-800 text-zinc-200">
-                  Click
-               </button>
-            </div>
-         </div>
+         <input
+            name="input"
+            type="text"
+            placeholder="enter your message"
+            className="placeholder:text-sm bg-zinc-200 px-4 py-2 sqc-lg"
+         />
+         <button
+            onClick={handleClick}
+            className="px-8 py-1 sqc-lg bg-zinc-800 text-zinc-200">
+            Click
+         </button>
       </>
    );
 }
