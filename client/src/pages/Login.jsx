@@ -3,7 +3,11 @@ import logoSrc from "../assets/logo.svg";
 import { useEffect, useState } from "react";
 import { Mail, Key } from "lucide-react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Mail01Icon, CirclePasswordIcon } from "@hugeicons/core-free-icons";
+import {
+   Mail01Icon,
+   CirclePasswordIcon,
+   Login02Icon,
+} from "@hugeicons/core-free-icons";
 import google from "../assets/google.png";
 import twitter from "../assets/twitter.png";
 import github from "../assets/github.png";
@@ -72,13 +76,15 @@ function Login() {
                backgroundSize: "40px 40px",
             }}>
             <div className="flex flex-col items-center justify-between bg-[#f5f5f515] px-10 py-10 sqc-2xl backdrop-blur-xs shadow-xl">
-               <div className="w-20 ">
-                  <img src={logoSrc} alt="" />
-               </div>
-
                <form className="form" onSubmit={() => event.preventDefault()}>
-                  <h1 className="text-4xl font-bold">Sign in</h1>
-
+                  <div>
+                     <HugeiconsIcon
+                        icon={Login02Icon}
+                        size={28}
+                        color="currentColor"
+                        strokeWidth={1.9}
+                     />
+                  </div>
                   <div className="py-10">
                      <div>
                         <label htmlFor="email">
@@ -94,7 +100,7 @@ function Login() {
                               <HugeiconsIcon
                                  icon={Mail01Icon}
                                  color={
-                                    emailError !== "" ? "#ff0000" : "#5c5c5c"
+                                    emailError !== "" ? "#ff0000" : "#745cff"
                                  }
                                  size={`18`}
                                  strokeWidth={`1.5`}
@@ -102,10 +108,10 @@ function Login() {
                            </span>
                            <input
                               disabled={isLoading}
-                              className={`placeholder:text-xs text-sm pl-8 disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 bg-white py-2 px-3 sqc-lg mt-2 w-90 ${
+                              className={`placeholder:text-xs text-sm pl-8 disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 bg-[#e7e4f1] py-2 px-3 sqc-lg mt-2 w-90 ${
                                  emailError !== ""
                                     ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
-                                    : "text-zinc-900 focus:outline-2 border-0 placeholder:text-zinc-500"
+                                    : "text-[#4323fe] focus:outline-2 focus:outline-[#2600ff] border-0 placeholder:text-[#a197d7]"
                               }`}
                               type="email"
                               name="email"
@@ -129,13 +135,22 @@ function Login() {
                            {emailError}
                         </p>
                      </div>
-                     <div className="mt-7">
-                        <label htmlFor="email">
+                     <div className="mt-3">
+                        <label
+                           htmlFor="email"
+                           className="flex items-center justify-between">
                            <p
                               className={`text-xs font-semibold ${
                                  passwordError !== "" ? "text-red-600" : ""
                               }`}>
                               Password
+                           </p>
+                           <p>
+                              <span className="font-bold flex text-xs hover:underline">
+                                 <Link to={"/account-reset"}>
+                                    Forgot password?
+                                 </Link>
+                              </span>
                            </p>
                         </label>
                         <div className="relative flex items-center">
@@ -144,17 +159,17 @@ function Login() {
                                  icon={CirclePasswordIcon}
                                  size={20}
                                  color={
-                                    passwordError !== "" ? "#ff0000" : "#5c5c5c"
+                                    passwordError !== "" ? "#ff0000" : "#745cff"
                                  }
                                  strokeWidth={1.5}
                               />
                            </span>
                            <input
                               disabled={isLoading}
-                              className={`placeholder:text-xs disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 text-sm pl-8 bg-white py-2 px-3 sqc-lg mt-2 w-90 ${
+                              className={`placeholder:text-xs disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 text-sm pl-8 bg-[#e7e4f1]  py-2 px-3 sqc-lg mt-2 w-90 ${
                                  passwordError !== ""
                                     ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
-                                    : "text-zinc-900 focus:outline-2 border-0 placeholder:text-zinc-500"
+                                    : "text-[#4323fe] focus:outline-2 focus:outline-[#2600ff] border-0 placeholder:text-[#a197d7]"
                               }`}
                               type="password"
                               name="password"
@@ -195,6 +210,29 @@ function Login() {
                         className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-zinc-800 text-zinc-100 px-5 py-2 text-sm hover:bg-zinc-300 hover:text-zinc-600 transition-all duration-400 ease-out">
                         Sign In
                      </button>
+                     <div className="flex items-center justify-center gap-2 mt-5">
+                        <div className="border w-full rounded-2xl border-gray-300"></div>
+                        <p className="text-gray-500">OR</p>
+                        <div className="border w-full rounded-2xl border-gray-300"></div>
+                     </div>
+                     <div className="flex flex-col gap-3 mt-5">
+                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                           {" "}
+                           <img className="w-4" src={google} alt="" />{" "}
+                        </div>
+                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                           {" "}
+                           <img className="w-4" src={github} alt="" />{" "}
+                        </div>
+                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                           {" "}
+                           <img className="w-4" src={microsoft} alt="" />{" "}
+                        </div>
+                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                           {" "}
+                           <img className="w-4" src={twitter} alt="" />{" "}
+                        </div>
+                     </div>
                      <div className="text-sm">
                         <p className="my-3">
                            Don't have an account?{" "}
@@ -202,31 +240,6 @@ function Login() {
                               <Link to={"/signup"}>Sign up</Link>
                            </span>
                         </p>
-
-                        <p className="mt-1">
-                           I can't remember my details.{" "}
-                           <span className="underline font-bold">
-                              <Link to={"/account-reset"}>Reset</Link>
-                           </span>
-                        </p>
-                     </div>
-                     <div className="flex items-center justify-center gap-12 mt-10">
-                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
-                           {" "}
-                           <img className="w-6" src={google} alt="" />{" "}
-                        </div>
-                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
-                           {" "}
-                           <img className="w-6" src={github} alt="" />{" "}
-                        </div>
-                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
-                           {" "}
-                           <img className="w-6" src={microsoft} alt="" />{" "}
-                        </div>
-                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-12 h-12 flex items-center justify-center bg-zinc-200 rounded-full">
-                           {" "}
-                           <img className="w-6" src={twitter} alt="" />{" "}
-                        </div>
                      </div>
                   </div>
                </form>
