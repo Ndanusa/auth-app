@@ -85,6 +85,11 @@ export const signIn = async (req, res, next) => {
    }
 };
 export const signOut = async (req, res, next) => {
-   const users = await User.find().select("name username password");
-   res.send(users);
+   const users = await User.find().select("name username _id");
+
+   users.map((item) => {
+      if (item._id) {
+         res.send(item._id);
+      }
+   });
 };
