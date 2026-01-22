@@ -66,183 +66,190 @@ function Login() {
 
    return (
       <>
-         <div
-            className="flex h-screen overflow-y-hidden items-center justify-center px-30"
-            style={{
-               backgroundImage: `
-                  linear-gradient(45deg, transparent 49%, #e5e7eb 49%, #e5e7eb 51%, transparent 51%),
-                  linear-gradient(-45deg, transparent 49%, #e5e7eb 49%, #e5e7eb 51%, transparent 51%)
-      `,
-               backgroundSize: "40px 40px",
-            }}>
-            <div className="flex flex-col items-center justify-between bg-[#f5f5f515] px-10 py-10 sqc-2xl backdrop-blur-xs shadow-xl">
-               <form className="form" onSubmit={() => event.preventDefault()}>
-                  <div>
-                     <HugeiconsIcon
-                        icon={Login02Icon}
-                        size={28}
-                        color="currentColor"
-                        strokeWidth={1.9}
-                     />
-                  </div>
-                  <div className="py-10">
-                     <div>
-                        <label htmlFor="email">
-                           <p
-                              className={`text-xs font-semibold ${
-                                 emailError !== "" ? "text-red-600" : ""
-                              }`}>
-                              Email Address
-                           </p>
-                        </label>
-                        <div className="relative flex items-center">
-                           <span className="absolute bottom-2 left-2">
-                              <HugeiconsIcon
-                                 icon={Mail01Icon}
-                                 color={
-                                    emailError !== "" ? "#ff0000" : "#745cff"
-                                 }
-                                 size={`18`}
-                                 strokeWidth={`1.5`}
-                              />
-                           </span>
-                           <input
-                              disabled={isLoading}
-                              className={`placeholder:text-xs text-sm pl-8 disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 bg-[#e7e4f1] py-2 px-3 sqc-lg mt-2 w-90 ${
-                                 emailError !== ""
-                                    ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
-                                    : "text-[#4323fe] focus:outline-2 focus:outline-[#2600ff] border-0 placeholder:text-[#a197d7]"
-                              }`}
-                              type="email"
-                              name="email"
-                              placeholder="Email address"
-                              onChange={(e) => {
-                                 if (emailRegex.test(e.target.value.trim())) {
-                                    setEmailError("");
-                                    setEmail(e.target.value);
-                                 } else if (e.target.value === "") {
-                                    setEmailError("Field cannot be empty");
-                                 } else if (
-                                    !emailRegex.test(e.target.value.trim())
-                                 ) {
-                                    setEmailError("Email address is not valid");
-                                 }
-                              }}
-                           />
-                        </div>
-
-                        <p className="text-red-600 text-xs font-normal">
-                           {emailError}
-                        </p>
-                     </div>
-                     <div className="mt-3">
-                        <label
-                           htmlFor="email"
-                           className="flex items-center justify-between">
-                           <p
-                              className={`text-xs font-semibold ${
-                                 passwordError !== "" ? "text-red-600" : ""
-                              }`}>
-                              Password
-                           </p>
-                           <p>
-                              <span className="font-bold flex text-xs hover:underline">
-                                 <Link to={"/account-reset"}>
-                                    Forgot password?
-                                 </Link>
-                              </span>
-                           </p>
-                        </label>
-                        <div className="relative flex items-center">
-                           <span className="absolute bottom-2 left-2">
-                              <HugeiconsIcon
-                                 icon={CirclePasswordIcon}
-                                 size={20}
-                                 color={
-                                    passwordError !== "" ? "#ff0000" : "#745cff"
-                                 }
-                                 strokeWidth={1.5}
-                              />
-                           </span>
-                           <input
-                              disabled={isLoading}
-                              className={`placeholder:text-xs disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 text-sm pl-8 bg-[#e7e4f1]  py-2 px-3 sqc-lg mt-2 w-90 ${
-                                 passwordError !== ""
-                                    ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
-                                    : "text-[#4323fe] focus:outline-2 focus:outline-[#2600ff] border-0 placeholder:text-[#a197d7]"
-                              }`}
-                              type="password"
-                              name="password"
-                              placeholder="Password"
-                              onChange={(e) => {
-                                 if (e.target.value.length === 0) {
-                                    return setPasswordError(
-                                       "Field cannot be empty",
-                                    );
-                                 }
-                                 if (e.target.value.length < 8) {
-                                    return setPasswordError(
-                                       "Password must be between 8 characters or more",
-                                    );
-                                 }
-                                 setPasswordError("");
-                                 setPassword(e.target.value);
-                              }}
-                           />
-                        </div>
-
-                        <p className="text-red-600 text-xs font-normal">
-                           {passwordError}
-                        </p>
-                     </div>
-                     <div className="flex items-center gap-2 mt-3 text-sm">
-                        <label htmlFor="remember">Remember me</label>
-                        <input
-                           type="checkbox"
-                           name="remember"
-                           className="accent-black"
+         <div className="flex h-screen overflow-y-hidden items-center justify-center px-30">
+            <div className="flex flex-col items-center z-50">
+               <div className="flex flex-col items-center justify-between bg-[#d2d2d215] px-10 py-3 sqc-2xl backdrop-blur-xs border border-[#d7d5e1]">
+                  <form
+                     className="form pt-5"
+                     onSubmit={() => event.preventDefault()}>
+                     <div className="flex items-center gap-2 py-1 px-4 bg-[#e7e7e7] w-fit sqc-lg">
+                        <h1>Login</h1>
+                        <HugeiconsIcon
+                           icon={Login02Icon}
+                           size={25}
+                           color="currentColor"
+                           strokeWidth={1.9}
                         />
                      </div>
-                     <button
-                        disabled={isLoading}
-                        onClick={postData}
-                        type="submit"
-                        className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-zinc-800 text-zinc-100 px-5 py-2 text-sm hover:bg-zinc-300 hover:text-zinc-600 transition-all duration-400 ease-out">
-                        Sign In
-                     </button>
-                     <div className="flex items-center justify-center gap-2 mt-5">
-                        <div className="border w-full rounded-2xl border-gray-300"></div>
-                        <p className="text-gray-500">OR</p>
-                        <div className="border w-full rounded-2xl border-gray-300"></div>
+                     <div className="py-5">
+                        <div>
+                           <label htmlFor="email">
+                              <p
+                                 className={`text-xs font-semibold ${
+                                    emailError !== "" ? "text-red-600" : ""
+                                 }`}>
+                                 Email Address
+                              </p>
+                           </label>
+                           <div className="relative flex items-center">
+                              <span className="absolute bottom-2 left-2">
+                                 <HugeiconsIcon
+                                    icon={Mail01Icon}
+                                    color={
+                                       emailError !== "" ? "#ff0000" : "#745cff"
+                                    }
+                                    size={`18`}
+                                    strokeWidth={`1.5`}
+                                 />
+                              </span>
+                              <input
+                                 disabled={isLoading}
+                                 className={`placeholder:text-xs text-sm pl-8 disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 bg-[#e7e4f1] py-2 px-3 sqc-lg mt-2 w-90 ${
+                                    emailError !== ""
+                                       ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
+                                       : "text-[#4323fe] focus:outline-2 focus:outline-[#2600ff] border-0 placeholder:text-[#a197d7]"
+                                 }`}
+                                 type="email"
+                                 name="email"
+                                 placeholder="Email address"
+                                 onChange={(e) => {
+                                    if (
+                                       emailRegex.test(e.target.value.trim())
+                                    ) {
+                                       setEmailError("");
+                                       setEmail(e.target.value);
+                                    } else if (e.target.value === "") {
+                                       setEmailError("Field cannot be empty");
+                                    } else if (
+                                       !emailRegex.test(e.target.value.trim())
+                                    ) {
+                                       setEmailError(
+                                          "Email address is not valid",
+                                       );
+                                    }
+                                 }}
+                              />
+                           </div>
+
+                           <p className="text-red-600 text-xs font-normal">
+                              {emailError}
+                           </p>
+                        </div>
+                        <div className="mt-3">
+                           <label
+                              htmlFor="email"
+                              className="flex items-center justify-between">
+                              <p
+                                 className={`text-xs font-semibold ${
+                                    passwordError !== "" ? "text-red-600" : ""
+                                 }`}>
+                                 Password
+                              </p>
+                              <p>
+                                 <span className="font-bold flex text-xs hover:underline">
+                                    <Link to={"/account-reset"}>
+                                       Forgot password?
+                                    </Link>
+                                 </span>
+                              </p>
+                           </label>
+                           <div className="relative flex items-center">
+                              <span className="absolute bottom-2 left-2">
+                                 <HugeiconsIcon
+                                    icon={CirclePasswordIcon}
+                                    size={20}
+                                    color={
+                                       passwordError !== ""
+                                          ? "#ff0000"
+                                          : "#745cff"
+                                    }
+                                    strokeWidth={1.5}
+                                 />
+                              </span>
+                              <input
+                                 disabled={isLoading}
+                                 className={`placeholder:text-xs disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 text-sm pl-8 bg-[#e7e4f1]  py-2 px-3 sqc-lg mt-2 w-90 ${
+                                    passwordError !== ""
+                                       ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
+                                       : "text-[#4323fe] focus:outline-2 focus:outline-[#2600ff] border-0 placeholder:text-[#a197d7]"
+                                 }`}
+                                 type="password"
+                                 name="password"
+                                 placeholder="Password"
+                                 onChange={(e) => {
+                                    if (e.target.value.length === 0) {
+                                       return setPasswordError(
+                                          "Field cannot be empty",
+                                       );
+                                    }
+                                    if (e.target.value.length < 8) {
+                                       return setPasswordError(
+                                          "Password must be between 8 characters or more",
+                                       );
+                                    }
+                                    setPasswordError("");
+                                    setPassword(e.target.value);
+                                 }}
+                              />
+                           </div>
+
+                           <p className="text-red-600 text-xs font-normal">
+                              {passwordError}
+                           </p>
+                        </div>
+                        <div className="flex items-center gap-2 mt-3 text-sm">
+                           <label htmlFor="remember">Remember me</label>
+                           <input
+                              type="checkbox"
+                              name="remember"
+                              className="accent-black"
+                           />
+                        </div>
+                        <button
+                           disabled={isLoading}
+                           onClick={postData}
+                           type="submit"
+                           className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-[#5b4d94] text-zinc-100 px-5 py-2 text-sm hover:bg-zinc-300 hover:text-zinc-600 transition-all duration-400 ease-out">
+                           Sign In
+                        </button>
+                        <div className="flex items-center justify-center gap-2 mt-5">
+                           <div className="border w-full rounded-2xl border-gray-300"></div>
+                           <p className="text-gray-500">OR</p>
+                           <div className="border w-full rounded-2xl border-gray-300"></div>
+                        </div>
+                        <div className="flex flex-col gap-3 mt-5">
+                           <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                              {" "}
+                              <img className="w-4" src={google} alt="" />{" "}
+                           </div>
+                           <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                              {" "}
+                              <img className="w-4" src={github} alt="" />{" "}
+                           </div>
+                           <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                              {" "}
+                              <img
+                                 className="w-4"
+                                 src={microsoft}
+                                 alt=""
+                              />{" "}
+                           </div>
+                           <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                              {" "}
+                              <img className="w-4" src={twitter} alt="" />{" "}
+                           </div>
+                        </div>
                      </div>
-                     <div className="flex flex-col gap-3 mt-5">
-                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
-                           {" "}
-                           <img className="w-4" src={google} alt="" />{" "}
-                        </div>
-                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
-                           {" "}
-                           <img className="w-4" src={github} alt="" />{" "}
-                        </div>
-                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
-                           {" "}
-                           <img className="w-4" src={microsoft} alt="" />{" "}
-                        </div>
-                        <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
-                           {" "}
-                           <img className="w-4" src={twitter} alt="" />{" "}
-                        </div>
-                     </div>
-                     <div className="text-sm">
-                        <p className="my-3">
-                           Don't have an account?{" "}
-                           <span className="underline font-bold">
-                              <Link to={"/signup"}>Sign up</Link>
-                           </span>
-                        </p>
-                     </div>
-                  </div>
-               </form>
+                  </form>
+               </div>
+               <div className="text-sm bg-white w-full h-20 relative flex items-center justify-center -top-10 z-0">
+                  <p className="my-3">
+                     Don't have an account?{" "}
+                     <span className="underline font-bold">
+                        <Link to={"/signup"}>Sign up</Link>
+                     </span>
+                  </p>
+               </div>
             </div>
          </div>
       </>
