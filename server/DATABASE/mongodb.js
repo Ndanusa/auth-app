@@ -3,10 +3,10 @@ import { PORT, DB_URI, NODE_ENV } from "../config/env.js";
 
 if (!DB_URI) {
    throw new Error(
-      "you need to specify the environment variable for the database"
+      "you need to specify the environment variable for the database",
    );
 }
- 
+
 const connectDB = async (res) => {
    try {
       await mongoose.connect(DB_URI);

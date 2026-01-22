@@ -8,7 +8,7 @@ export const signUp = async (req, res, next) => {
    const session = await mongoose.startSession();
    session.startTransaction();
    try {
-      const { name, email, password } = req.body;
+      const { name, username, email, password } = req.body;
       const existingUser = await User.findOne({ email });
 
       if (existingUser) {
@@ -20,7 +20,7 @@ export const signUp = async (req, res, next) => {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       const newUser = await User.create([
-         { name, email, password: hashedPassword },
+         { name, username, email, password: hashedPassword },
          { session },
       ]);
       const token = jwt.sign({ userId: newUser[0]._id }, JWT_SECRET, {
@@ -76,6 +76,7 @@ export const signIn = async (req, res, next) => {
                email: user.email,
                _id: user._id,
                name: user.name,
+               username: user.username,
             },
          },
       });
@@ -84,5 +85,6 @@ export const signIn = async (req, res, next) => {
    }
 };
 export const signOut = async (req, res, next) => {
-   res.send("Hello this is a sign out logic");
+   const users = await User.find().select("name username password");
+   res.send(users);
 };

@@ -9,6 +9,13 @@ const userSchema = new mongoose.Schema(
          minLength: 1,
          maxLength: 50,
       },
+      username: {
+         type: String,
+         required: [true, "username is required"],
+         trim: true,
+         minLength: 1,
+         maxLength: 50,
+      },
       email: {
          type: String,
          required: [true, "Email is required"],
@@ -28,9 +35,9 @@ const userSchema = new mongoose.Schema(
          minLength: 6,
       },
    },
-   { timestamps: true }
+   { timestamps: true },
 );
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model("User", userSchema);
 
 export default User;
