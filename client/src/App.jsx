@@ -55,9 +55,22 @@ import { useEffect } from "react";
 import { io } from "socket.io-client";
 const socket = io("http://localhost:3000");
 function App() {
+   useEffect(() => {
+      socket.on("liveUpdate", (data) => {
+         console.log("live update received: ", data);
+      });
+      return () => socket.off("liveUpdate");
+   }, []);
+   const handleClick = () => {
+      socket.emit("userAction", { clicked: true });
+   };
    return (
       <>
-         <div></div>
+         <button
+            onClick={handleClick}
+            className="px-8 py-1 sqc-sm bg-zinc-800 text-zinc-200">
+            Click
+         </button>
       </>
    );
 }
