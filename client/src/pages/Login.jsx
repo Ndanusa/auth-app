@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import logoSrc from "../assets/logo.svg";
 import { useEffect, useState } from "react";
 import { Mail, Key } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Mail01Icon, CirclePasswordIcon } from "@hugeicons/core-free-icons";
 import google from "../assets/google.png";
 import twitter from "../assets/twitter.png";
 import github from "../assets/github.png";
@@ -76,6 +78,7 @@ function Login() {
 
                <form className="form" onSubmit={() => event.preventDefault()}>
                   <h1 className="text-4xl font-bold">Sign in</h1>
+
                   <div className="py-10">
                      <div>
                         <label htmlFor="email">
@@ -88,12 +91,13 @@ function Login() {
                         </label>
                         <div className="relative flex items-center">
                            <span className="absolute bottom-2 left-2">
-                              <Mail
-                                 size={18}
+                              <HugeiconsIcon
+                                 icon={Mail01Icon}
                                  color={
                                     emailError !== "" ? "#ff0000" : "#5c5c5c"
                                  }
-                                 strokeWidth={2.25}
+                                 size={`18`}
+                                 strokeWidth={`1.5`}
                               />
                            </span>
                            <input
@@ -136,12 +140,13 @@ function Login() {
                         </label>
                         <div className="relative flex items-center">
                            <span className="absolute bottom-2 left-2">
-                              <Key
-                                 size={18}
+                              <HugeiconsIcon
+                                 icon={CirclePasswordIcon}
+                                 size={20}
                                  color={
                                     passwordError !== "" ? "#ff0000" : "#5c5c5c"
                                  }
-                                 strokeWidth={2.25}
+                                 strokeWidth={1.5}
                               />
                            </span>
                            <input
