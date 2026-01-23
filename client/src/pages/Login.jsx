@@ -67,8 +67,8 @@ function Login() {
    return (
       <>
          <div className="flex h-screen overflow-y-hidden items-center justify-center px-30">
-            <div className="flex flex-col items-center z-50">
-               <div className="flex flex-col items-center justify-between bg-[#d2d2d215] px-10 py-3 sqc-2xl backdrop-blur-xs border border-[#d7d5e1]">
+            <div className="flex flex-col items-center">
+               <div className="flex flex-col items-center justify-between bg-[#d2d2d215] px-10 py-3 sqc-2xl backdrop-blur-xs border border-[#d7d5e1] z-9999">
                   <form
                      className="form pt-5"
                      onSubmit={() => event.preventDefault()}>
@@ -76,7 +76,7 @@ function Login() {
                         <h1>Login</h1>
                         <HugeiconsIcon
                            icon={Login02Icon}
-                           size={25}
+                           size={20}
                            color="currentColor"
                            strokeWidth={1.9}
                         />
@@ -202,14 +202,14 @@ function Login() {
                            <input
                               type="checkbox"
                               name="remember"
-                              className="accent-black"
+                              className="accent-[#5b4d94]"
                            />
                         </div>
                         <button
                            disabled={isLoading}
                            onClick={postData}
                            type="submit"
-                           className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-[#5b4d94] text-zinc-100 px-5 py-2 text-sm hover:bg-zinc-300 hover:text-zinc-600 transition-all duration-400 ease-out">
+                           className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-[#5b4d94] text-zinc-100 px-5 py-2 text-sm hover:bg-[#bab4d3] hover:text-zinc-800 transition-all duration-400 ease-out">
                            Sign In
                         </button>
                         <div className="flex items-center justify-center gap-2 mt-5">
@@ -218,15 +218,15 @@ function Login() {
                            <div className="border w-full rounded-2xl border-gray-300"></div>
                         </div>
                         <div className="flex flex-col gap-3 mt-5">
-                           <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                           <div className="cursor-pointer hover:bg-[#c3bed7] transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
                               {" "}
                               <img className="w-4" src={google} alt="" />{" "}
                            </div>
-                           <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                           <div className="cursor-pointer hover:bg-[#c3bed7] transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
                               {" "}
                               <img className="w-4" src={github} alt="" />{" "}
                            </div>
-                           <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                           <div className="cursor-pointer hover:bg-[#c3bed7] transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
                               {" "}
                               <img
                                  className="w-4"
@@ -234,7 +234,7 @@ function Login() {
                                  alt=""
                               />{" "}
                            </div>
-                           <div className="cursor-pointer hover:bg-zinc-300 transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
+                           <div className="cursor-pointer hover:bg-[#c3bed7] transition duration-400 ease-out w-full h-9 flex items-center justify-center bg-[#dfdde7] sqc-lg">
                               {" "}
                               <img className="w-4" src={twitter} alt="" />{" "}
                            </div>
@@ -242,8 +242,8 @@ function Login() {
                      </div>
                   </form>
                </div>
-               <div className="text-sm bg-white w-full h-20 relative flex items-center justify-center -top-10 z-0">
-                  <p className="my-3">
+               <div className="text-sm bg-[#d2d2d215] w-full flex items-center justify-center z-0 h-20 relative border border-[#d7d5e1] sqc-2xl-br sqc-2xl-bl py-10 -top-8">
+                  <p className="my-3 absolute top-7">
                      Don't have an account?{" "}
                      <span className="underline font-bold">
                         <Link to={"/signup"}>Sign up</Link>

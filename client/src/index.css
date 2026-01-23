@@ -49,4 +49,8 @@ body {
       corner-shape: superellipse(2);
       border-bottom-left-radius: 50px;
    }
+   .sqc-2xl-br {
+      corner-shape: superellipse(2);
+      border-bottom-right-radius: 50px;
+   }
 }
