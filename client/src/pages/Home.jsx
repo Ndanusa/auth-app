@@ -12,7 +12,10 @@ function Home() {
       });
       return () => socket.off("liveUpdate");
    }, []);
-   const sendMessage = () => socket.emit("userAction", { message });
+   const sendMessage = () => {
+      if (message === "") return;
+      socket.emit("userAction", { message });
+   };
    return (
       <>
          <div className="flex items-center">
