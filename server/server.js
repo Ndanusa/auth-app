@@ -20,9 +20,9 @@ app.use(express.json());
 app.use(errorMiddleware);
 app.use("/public", express.static("public"));
 //basic routes
+app.use("/api/v1/auth", userRouter);
 app.use("/api/v1/auth", protectedRoutes);
 app.use("/api/v1/auth", authRouter);
-app.use("/user", userRouter);
 app.use("/subscription", subscriptionsRouter);
 app.use(express.json());
 
