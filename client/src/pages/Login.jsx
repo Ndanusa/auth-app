@@ -68,7 +68,7 @@ function Login() {
       <>
          <div className="flex h-screen overflow-y-hidden items-center justify-center px-30">
             <div className="flex flex-col items-center">
-               <div className="flex flex-col items-center justify-between bg-[#d2d2d215] px-10 py-3 sqc-2xl backdrop-blur-xs border border-[#d7d5e1] z-9999">
+               <div className="flex flex-col items-center justify-between bg-[#d2d2d215] px-10 py-3 sqc-2xl backdrop-blur-xs border border-[#cfccdc] z-9999">
                   <form
                      className="form pt-5"
                      onSubmit={() => event.preventDefault()}>
@@ -242,8 +242,8 @@ function Login() {
                      </div>
                   </form>
                </div>
-               <div className="text-sm bg-[#d2d2d215] w-full flex items-center justify-center z-0 h-20 relative border border-[#d7d5e1] sqc-2xl-br sqc-2xl-bl py-10 -top-8">
-                  <p className="my-3 absolute top-7">
+               <div className="text-sm bg-[#d2d2d215] w-full flex items-center justify-center z-0 h-20 relative border border-[#cfccdc] sqc-2xl-br sqc-2xl-bl py-10 -top-8">
+                  <p className="my-3 absolute top-8">
                      Don't have an account?{" "}
                      <span className="underline font-bold">
                         <Link to={"/signup"}>Sign up</Link>
