@@ -223,7 +223,7 @@ function Login() {
                         </button>
                         <div className="items-center justify-center">
                            {generalErr ? (
-                              <div className="flex items-center justify-evenly w-fit px-4 gap-4 h-10 text-sm bg-[#e7e6ed] sqc-lg">
+                              <div className="flex items-center justify-evenly w-full my-5 px-4 gap-4 h-10 text-sm bg-[#f1e3e3] text-red-600 sqc-lg">
                                  {generalErr}
                                  <div className="">
                                     <HugeiconsIcon
