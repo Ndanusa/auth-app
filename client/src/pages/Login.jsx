@@ -13,7 +13,7 @@ import google from "../assets/google.png";
 import twitter from "../assets/twitter.png";
 import github from "../assets/github.png";
 import microsoft from "../assets/microsoft.png";
-import { BACKEND_URL } from "../config/config";
+import { BACKEND_URL, BACKEND_URL_2 } from "../config/config";
 function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
@@ -37,7 +37,7 @@ function Login() {
       });
       try {
          setIsLoading(true);
-         fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
+         fetch(`${BACKEND_URL_2}/api/v1/auth/sign-in`, {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
