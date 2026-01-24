@@ -7,6 +7,7 @@ import {
    Mail01Icon,
    CirclePasswordIcon,
    Login02Icon,
+   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 import google from "../assets/google.png";
 import twitter from "../assets/twitter.png";
@@ -17,7 +18,7 @@ function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
    const [email, setEmail] = useState("");
-   const [generalErr, setGeneralErr] = useState("");
+   const [generalErr, setGeneralErr] = useState("Check your network connecton");
    const [password, setPassword] = useState("");
    const [isLoading, setIsLoading] = useState(false);
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
@@ -45,7 +46,7 @@ function Login() {
          })
             .then((res) => {
                if (!res.ok) {
-                  setGeneralErr("Check your internet connecton");
+                  setGeneralErr("Check your network connecton");
                }
                return res.json();
             })
@@ -78,14 +79,16 @@ function Login() {
                   <form
                      className="form pt-5"
                      onSubmit={() => event.preventDefault()}>
-                     <div className="flex items-center gap-2 py-1 px-4 bg-[#e7e7e7] w-fit sqc-lg">
-                        <h1>Login</h1>
-                        <HugeiconsIcon
-                           icon={Login02Icon}
-                           size={20}
-                           color="currentColor"
-                           strokeWidth={1.9}
-                        />
+                     <div>
+                        <div className="flex items-center gap-2 py-2 px-4 bg-[#e7e7e7] w-fit sqc-lg">
+                           <h1 className="text-sm">Login</h1>
+                           <HugeiconsIcon
+                              icon={Login02Icon}
+                              size={20}
+                              color="currentColor"
+                              strokeWidth={1.9}
+                           />
+                        </div>
                      </div>
                      <div className="py-5">
                         <div>
@@ -218,6 +221,23 @@ function Login() {
                            className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-[#5b4d94] text-zinc-100 px-5 py-2 text-sm hover:bg-[#bab4d3] hover:text-zinc-800 transition-all duration-400 ease-out">
                            Sign In
                         </button>
+                        <div className="items-center justify-center">
+                           {generalErr ? (
+                              <div className="flex items-center justify-evenly w-fit px-4 gap-4 h-10 text-sm bg-[#e7e6ed] sqc-lg">
+                                 {generalErr}
+                                 <div className="">
+                                    <HugeiconsIcon
+                                       icon={Cancel01Icon}
+                                       size={15}
+                                       color="currentColor"
+                                       strokeWidth={1.9}
+                                    />
+                                 </div>
+                              </div>
+                           ) : (
+                              ""
+                           )}
+                        </div>
                         <div className="flex items-center justify-center gap-2 mt-5">
                            <div className="border w-full rounded-2xl border-gray-300"></div>
                            <p className="text-gray-500">OR</p>
