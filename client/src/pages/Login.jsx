@@ -45,7 +45,6 @@ function Login() {
             body,
          })
             .then((res) => {
-               setGeneralErr("Check your network connecton");
                return res.json();
             })
             .then((data) => {
