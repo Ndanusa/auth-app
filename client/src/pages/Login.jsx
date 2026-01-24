@@ -18,7 +18,7 @@ function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
    const [email, setEmail] = useState("");
-   const [generalErr, setGeneralErr] = useState("Check your network connecton");
+   const [generalErr, setGeneralErr] = useState("");
    const [password, setPassword] = useState("");
    const [isLoading, setIsLoading] = useState(false);
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
@@ -45,9 +45,7 @@ function Login() {
             body,
          })
             .then((res) => {
-               if (!res.ok) {
-                  setGeneralErr("Check your network connecton");
-               }
+               setGeneralErr("Check your network connecton");
                return res.json();
             })
             .then((data) => {
@@ -225,14 +223,18 @@ function Login() {
                            {generalErr ? (
                               <div className="flex items-center justify-evenly w-full my-5 px-4 gap-4 h-10 text-sm bg-[#f1e3e3] text-red-600 sqc-lg">
                                  {generalErr}
-                                 <div className="">
+                                 <button
+                                    className="cursor-pointer hover:text-red-300 transition-all duration-300"
+                                    onClick={() => {
+                                       setGeneralErr("");
+                                    }}>
                                     <HugeiconsIcon
                                        icon={Cancel01Icon}
                                        size={15}
                                        color="currentColor"
                                        strokeWidth={1.9}
                                     />
-                                 </div>
+                                 </button>
                               </div>
                            ) : (
                               ""
