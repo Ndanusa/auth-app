@@ -197,6 +197,7 @@ function Login() {
                                     setPasswordError("");
                                     setPassword(e.target.value);
                                  }}
+                                 autoComplete="current-password"
                               />
                            </div>
 
