@@ -25,11 +25,24 @@ function Home() {
       if (message === "") return;
       socket.emit("userAction", { message });
    };
+   const renderUsers = () => {
+      const display = users.map((item) => {
+         return (
+            <div>
+               <p className="text-lg text-zinc-900">{item.name}</p>
+               <p className="text-sm text-zinc-600">{item.username}</p>
+            </div>
+         );
+      });
+      if (users.length === 0) return "";
+      return display;
+   };
    return (
       <>
          <div className="flex items-center">
             <div className="">
                <h1>Users</h1>
+               <div>{renderUsers()}</div>
             </div>
             <div className="flex items-center justify-center flex-col">
                <input

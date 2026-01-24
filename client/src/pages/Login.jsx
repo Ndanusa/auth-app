@@ -17,6 +17,7 @@ function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
    const [email, setEmail] = useState("");
+   const [generalErr, setGeneralErr] = useState("");
    const [password, setPassword] = useState("");
    const [isLoading, setIsLoading] = useState(false);
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
@@ -42,7 +43,12 @@ function Login() {
             },
             body,
          })
-            .then((res) => res.json())
+            .then((res) => {
+               if (!res.ok) {
+                  setGeneralErr("Check your internet connecton");
+               }
+               return res.json();
+            })
             .then((data) => {
                if (data.type === "password") {
                   setPasswordError(data.error);
