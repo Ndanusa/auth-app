@@ -20,13 +20,13 @@ function Home() {
    };
    useEffect(() => {
       getUsers();
-      io.on("connection", (socket) => {
-         console.log("user connected", socket.userId);
-         socket.join(socket.userId);
-         socket.on("disconnect", () => {
-            console.log("User Disconnected", socket.userId);
-         });
-      });
+      // io.on("connection", (socket) => {
+      //    console.log("user connected", socket.userId);
+      //    socket.join(socket.userId);
+      //    socket.on("disconnect", () => {
+      //       console.log("User Disconnected", socket.userId);
+      //    });
+      // });
    }, []);
    // const sendMessage = () => {
    //    if (message === "") return;
@@ -62,9 +62,7 @@ function Home() {
                   }}
                   value={message}
                />
-               <button
-                  onClick={sendMessage}
-                  className="text-sm cursor-pointer bg-zinc-700 sqc-lg px-5 py-1 text-white">
+               <button className="text-sm cursor-pointer bg-zinc-700 sqc-lg px-5 py-1 text-white">
                   Send
                </button>
             </div>
