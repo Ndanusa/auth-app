@@ -4,7 +4,11 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { SearchIcon, Home01Icon } from "@hugeicons/core-free-icons";
 import io from "socket.io-client";
 import { BACKEND_URL } from "../config/config.js";
-const socket = io("http://localhost:3000");
+const socket = io("http://localhost:3000", {
+   auth: {
+      token: localStorage.getItem("token"),
+   },
+});
 function Home() {
    const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
@@ -16,16 +20,18 @@ function Home() {
    };
    useEffect(() => {
       getUsers();
-      socket.on("liveUpdate", (data) => {
-         console.log("Update received", data);
+      io.on("connection", (socket) => {
+         console.log("user connected", socket.userId);
+         socket.join(socket.userId);
+         socket.on("disconnect", () => {
+            console.log("User Disconnected", socket.userId);
+         });
       });
-      return () => socket.off("liveUpdate");
    }, []);
-   const sendMessage = () => {
-      if (message === "") return;
-      setMessage("");
-      socket.emit("userAction", { message });
-   };
+   // const sendMessage = () => {
+   //    if (message === "") return;
+   //    setMessage("");
+   // };
    const renderUsers = () => {
       const display = users.map((item) => {
          return (
