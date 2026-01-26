@@ -23,6 +23,7 @@ function Home() {
    }, []);
    const sendMessage = () => {
       if (message === "") return;
+      setMessage("");
       socket.emit("userAction", { message });
    };
    const renderUsers = () => {
@@ -39,12 +40,12 @@ function Home() {
    };
    return (
       <>
-         <div className="flex items-center">
+         <div className="flex items-start justify-between h-screen">
             <div className="">
                <h1>Users</h1>
                <div>{renderUsers()}</div>
             </div>
-            <div className="flex items-center justify-center flex-col">
+            <div className="flex items-center justify-center flex-col content-end">
                <input
                   type="text"
                   className="sqc-lg px-4 py-1 placeholder:text-sm text-sm bg-gray-300 focus:outline-2"
@@ -53,6 +54,7 @@ function Home() {
                      const value = e.target.value;
                      setMessage(value);
                   }}
+                  value={message}
                />
                <button
                   onClick={sendMessage}

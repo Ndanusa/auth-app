@@ -16,6 +16,7 @@ io.on("connection", (socket) => {
    console.log("user connected", socket.id);
    socket.on("userAction", (data) => {
       console.log("User did something", data);
+
       io.emit(
          ("liveUpdate",
          {
