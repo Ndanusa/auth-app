@@ -4,11 +4,11 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { SearchIcon, Home01Icon } from "@hugeicons/core-free-icons";
 import io from "socket.io-client";
 import { BACKEND_URL } from "../config/config.js";
-const socket = io("http://localhost:3000", {
-   auth: {
-      token: localStorage.getItem("token"),
-   },
-});
+// const socket = io("http://localhost:3000", {
+//    auth: {
+//       token: localStorage.getItem("token"),
+//    },
+// });
 function Home() {
    const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
@@ -20,7 +20,7 @@ function Home() {
    };
    useEffect(() => {
       getUsers();
-      // io.on("connection", (socket) => {
+      // io().on("connection", (socket) => {
       //    console.log("user connected", socket.userId);
       //    socket.join(socket.userId);
       //    socket.on("disconnect", () => {
@@ -35,7 +35,7 @@ function Home() {
    const renderUsers = () => {
       const display = users.map((item) => {
          return (
-            <div>
+            <div key={item.username}>
                <p className="text-lg text-zinc-900">{item.name}</p>
                <p className="text-sm text-zinc-600">{item.username}</p>
             </div>
