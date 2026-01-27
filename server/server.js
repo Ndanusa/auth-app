@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(errorMiddleware);
 app.use("/public", express.static("public"));
 //basic routes
-await connectDB;
+await connectDB();
 app.use("/api/v1/auth", userRouter);
 app.use("/api/v1/auth", protectedRoutes);
 app.use("/api/v1/auth", authRouter);
