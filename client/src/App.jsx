@@ -44,8 +44,8 @@ function App() {
             path="/login"
             element={isAuth ? <Navigate to={"/home"} /> : <Login />}></Route>
          <Route path="/signup" element={<Signup />} />
-         <Route path="/home" element={<Home />} />
-         {/* <Route path="/home" element={isAuth ? <Home /> : <Login />} /> */}
+         {/* <Route path="/home" element={<Home />} /> */}
+         <Route path="/home" element={isAuth ? <Home /> : <Login />} />
       </Routes>
    );
 }
