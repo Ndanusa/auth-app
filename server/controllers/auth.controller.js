@@ -26,11 +26,13 @@ export const signUp = async (req, res, next) => {
 
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const newUser = await User.create([
-         { name, username, email, password: hashedPassword },
-         { session },
-      ]);
-      const token = jwt.sign({ userId: newUser[0]._id }, JWT_SECRET, {
+      const newUser = await User.create({
+         name,
+         username,
+         email,
+         password: hashedPassword,
+      });
+      const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
          expiresIn: JWT_EXPIRES_IN,
       });
       await session.commitTransaction();
@@ -39,7 +41,7 @@ export const signUp = async (req, res, next) => {
          status: true,
          data: {
             token,
-            user: newUser[0],
+            user: newUser,
          },
       });
    } catch (error) {
@@ -55,7 +57,7 @@ export const signIn = async (req, res, next) => {
       const user = await User.findOne({ email });
       if (!user) {
          const error = new Error("User not found");
-         res.status(404).json({
+         return res.status(404).json({
             error: error.message,
             status: false,
             type: "email",
@@ -65,7 +67,7 @@ export const signIn = async (req, res, next) => {
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) {
          const error = new Error("Incorrect password");
-         res.status(404).json({
+         return res.status(404).json({
             error: error.message,
             status: false,
             type: "password",

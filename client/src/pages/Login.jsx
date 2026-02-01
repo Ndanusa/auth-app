@@ -18,7 +18,10 @@ function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
    const [email, setEmail] = useState("");
-   const [generalErr, setGeneralErr] = useState("");
+   const [generalMsg, setGeneralMsg] = useState({
+      error: true,
+      message: "",
+   });
    const [password, setPassword] = useState("");
    const [isLoading, setIsLoading] = useState(false);
    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
@@ -31,6 +34,12 @@ function Login() {
    function postData() {
       if (emailError !== "") return;
       if (passwordError !== "") return;
+      if (!email && !password) {
+         setEmailError("Field cannot be empty");
+         return setPasswordError("Field cannot be empty");
+      }
+      if (!email) return setEmailError("Field cannot be empty");
+      if (!password) return setPasswordError("Field cannot be empty");
       const body = JSON.stringify({
          email,
          password,
@@ -45,6 +54,7 @@ function Login() {
             body,
          })
             .then((res) => {
+               console.log(res);
                return res.json();
             })
             .then((data) => {
@@ -62,9 +72,17 @@ function Login() {
                   window.location.href = "/";
                }
             })
+            .catch((err) => {
+               err.name === "TypeError" &&
+                  setGeneralMsg({
+                     error: true,
+                     message: "Check Your internet",
+                  });
+            })
             .finally(() => setIsLoading(false));
       } catch (error) {
-         throw error;
+         console.log("error");
+         // throw error;
       }
    }
 
@@ -129,9 +147,7 @@ function Login() {
                                     } else if (
                                        !emailRegex.test(e.target.value.trim())
                                     ) {
-                                       setEmailError(
-                                          "Email address is not valid",
-                                       );
+                                       setEmailError("Email is not valid");
                                     }
                                  }}
                               />
@@ -219,14 +235,16 @@ function Login() {
                            className="cursor-pointer mt-5 disabled:bg-gray-400 disabled:text-gray-100 disabled:opacity-70  rounded-lg sqc-lg w-90 text-center bg-[#5b4d94] text-zinc-100 px-5 py-2 text-sm hover:bg-[#bab4d3] hover:text-zinc-800 transition-all duration-400 ease-out">
                            Sign In
                         </button>
+
                         <div className="items-center justify-center">
-                           {generalErr ? (
-                              <div className="flex items-center justify-evenly w-full my-5 px-4 gap-4 h-10 text-sm bg-[#f1e3e3] text-red-600 sqc-lg">
-                                 {generalErr}
+                           {generalMsg.message ? (
+                              <div
+                                 className={`flex items-center justify-center w-full my-5 px-4 gap-4 h-10 text-sm ${!generalMsg.error ? "bg-[#d0ffee] text-[#00d223]" : "bg-[#f1e3e3] text-red-600"}  sqc-lg`}>
+                                 {generalMsg.message}
                                  <button
-                                    className="cursor-pointer hover:text-red-300 transition-all duration-300"
+                                    className={`cursor-pointer ${!generalMsg.error ? "hover:text-[#3cff5c]" : "hover:text-red-300"}  transition-all duration-300`}
                                     onClick={() => {
-                                       setGeneralErr("");
+                                       setGeneralMsg("");
                                     }}>
                                     <HugeiconsIcon
                                        icon={Cancel01Icon}

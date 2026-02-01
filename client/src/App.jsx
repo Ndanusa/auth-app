@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
-import { useEffect, useState } from "react";w
+import { useEffect, useState } from "react";
 import { BACKEND_URL } from "./config/config";
 function App() {
    const [isAuth, setIsAuth] = useState(false);
