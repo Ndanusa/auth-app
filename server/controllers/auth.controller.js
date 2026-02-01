@@ -9,10 +9,18 @@ export const signUp = async (req, res, next) => {
    session.startTransaction();
    try {
       const { name, username, email, password } = req.body;
-      const existingUser = await User.findOne({ email });
+      const existingEmail = await User.findOne({ email });
 
-      if (existingUser) {
-         const error = new Error("User already exists");
+      if (existingEmail) {
+         const error = new Error("Email not avaliable");
+         error.status = 401;
+         throw error;
+      }
+
+      const existingUsername = await User.findOne({ username });
+
+      if (existingUsername) {
+         const error = new Error("username not avaliab;e");
          error.status = 401;
          throw error;
       }
