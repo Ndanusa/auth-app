@@ -3,7 +3,6 @@ import User from "../models/user.models.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env.js";
-import connectDB from "../DATABASE/mongodb.js";
 export const signUp = async (req, res, next) => {
    const session = await mongoose.startSession();
    session.startTransaction();
@@ -20,7 +19,7 @@ export const signUp = async (req, res, next) => {
       const existingUsername = await User.findOne({ username });
 
       if (existingUsername) {
-         const error = new Error("username not avaliab;e");
+         const error = new Error("username not available");
          error.status = 401;
          throw error;
       }
@@ -35,7 +34,7 @@ export const signUp = async (req, res, next) => {
          expiresIn: JWT_EXPIRES_IN,
       });
       await session.commitTransaction();
-      res.status(201).json({
+      return res.status(201).json({
          message: "user created successfully.",
          status: true,
          data: {
