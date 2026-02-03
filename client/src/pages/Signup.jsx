@@ -37,7 +37,7 @@ function Signup() {
          ? (div.style.cursor = "not-allowed")
          : (div.style.cursor = "default");
    }, [isLoading]);
-   function postData() {
+   async function postData() {
       if (emailError !== "") return;
       if (passwordError !== "") return;
       if (lastNameError !== "") return;
@@ -56,51 +56,37 @@ function Signup() {
       if (!username) return setUsernameError("Field cannot be empty");
       if (!email) return setEmailError("Field cannot be empty");
       if (!password) return setPasswordError("Field cannot be empty");
-      const body = JSON.stringify({
+      const body = {
          firstName,
          lastName,
          username,
          email,
          password,
-      });
+      };
       try {
          setIsLoading(true);
-         const response = axios
-            .fetch(`${BACKEND_URL}/api/v1/auth/sign-up`, {
-               method: "POST",
-               headers: {
-                  "Content-Type": "application/json",
-               },
-               body,
-            })
-            .then((res) => {
-               return res.json();
-            })
-            .then((data) => {
-               if (data.error) {
-                  if (data.type === "username") {
-                     return setUsernameError(data.message);
-                  }
-                  if (data.type === "email") {
-                     return setEmailError(data.message);
-                  }
-                  return;
-               }
-               setGeneralMsg({
-                  message: data.message,
-                  error: false,
-               });
-            })
-            .catch((err) => {
-               err.name === "TypeError" &&
-                  setGeneralMsg({
-                     error: true,
-                     message: "Check Your internet",
-                  });
-            })
-            .finally(() => setIsLoading(false));
+         const response = await axios.post(
+            `${BACKEND_URL}/api/v1/auth/sign-up`,
+            body,
+         );
+         console.log(response.data);
+         if (response.data.error) {
+            if (data.type === "username") {
+               return setUsernameError(data.message);
+            }
+            if (data.type === "email") {
+               return setEmailError(data.message);
+            }
+            return;
+         }
+         setGeneralMsg({
+            message: response.data.message,
+            error: false,
+         });
       } catch (error) {
          console.log("error");
+      } finally {
+         setIsLoading(false);
       }
    }
    return (
