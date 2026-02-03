@@ -13,6 +13,7 @@ import twitter from "../assets/twitter.png";
 import github from "../assets/github.png";
 import microsoft from "../assets/microsoft.png";
 import { BACKEND_URL, BACKEND_URL_2 } from "../config/config";
+import axios from "axios";
 function Signup() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
@@ -64,13 +65,14 @@ function Signup() {
       });
       try {
          setIsLoading(true);
-         fetch(`${BACKEND_URL}/api/v1/auth/sign-up`, {
-            method: "POST",
-            headers: {
-               "Content-Type": "application/json",
-            },
-            body,
-         })
+         const response = axios
+            .fetch(`${BACKEND_URL}/api/v1/auth/sign-up`, {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+               },
+               body,
+            })
             .then((res) => {
                return res.json();
             })
