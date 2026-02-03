@@ -26,6 +26,7 @@ function App() {
          })
          .catch(() => {
             localStorage.removeItem("token");
+            localStorage.removeItem("user");
             setIsAuth(false);
          })
          .finally(() => setLoading(false));

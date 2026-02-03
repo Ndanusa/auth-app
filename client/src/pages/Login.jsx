@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import logoSrc from "../assets/logo.svg";
 import { useEffect, useState } from "react";
-import { Mail, Key } from "lucide-react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
    Mail01Icon,
@@ -46,7 +45,7 @@ function Login() {
       });
       try {
          setIsLoading(true);
-         fetch(`${BACKEND_URL_2}/api/v1/auth/sign-in`, {
+         fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -54,21 +53,24 @@ function Login() {
             body,
          })
             .then((res) => {
-               console.log(res);
                return res.json();
             })
             .then((data) => {
                if (data.type === "password") {
-                  setPasswordError(data.error);
+                  setPasswordError(data.message);
                   return;
                }
                if (data.type === "email") {
-                  setEmailError(data.error);
+                  setEmailError(data.message);
                   return;
                }
-               if (data.data.token) {
-                  localStorage.setItem("token", data.data.token);
-                  localStorage.setItem("user", JSON.stringify(data.data.user));
+               if (data.token) {
+                  setGeneralMsg({
+                     message: "",
+                     error: false,
+                  });
+                  localStorage.setItem("token", data.token);
+                  localStorage.setItem("user", JSON.stringify(data.data));
                   window.location.href = "/";
                }
             })
@@ -159,7 +161,7 @@ function Login() {
                         </div>
                         <div className="mt-3">
                            <label
-                              htmlFor="email"
+                              htmlFor="password"
                               className="flex items-center justify-between">
                               <p
                                  className={`text-xs font-semibold ${

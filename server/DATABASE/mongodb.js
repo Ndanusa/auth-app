@@ -7,7 +7,7 @@ if (!DB_URI) {
    );
 }
 
-const connectDB = async (res) => {
+const connectDB = async () => {
    try {
       await mongoose.connect(DB_URI);
       console.log("Database Connected!");

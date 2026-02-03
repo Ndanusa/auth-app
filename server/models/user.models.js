@@ -2,40 +2,44 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
    {
-      name: {
+      firstName: {
          type: String,
-         required: [true, "Name is required"],
+         required: true,
          trim: true,
-         minLength: 1,
          maxLength: 50,
+         minLength: true,
+      },
+      lastName: {
+         type: String,
+         required: true,
+         trim: true,
+         maxLength: 50,
+         minLength: true,
       },
       username: {
          type: String,
-         required: [true, "username is required"],
+         required: true,
          trim: true,
-         minLength: 1,
-         maxLength: 50,
+         unique: true,
+         minLength: 2,
+         maxLength: 100,
       },
       email: {
          type: String,
-         required: [true, "Email is required"],
-         unique: true,
+         required: true,
          trim: true,
-         lowercase: true,
-         minLength: 1,
-         maxLength: 255,
-         match: [
-            /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/,
-            "Valid email address required",
-         ],
+         unique: true,
+         match: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/,
       },
       password: {
          type: String,
-         required: [true, "Password is required"],
-         minLength: 6,
+         required: true,
+         minLength: 8,
       },
    },
-   { timestamps: true },
+   {
+      timestamps: true,
+   },
 );
 
 const User = mongoose.model("User", userSchema);
