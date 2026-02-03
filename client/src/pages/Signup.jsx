@@ -5,6 +5,7 @@ import {
    CirclePasswordIcon,
    Login02Icon,
    Cancel01Icon,
+   User03Icon,
 } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
 import google from "../assets/google.png";
@@ -17,6 +18,10 @@ function Signup() {
    const [passwordError, setPasswordError] = useState("");
    const [usernameError, setUsernameError] = useState("");
    const [firstNameError, setFirstNameError] = useState("");
+   const [username, setUsername] = useState("");
+   const [firstName, setFirstName] = useState("");
+   const [lastNameError, setLastNameError] = useState("");
+   const [lastName, setLastName] = useState("");
    const [email, setEmail] = useState("");
    const [generalMsg, setGeneralMsg] = useState({
       error: true,
@@ -34,19 +39,32 @@ function Signup() {
    function postData() {
       if (emailError !== "") return;
       if (passwordError !== "") return;
-      if (!email && !password) {
+      if (lastNameError !== "") return;
+      if (firstNameError !== "") return;
+      if (usernameError !== "") return;
+      if (!email && !password && !firstName && !lastName && !username) {
+         setEmailError("Field cannot be empty");
+         setFirstNameError("Field cannot be empty");
+         setLastNameError("Field cannot be empty");
+         setUsernameError("Field cannot be empty");
          setEmailError("Field cannot be empty");
          return setPasswordError("Field cannot be empty");
       }
+      if (!firstName) return setFirstNameError("Field cannot be empty");
+      if (!lastName) return setLastNameError("Field cannot be empty");
+      if (!username) return setUsernameError("Field cannot be empty");
       if (!email) return setEmailError("Field cannot be empty");
       if (!password) return setPasswordError("Field cannot be empty");
       const body = JSON.stringify({
+         firstName,
+         lastName,
+         username,
          email,
          password,
       });
       try {
          setIsLoading(true);
-         fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
+         fetch(`${BACKEND_URL}/api/v1/auth/sign-up`, {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -57,23 +75,19 @@ function Signup() {
                return res.json();
             })
             .then((data) => {
-               if (data.type === "password") {
-                  setPasswordError(data.message);
+               if (data.error) {
+                  if (data.type === "username") {
+                     return setUsernameError(data.message);
+                  }
+                  if (data.type === "email") {
+                     return setEmailError(data.message);
+                  }
                   return;
                }
-               if (data.type === "email") {
-                  setEmailError(data.message);
-                  return;
-               }
-               if (data.token) {
-                  setGeneralMsg({
-                     message: "",
-                     error: false,
-                  });
-                  localStorage.setItem("token", data.token);
-                  localStorage.setItem("user", JSON.stringify(data.data));
-                  window.location.href = "/";
-               }
+               setGeneralMsg({
+                  message: data.message,
+                  error: false,
+               });
             })
             .catch((err) => {
                err.name === "TypeError" &&
@@ -119,7 +133,7 @@ function Signup() {
                            <div className="relative flex items-center">
                               <span className="absolute bottom-2 left-2">
                                  <HugeiconsIcon
-                                    icon={Mail01Icon}
+                                    icon={User03Icon}
                                     color={
                                        firstNameError !== ""
                                           ? "#ff0000"
@@ -141,10 +155,12 @@ function Signup() {
                                  placeholder="First Name"
                                  onChange={(e) => {
                                     if (e.target.value === "") {
-                                       setFirstNameError(
+                                       return setFirstNameError(
                                           "Field cannot be empty",
                                        );
                                     }
+                                    setFirstNameError("");
+                                    setFirstName(e.target.value);
                                  }}
                               />
                            </div>
@@ -153,7 +169,55 @@ function Signup() {
                               {firstNameError}
                            </p>
                         </div>
-                        <div>
+                        <div className="mt-3">
+                           <label htmlFor="lastName">
+                              <p
+                                 className={`text-xs font-semibold ${
+                                    lastNameError !== "" ? "text-red-600" : ""
+                                 }`}>
+                                 Last Name
+                              </p>
+                           </label>
+                           <div className="relative flex items-center">
+                              <span className="absolute bottom-2 left-2">
+                                 <HugeiconsIcon
+                                    icon={User03Icon}
+                                    color={
+                                       lastNameError !== ""
+                                          ? "#ff0000"
+                                          : "#745cff"
+                                    }
+                                    size={`18`}
+                                    strokeWidth={`1.5`}
+                                 />
+                              </span>
+                              <input
+                                 disabled={isLoading}
+                                 className={`placeholder:text-xs text-sm pl-8 disabled:opacity-70 disabled:bg-gray-400 disabled:text-gray-100 bg-[#e7e4f1] py-2 px-3 sqc-lg mt-2 w-90 ${
+                                    lastNameError !== ""
+                                       ? "text-red-600 focus:outline-0 border-2 border-red-600 placeholder:text-red-500"
+                                       : "text-[#4323fe] focus:outline-2 focus:outline-[#2600ff] border-0 placeholder:text-[#a197d7]"
+                                 }`}
+                                 type="lastName"
+                                 name="lastName"
+                                 placeholder="Last Name"
+                                 onChange={(e) => {
+                                    if (e.target.value === "") {
+                                       return setLastNameError(
+                                          "Field cannot be empty",
+                                       );
+                                    }
+                                    setLastNameError("");
+                                    setLastName(e.target.value);
+                                 }}
+                              />
+                           </div>
+
+                           <p className="text-red-600 text-xs font-normal">
+                              {lastNameError}
+                           </p>
+                        </div>
+                        <div className="mt-3">
                            <label htmlFor="username">
                               <p
                                  className={`text-xs font-semibold ${
@@ -165,7 +229,7 @@ function Signup() {
                            <div className="relative flex items-center">
                               <span className="absolute bottom-2 left-2">
                                  <HugeiconsIcon
-                                    icon={Mail01Icon}
+                                    icon={User03Icon}
                                     color={
                                        usernameError !== ""
                                           ? "#ff0000"
@@ -187,10 +251,12 @@ function Signup() {
                                  placeholder="Username"
                                  onChange={(e) => {
                                     if (e.target.value === "") {
-                                       setUsernameError(
+                                       return setUsernameError(
                                           "Field cannot be empty",
                                        );
                                     }
+                                    setUsernameError("");
+                                    setUsername(e.target.value);
                                  }}
                               />
                            </div>
@@ -199,7 +265,7 @@ function Signup() {
                               {usernameError}
                            </p>
                         </div>
-                        <div>
+                        <div className="mt-3">
                            <label htmlFor="email">
                               <p
                                  className={`text-xs font-semibold ${
@@ -344,7 +410,7 @@ function Signup() {
                   <p className="my-3 absolute top-8">
                      Already have an account?{" "}
                      <span className="underline font-bold">
-                        <Link to={"/signin"}>Login</Link>
+                        <Link to={"/login"}>Login</Link>
                      </span>
                   </p>
                </div>

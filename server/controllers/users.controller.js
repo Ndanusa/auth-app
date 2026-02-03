@@ -4,3 +4,8 @@ export const getUsers = async (req, res) => {
    const users = await User.find().select("name username _id");
    res.json(users);
 };
+
+export const postUser = async (req, res) => {
+   console.log(req.body);
+   res.send("change");
+};

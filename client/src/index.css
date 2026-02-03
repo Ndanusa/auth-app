@@ -14,6 +14,34 @@ body {
 .mad {
    box-shadow: 0px 0px 56px -31px rgb(0 0 0 / 75%);
 }
+.sqc-sm {
+   border-radius: 5px;
+}
+.sqc-md {
+   border-radius: 7px;
+}
+.sqc-lg {
+   border-radius: 10px;
+}
+.sqc-xl {
+   border-radius: 20px;
+}
+.sqc-2xl {
+   border-radius: 25px;
+}
+.sqc-3xl {
+   border-radius: 50px;
+}
+
+.sqc-2xl-tr {
+   border-top-right-radius: 25px;
+}
+.sqc-2xl-bl {
+   border-bottom-left-radius: 25px;
+}
+.sqc-2xl-br {
+   border-bottom-right-radius: 25px;
+}
 
 @supports (corner-shape: superellipse(2)) {
    .sqc-sm {

@@ -13,6 +13,7 @@ export const signUp = async (req, res, next) => {
          res.statusCode = 404;
          return res.json({
             message: `"${email}" not avaliable`,
+            type: "email",
             error: true,
          });
       }
@@ -21,6 +22,7 @@ export const signUp = async (req, res, next) => {
          res.statusCode = 404;
          return res.json({
             message: `"${username}" not avaliable`,
+            type: "username",
             error: true,
          });
       }

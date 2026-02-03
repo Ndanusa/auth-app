@@ -92,7 +92,7 @@ function Login() {
       <>
          <div className="flex h-screen overflow-y-hidden items-center justify-center px-30">
             <div className="flex flex-col items-center">
-               <div className="flex flex-col items-center justify-between bg-[#d2d2d215] px-10 py-3 sqc-2xl backdrop-blur-xs border border-[#cfccdc] z-9999">
+               <div className="flex flex-col items-center justify-between bg-[#f1f1f1] px-10 py-3 sqc-2xl backdrop-blur-xs border border-[#cfccdc] z-9999">
                   <form
                      className="form pt-5"
                      onSubmit={() => event.preventDefault()}>
