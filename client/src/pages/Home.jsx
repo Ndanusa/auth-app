@@ -10,10 +10,31 @@ function Home() {
    const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
    const [postData, setPostData] = useState([]);
+   const [generalMsg, setGeneralMsg] = useState({
+      error: false,
+      message: "",
+   });
    const getUsers = async () => {
       const response = await axios.get(`${BACKEND_URL}/api/v1/auth/user`);
       console.log(response.data);
       setUsers(response.data);
+   };
+   const sendMessage = () => {
+      const loggedUser = JSON.parse(localStorage.getItem("user"));
+      const sender = loggedUser.id;
+      if (!message)
+         return setGeneralMsg({
+            error: true,
+            message: "message cannot be empty",
+         });
+      if (!loggedUser)
+         return setGeneralMsg({
+            error: true,
+            message: "Please login to continue",
+         });
+      console.log(message);
+      const body = { message, sender };
+      axios.post(`${BACKEND_URL}/api/v1/message/send`, body);
    };
    useEffect(() => {
       getUsers();
@@ -50,7 +71,9 @@ function Home() {
                   }}
                   value={message}
                />
-               <button className="text-sm cursor-pointer bg-zinc-700 sqc-lg px-5 py-1 text-white">
+               <button
+                  className="text-sm cursor-pointer bg-zinc-700 sqc-lg px-5 py-1 text-white"
+                  onClick={sendMessage}>
                   Send
                </button>
             </div>

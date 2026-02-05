@@ -7,4 +7,12 @@ export const sendMessage = async (req, res) => {
       sender,
       message,
    });
+   res.json({
+      error: false,
+   });
+};
+
+export const getMessages = async (req, res) => {
+   const messages = await Message.find().select("sender createdAt message");
+   res.json(messages);
 };
