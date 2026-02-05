@@ -5,18 +5,15 @@ import { SearchIcon, Home01Icon } from "@hugeicons/core-free-icons";
 import io from "socket.io-client";
 import axios from "axios";
 import { BACKEND_URL } from "../config/config.js";
+import { data } from "react-router-dom";
 function Home() {
    const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
    const [postData, setPostData] = useState([]);
    const getUsers = async () => {
-      // const response = await axios.get(`${BACKEND_URL}/api/v1/auth/user`);
-      await axios.post(`${BACKEND_URL}/api/v1/auth/get`, {
-         body: "vamp",
-      });
-      setUsers([
-         { firstName: "sadeeq", lastName: "ndanusa", username: "sadxxq" },
-      ]);
+      const response = await axios.get(`${BACKEND_URL}/api/v1/auth/user`);
+      console.log(response.data);
+      setUsers(response.data);
    };
    useEffect(() => {
       getUsers();

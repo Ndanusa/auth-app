@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 import Message from "../models/message.models.js";
 
-export const sendMessage = (req, res) => {
-   res.json({
-      message: "Route is working",
+export const sendMessage = async (req, res) => {
+   const { sender, message } = req.body;
+   const newMessage = await Message.create({
+      sender,
+      message,
    });
 };
