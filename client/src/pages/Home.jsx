@@ -9,6 +9,8 @@ import { data } from "react-router-dom";
 function Home() {
    const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
+   const [trigger, setTrigger] = useState(0);
+   const [renderMsg, setRenderMsg] = useState([]);
    const [postData, setPostData] = useState([]);
    const [generalMsg, setGeneralMsg] = useState({
       error: false,
@@ -19,6 +21,13 @@ function Home() {
       console.log(response.data);
       setUsers(response.data);
    };
+   const getMessages = async () => {
+      const response = await axios.get(`${BACKEND_URL}/api/v1/message/render`);
+      setRenderMsg(response.data);
+   };
+   useEffect(() => {
+      getMessages();
+   }, [trigger]);
    const sendMessage = () => {
       const loggedUser = JSON.parse(localStorage.getItem("user"));
       const sender = loggedUser.id;
@@ -32,9 +41,10 @@ function Home() {
             error: true,
             message: "Please login to continue",
          });
-      console.log(message);
       const body = { message, sender };
       axios.post(`${BACKEND_URL}/api/v1/message/send`, body);
+      setMessage("");
+      setTrigger(trigger + 1);
    };
    useEffect(() => {
       getUsers();
@@ -42,7 +52,9 @@ function Home() {
    const renderUsers = () => {
       const display = users.map((item) => {
          return (
-            <div key={item.username}>
+            <div
+               key={item.username}
+               className="bg-indigo-200 flex flex-col items-start w-59 px-3 sqc-lg py-1">
                <p className="text-lg text-zinc-900">
                   {item.firstName} {item.lastName}
                </p>
@@ -53,12 +65,29 @@ function Home() {
       if (users.length === 0) return "";
       return display;
    };
+   const renderMessage = () => {
+      if (renderMsg.length === 0) return "";
+      return renderMsg.map((item) => {
+         return (
+            <div
+               key={`${item.sender} ${item.message}`}
+               className="bg-indigo-200 w-60 px-4 py-2 sqc-tbl-lg">
+               <p className="text-black text-sm">{item.message}</p>
+               <p className="text-xs text-zinc-500">{item.createdAt}</p>
+            </div>
+         );
+      });
+   };
    return (
       <>
          <div className="flex items-start justify-between h-screen">
+            <div className="h-screen bg-indigo-50 p-5 px-10">
+               <h1 className="text-2xl font-bold px-3 py-4">Users</h1>
+               <div className="flex flex-col gap-3">{renderUsers()}</div>
+            </div>
             <div className="">
-               <h1>Users</h1>
-               <div>{renderUsers()}</div>
+               <h1 className="text-2xl font-bold">Messages</h1>
+               <div className="flex flex-col gap-3">{renderMessage()}</div>
             </div>
             <div className="flex items-center justify-center flex-col content-end">
                <input

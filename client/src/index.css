@@ -81,4 +81,10 @@ body {
       corner-shape: superellipse(2);
       border-bottom-right-radius: 50px;
    }
+   .sqc-tbl-lg {
+      corner-shape: superellipse(2);
+      border-top-right-radius: 30px;
+      border-top-left-radius: 30px;
+      border-bottom-left-radius: 30px;
+   }
 }
