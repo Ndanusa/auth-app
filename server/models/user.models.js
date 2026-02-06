@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema(
          type: String,
          required: false,
          trim: true,
+         default: "http:192.168.100.197:4400/public/image/default.jpg",
       },
       email: {
          type: String,
