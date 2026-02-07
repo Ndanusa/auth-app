@@ -68,37 +68,6 @@ function Login() {
             localStorage.setItem("user", JSON.stringify(data.data));
             window.location.href = "/";
          }
-
-         fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
-            method: "POST",
-            headers: {
-               "Content-Type": "application/json",
-            },
-            body,
-         })
-            .then((res) => {
-               return res.json();
-            })
-            .then((data) => {
-               if (data.type === "password") {
-                  setPasswordError(data.message);
-                  return;
-               }
-               if (data.type === "email") {
-                  setEmailError(data.message);
-                  return;
-               }
-               if (data.token) {
-                  setGeneralMsg({
-                     message: "",
-                     error: false,
-                  });
-                  localStorage.setItem("token", data.token);
-                  localStorage.setItem("user", JSON.stringify(data.data));
-                  window.location.href = "/";
-               }
-            })
-            .catch((err) => {});
       } catch (err) {
          err.name === "TypeError" &&
             setGeneralMsg({
