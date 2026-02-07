@@ -31,7 +31,7 @@ function Login() {
          ? (div.style.cursor = "not-allowed")
          : (div.style.cursor = "default");
    }, [isLoading]);
-   function postData() {
+   async function postData() {
       if (emailError !== "") return;
       if (passwordError !== "") return;
       if (!email && !password) {
@@ -46,6 +46,19 @@ function Login() {
       });
       try {
          setIsLoading(true);
+         const response = await axios.post(
+            `${BACKEND_URL}/api/v1/auth/sign-in`,
+            body,
+         );
+
+         if (response.data.error) {
+            if (response.data.type === "email")
+               return setEmailError(response.data.message);
+            if (response.data.type === "password")
+               return setPasswordError(response.data.message);
+            return;
+         }
+
          fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
             method: "POST",
             headers: {
