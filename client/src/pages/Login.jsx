@@ -59,6 +59,16 @@ function Login() {
             return;
          }
 
+         if (response.data.token) {
+            setGeneralMsg({
+               message: "",
+               error: false,
+            });
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.data));
+            window.location.href = "/";
+         }
+
          fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
             method: "POST",
             headers: {
@@ -88,17 +98,15 @@ function Login() {
                   window.location.href = "/";
                }
             })
-            .catch((err) => {
-               err.name === "TypeError" &&
-                  setGeneralMsg({
-                     error: true,
-                     message: "Check Your internet",
-                  });
-            })
-            .finally(() => setIsLoading(false));
-      } catch (error) {
-         console.log("error");
-         // throw error;
+            .catch((err) => {});
+      } catch (err) {
+         err.name === "TypeError" &&
+            setGeneralMsg({
+               error: true,
+               message: "Check Your internet",
+            });
+      } finally {
+         setIsLoading(false);
       }
    }
 
