@@ -40,10 +40,10 @@ function Login() {
       }
       if (!email) return setEmailError("Field cannot be empty");
       if (!password) return setPasswordError("Field cannot be empty");
-      const body = JSON.stringify({
+      const body = {
          email,
          password,
-      });
+      };
       try {
          setIsLoading(true);
          const response = await axios.post(
@@ -51,11 +51,12 @@ function Login() {
             body,
          );
 
+         console.log(response);
          if (response.data.error) {
             if (response.data.type === "email")
-               return setEmailError(response.data.message);
-            if (response.data.type === "password")
-               return setPasswordError(response.data.message);
+               setEmailError(response.data.message);
+            else if (response.data.type === "password")
+               setPasswordError(response.data.message);
             return;
          }
 
