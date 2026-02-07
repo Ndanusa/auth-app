@@ -13,7 +13,6 @@ import twitter from "../assets/twitter.png";
 import github from "../assets/github.png";
 import microsoft from "../assets/microsoft.png";
 import { BACKEND_URL, BACKEND_URL_2 } from "../config/config";
-import axios from "axios";
 function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
@@ -31,7 +30,7 @@ function Login() {
          ? (div.style.cursor = "not-allowed")
          : (div.style.cursor = "default");
    }, [isLoading]);
-   async function postData() {
+   function postData() {
       if (emailError !== "") return;
       if (passwordError !== "") return;
       if (!email && !password) {
@@ -40,43 +39,52 @@ function Login() {
       }
       if (!email) return setEmailError("Field cannot be empty");
       if (!password) return setPasswordError("Field cannot be empty");
-      const body = {
+      const body = JSON.stringify({
          email,
          password,
-      };
+      });
       try {
          setIsLoading(true);
-         const response = await axios.post(
-            `${BACKEND_URL}/api/v1/auth/sign-in`,
+         fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
             body,
-         );
-
-         console.log(response);
-         if (response.data.error) {
-            if (response.data.type === "email")
-               setEmailError(response.data.message);
-            else if (response.data.type === "password")
-               setPasswordError(response.data.message);
-            return;
-         }
-
-         if (response.data.token) {
-            setGeneralMsg({
-               message: "",
-               error: false,
-            });
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("user", JSON.stringify(data.data));
-            window.location.href = "/";
-         }
-      } catch (err) {
-         err.name === "TypeError" &&
-            setGeneralMsg({
-               error: true,
-               message: "Check Your internet",
-            });
-      } finally {
-         setIsLoading(false);
+         })
+            .then((res) => {
+               return res.json();
+            })
+            .then((data) => {
+               if (data.type === "password") {
+                  setPasswordError(data.message);
+                  return;
+               }
+               if (data.type === "email") {
+                  setEmailError(data.message);
+                  return;
+               }
+               if (data.token) {
+                  setGeneralMsg({
+                     message: "",
+                     error: false,
+                  });
+                  localStorage.setItem("token", data.token);
+                  localStorage.setItem("user", JSON.stringify(data.data));
+                  window.location.href = "/";
+               }
+            })
+            .catch((err) => {
+               err.name === "TypeError" &&
+                  setGeneralMsg({
+                     error: true,
+                     message: "Check Your internet",
+                  });
+            })
+            .finally(() => setIsLoading(false));
+      } catch (error) {
+         console.log("error");
+         // throw error;
       }
    }
 
