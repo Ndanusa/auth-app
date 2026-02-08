@@ -13,6 +13,7 @@ import twitter from "../assets/twitter.png";
 import github from "../assets/github.png";
 import microsoft from "../assets/microsoft.png";
 import { BACKEND_URL, BACKEND_URL_2 } from "../config/config";
+import axios from "axios";
 function Login() {
    const [emailError, setEmailError] = useState("");
    const [passwordError, setPasswordError] = useState("");
@@ -30,7 +31,7 @@ function Login() {
          ? (div.style.cursor = "not-allowed")
          : (div.style.cursor = "default");
    }, [isLoading]);
-   function postData() {
+   async function postData() {
       if (emailError !== "") return;
       if (passwordError !== "") return;
       if (!email && !password) {
@@ -39,53 +40,59 @@ function Login() {
       }
       if (!email) return setEmailError("Field cannot be empty");
       if (!password) return setPasswordError("Field cannot be empty");
-      const body = JSON.stringify({
-         email,
-         password,
-      });
+      const body = { email, password };
       try {
-         setIsLoading(true);
-         fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
-            method: "POST",
-            headers: {
-               "Content-Type": "application/json",
-            },
+         const response = await axios.post(
+            `${BACKEND_URL}/api/v1/auth/sign-in`,
             body,
-         })
-            .then((res) => {
-               return res.json();
-            })
-            .then((data) => {
-               if (data.type === "password") {
-                  setPasswordError(data.message);
-                  return;
-               }
-               if (data.type === "email") {
-                  setEmailError(data.message);
-                  return;
-               }
-               if (data.token) {
-                  setGeneralMsg({
-                     message: "",
-                     error: false,
-                  });
-                  localStorage.setItem("token", data.token);
-                  localStorage.setItem("user", JSON.stringify(data.data));
-                  window.location.href = "/";
-               }
-            })
-            .catch((err) => {
-               err.name === "TypeError" &&
-                  setGeneralMsg({
-                     error: true,
-                     message: "Check Your internet",
-                  });
-            })
-            .finally(() => setIsLoading(false));
+         );
+         console.log(await response.data);
       } catch (error) {
-         console.log("error");
-         // throw error;
+         throw error;
       }
+      // try {
+      //    setIsLoading(true);
+      //    fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
+      //       method: "POST",
+      //       headers: {
+      //          "Content-Type": "application/json",
+      //       },
+      //       body,
+      //    })
+      //       .then((res) => {
+      //          return res.json();
+      //       })
+      //       .then((data) => {
+      //          if (data.type === "password") {
+      //             setPasswordError(data.message);
+      //             return;
+      //          }
+      //          if (data.type === "email") {
+      //             setEmailError(data.message);
+      //             return;
+      //          }
+      //          if (data.token) {
+      //             setGeneralMsg({
+      //                message: "",
+      //                error: false,
+      //             });
+      //             localStorage.setItem("token", data.token);
+      //             localStorage.setItem("user", JSON.stringify(data.data));
+      //             window.location.href = "/";
+      //          }
+      //       })
+      //       .catch((err) => {
+      //          err.name === "TypeError" &&
+      //             setGeneralMsg({
+      //                error: true,
+      //                message: "Check Your internet",
+      //             });
+      //       })
+      //       .finally(() => setIsLoading(false));
+      // } catch (error) {
+      //    console.log("error");
+      //    // throw error;
+      // }
    }
 
    return (

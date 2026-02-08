@@ -69,7 +69,6 @@ function Signup() {
             `${BACKEND_URL}/api/v1/auth/sign-up`,
             body,
          );
-         console.log(response.data);
          if (response.data.error) {
             if (data.type === "username") {
                return setUsernameError(data.message);

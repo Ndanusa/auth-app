@@ -64,7 +64,7 @@ export const signIn = async (req, res, next) => {
       if (!user) {
          res.statusCode = 404;
          return res.json({
-            message: "Username not found",
+            message: `"${email}" not found`,
             error: true,
             type: "email",
          });
