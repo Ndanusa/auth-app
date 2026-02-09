@@ -5,7 +5,6 @@ import { SearchIcon, Home01Icon } from "@hugeicons/core-free-icons";
 import io from "socket.io-client";
 import axios from "axios";
 import { BACKEND_URL } from "../config/config.js";
-import { data } from "react-router-dom";
 function Home() {
    const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
@@ -16,6 +15,14 @@ function Home() {
       error: false,
       message: "",
    });
+   const [displayMsg, setDisplayMsg] = useState("father");
+   const socket = io("http://localhost:5500");
+
+   useEffect(() => {
+      socket.on("connect", () => {
+         setDisplayMsg(`you connected with id: ${socket.id}`);
+      });
+   }, []);
    const getUsers = async () => {
       const response = await axios.get(`${BACKEND_URL}/api/v1/auth/user`);
       console.log(response.data);
@@ -25,6 +32,7 @@ function Home() {
       const response = await axios.get(`${BACKEND_URL}/api/v1/message/render`);
       setRenderMsg(response.data);
    };
+
    useEffect(() => {
       getMessages();
    }, [trigger]);
@@ -42,6 +50,7 @@ function Home() {
             message: "Please login to continue",
          });
       const body = { message, sender };
+      socket.emit("send-message", { message: body });
       axios.post(`${BACKEND_URL}/api/v1/message/send`, body);
       setMessage("");
       setTrigger(trigger + 1);
@@ -70,7 +79,7 @@ function Home() {
       return renderMsg.map((item) => {
          return (
             <div
-               key={`${item.sender} ${item.message}`}
+               key={`${item._id}`}
                className="bg-indigo-200 w-60 px-4 py-2 sqc-tbl-lg">
                <p className="text-black text-sm">{item.message}</p>
                <p className="text-xs text-zinc-500">{item.createdAt}</p>
@@ -87,6 +96,7 @@ function Home() {
             </div>
             <div className="">
                <h1 className="text-2xl font-bold">Messages</h1>
+               <div>{displayMsg}</div>
                <div className="flex flex-col gap-3">{renderMessage()}</div>
             </div>
             <div className="flex items-center justify-center flex-col content-end">
