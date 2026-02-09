@@ -40,59 +40,50 @@ function Login() {
       }
       if (!email) return setEmailError("Field cannot be empty");
       if (!password) return setPasswordError("Field cannot be empty");
-      const body = { email, password };
+      const body = JSON.stringify({ email, password });
       try {
-         const response = await axios.post(
-            `${BACKEND_URL}/api/v1/auth/sign-in`,
+         setIsLoading(true);
+         fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
             body,
-         );
-         console.log(await response.data);
+         })
+            .then((res) => {
+               return res.json();
+            })
+            .then((data) => {
+               if (data.type === "password") {
+                  setPasswordError(data.message);
+                  return;
+               }
+               if (data.type === "email") {
+                  setEmailError(data.message);
+                  return;
+               }
+               if (data.token) {
+                  setGeneralMsg({
+                     message: "",
+                     error: false,
+                  });
+                  localStorage.setItem("token", data.token);
+                  localStorage.setItem("user", JSON.stringify(data.data));
+                  window.location.href = "/";
+               }
+            })
+            .catch((err) => {
+               err.name === "TypeError" &&
+                  setGeneralMsg({
+                     error: true,
+                     message: "Check Your internet",
+                  });
+            })
+            .finally(() => setIsLoading(false));
       } catch (error) {
-         throw error;
+         console.log("error");
+         // throw error;
       }
-      // try {
-      //    setIsLoading(true);
-      //    fetch(`${BACKEND_URL}/api/v1/auth/sign-in`, {
-      //       method: "POST",
-      //       headers: {
-      //          "Content-Type": "application/json",
-      //       },
-      //       body,
-      //    })
-      //       .then((res) => {
-      //          return res.json();
-      //       })
-      //       .then((data) => {
-      //          if (data.type === "password") {
-      //             setPasswordError(data.message);
-      //             return;
-      //          }
-      //          if (data.type === "email") {
-      //             setEmailError(data.message);
-      //             return;
-      //          }
-      //          if (data.token) {
-      //             setGeneralMsg({
-      //                message: "",
-      //                error: false,
-      //             });
-      //             localStorage.setItem("token", data.token);
-      //             localStorage.setItem("user", JSON.stringify(data.data));
-      //             window.location.href = "/";
-      //          }
-      //       })
-      //       .catch((err) => {
-      //          err.name === "TypeError" &&
-      //             setGeneralMsg({
-      //                error: true,
-      //                message: "Check Your internet",
-      //             });
-      //       })
-      //       .finally(() => setIsLoading(false));
-      // } catch (error) {
-      //    console.log("error");
-      //    // throw error;
-      // }
    }
 
    return (
