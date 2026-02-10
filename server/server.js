@@ -9,30 +9,14 @@ import cors from "cors";
 import protectedRoutes from "./routes/protected.routes.js";
 import messageRouter from "./routes/message.routes.js";
 import http from "http";
+import initSocket from "./socket/socket.js";
 import { Server } from "socket.io";
 
 const app = express();
 const server = http.createServer(app);
 
 // Socket.IO
-const io = new Server(server, {
-   cors: {
-      origin: "*",
-   },
-});
-
-io.on("connection", (socket) => {
-   console.log("Socket connected:", socket.id);
-
-   socket.on("send_message", (data) => {
-      io.emit("receive_message", data);
-   });
-
-   socket.on("disconnect", () => {
-      console.log("Socket disconnected:", socket.id);
-   });
-});
-
+initSocket(server);
 // Middleware
 app.use(cors({ origin: "*" }));
 app.use(express.json());

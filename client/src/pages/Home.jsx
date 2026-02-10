@@ -5,6 +5,7 @@ import { SearchIcon, Home01Icon } from "@hugeicons/core-free-icons";
 import io from "socket.io-client";
 import axios from "axios";
 import { BACKEND_URL } from "../config/config.js";
+const socket = io("http://localhost:4400");
 function Home() {
    const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
@@ -16,7 +17,6 @@ function Home() {
       message: "",
    });
    const [displayMsg, setDisplayMsg] = useState("father");
-   const socket = io("http://localhost:5500");
 
    useEffect(() => {
       socket.on("connect", () => {
@@ -50,7 +50,7 @@ function Home() {
             message: "Please login to continue",
          });
       const body = { message, sender };
-      socket.emit("send-message", { message: body });
+      socket.emit("send_message", { message: body });
       axios.post(`${BACKEND_URL}/api/v1/message/send`, body);
       setMessage("");
       setTrigger(trigger + 1);
