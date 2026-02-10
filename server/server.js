@@ -1,10 +1,4 @@
-import {
-   PORT,
-   DB_URI,
-   NODE_ENV,
-   JWT_SECRET,
-   JWT_EXPIRES_IN,
-} from "./config/env.js";
+import { PORT } from "./config/env.js";
 import errorMiddleware from "./middleware/error.middleware.js";
 import userRouter from "./routes/users.routes.js";
 import subscriptionsRouter from "./routes/subscriptions.routes.js";
