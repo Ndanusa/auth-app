@@ -10,7 +10,6 @@ function Home() {
    const [users, setUsers] = useState([]);
    const [renderMsg, setRenderMsg] = useState([]);
    const [postData, setPostData] = useState([]);
-   const [mad, setMad] = useState("woooo");
    const [generalMsg, setGeneralMsg] = useState({
       error: false,
       message: "",
@@ -19,11 +18,18 @@ function Home() {
    const socket = io("http://localhost:4400");
 
    useEffect(() => {
+      socket.on("load_brod", (data) => {
+         setRenderMsg(data);
+      });
+   }, []);
+
+   useEffect(() => {
       socket.on("connect", () => {
          setDisplayMsg(`you connected with id: ${socket.id}`);
       });
+
       socket.on("receive_messages", (data) => {
-         setMad(JSON.stringify(data));
+         setRenderMsg(data);
       });
    }, []);
    const getUsers = async () => {
@@ -47,7 +53,6 @@ function Home() {
          });
       const body = { message, sender };
       socket.emit("send_message", { message: body });
-      axios.post(`${BACKEND_URL}/api/v1/message/send`, body);
       setMessage("");
    };
    useEffect(() => {
@@ -91,7 +96,6 @@ function Home() {
             </div>
             <div className="">
                <h1 className="text-2xl font-bold">Messages</h1>
-               <div>{mad}</div>
                <div>{displayMsg}</div>
                <div className="flex flex-col gap-3">{renderMessage()}</div>
             </div>
