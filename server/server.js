@@ -19,21 +19,6 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 await connectDB();
 app.use(errorMiddleware);
-import { io } from "socket.io";
-
-const socketIO = io(5500, {
-   cors: {
-      origin: "*",
-   },
-});
-
-socketIO.on("connection", (socket) => {
-   console.log(socket.id);
-   socket.on("send-message", (message) => {
-      console.log(message);
-   });
-});
-
 app.use("/public", express.static("public"));
 //basic routes
 app.use("/api/v1/auth", userRouter);
