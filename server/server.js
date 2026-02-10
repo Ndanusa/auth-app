@@ -8,20 +8,51 @@ import authRouter from "./routes/auth.routes.js";
 import cors from "cors";
 import protectedRoutes from "./routes/protected.routes.js";
 import messageRouter from "./routes/message.routes.js";
+import http from "http";
+import { Server } from "socket.io";
+
 const app = express();
+const server = http.createServer(app);
+
+// Socket.IO
+const io = new Server(server, {
+   cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+   },
+});
+
+io.on("connection", (socket) => {
+   console.log("Socket connected:", socket.id);
+
+   socket.on("send_message", (data) => {
+      io.emit("receive_message", data);
+   });
+
+   socket.on("disconnect", () => {
+      console.log("Socket disconnected:", socket.id);
+   });
+});
+
+// Middleware
 app.use(cors({ origin: "*" }));
 app.use(express.json());
+
 await connectDB();
-app.use(errorMiddleware);
+
 app.use("/public", express.static("public"));
-//basic routes
+
+// Routes
 app.use("/api/v1/auth", userRouter);
 app.use("/api/v1/auth", protectedRoutes);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/message", messageRouter);
 app.use("/subscription", subscriptionsRouter);
-app.use(express.json());
 
-app.listen(PORT, () => {
-   console.log("app is listening on http://localhost:" + PORT);
+// Error handler
+app.use(errorMiddleware);
+
+// Server start
+server.listen(PORT, () => {
+   console.log("API + Socket.IO running on http://localhost:" + PORT);
 });
