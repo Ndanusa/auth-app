@@ -17,7 +17,7 @@ const initSocket = async (server) => {
       );
       socket.broadcast.emit("load_brod", messages);
       socket.on("send_message", async (data) => {
-         const { message, sender } = data.message;
+         const { message, sender } = data;
          const newMessage = await Message.create({
             message,
             sender,
