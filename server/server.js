@@ -16,7 +16,7 @@ const app = express();
 const server = http.createServer(app);
 
 // Socket.IO
-initSocket(server);
+await initSocket(server);
 // Middleware
 app.use(cors({ origin: "*" }));
 app.use(express.json());

@@ -5,22 +5,25 @@ import { SearchIcon, Home01Icon } from "@hugeicons/core-free-icons";
 import io from "socket.io-client";
 import axios from "axios";
 import { BACKEND_URL } from "../config/config.js";
-const socket = io("http://localhost:4400");
 function Home() {
    const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
-   const [trigger, setTrigger] = useState(0);
    const [renderMsg, setRenderMsg] = useState([]);
    const [postData, setPostData] = useState([]);
+   const [mad, setMad] = useState("woooo");
    const [generalMsg, setGeneralMsg] = useState({
       error: false,
       message: "",
    });
    const [displayMsg, setDisplayMsg] = useState("father");
+   const socket = io("http://localhost:4400");
 
    useEffect(() => {
       socket.on("connect", () => {
          setDisplayMsg(`you connected with id: ${socket.id}`);
+      });
+      socket.on("receive_messages", (data) => {
+         setMad(JSON.stringify(data));
       });
    }, []);
    const getUsers = async () => {
@@ -28,14 +31,7 @@ function Home() {
       console.log(response.data);
       setUsers(response.data);
    };
-   const getMessages = async () => {
-      const response = await axios.get(`${BACKEND_URL}/api/v1/message/render`);
-      setRenderMsg(response.data);
-   };
 
-   useEffect(() => {
-      getMessages();
-   }, [trigger]);
    const sendMessage = () => {
       const loggedUser = JSON.parse(localStorage.getItem("user"));
       const sender = loggedUser.id;
@@ -53,7 +49,6 @@ function Home() {
       socket.emit("send_message", { message: body });
       axios.post(`${BACKEND_URL}/api/v1/message/send`, body);
       setMessage("");
-      setTrigger(trigger + 1);
    };
    useEffect(() => {
       getUsers();
@@ -96,6 +91,7 @@ function Home() {
             </div>
             <div className="">
                <h1 className="text-2xl font-bold">Messages</h1>
+               <div>{mad}</div>
                <div>{displayMsg}</div>
                <div className="flex flex-col gap-3">{renderMessage()}</div>
             </div>
