@@ -4,10 +4,14 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "./config/config";
+import axios from "axios";
 function App() {
    const [isAuth, setIsAuth] = useState(false);
    const [loading, setLoading] = useState(true);
+   const [validUser, setValidUser] = useState({});
    const token = localStorage.getItem("token");
+   const user = JSON.parse(localStorage.getItem("user"));
+   console.log(user);
    useEffect(() => {
       if (!token) {
          return setLoading(false);
@@ -32,6 +36,12 @@ function App() {
          .finally(() => setLoading(false));
    }, [token]);
 
+   useEffect(() => {
+      if (isAuth) {
+         setValidUser(user);
+      }
+   }, []);
+
    if (loading) {
       return <p>Checking Authentication...</p>;
    }
@@ -45,8 +55,10 @@ function App() {
             path="/login"
             element={isAuth ? <Navigate to={"/home"} /> : <Login />}></Route>
          <Route path="/signup" element={<Signup />} />
-         {/* <Route path="/home" element={<Home />} /> */}
-         <Route path="/home" element={isAuth ? <Home /> : <Login />} />
+         <Route
+            path="/home"
+            element={isAuth ? <Home validUser={validUser} /> : <Login />}
+         />
       </Routes>
    );
 }

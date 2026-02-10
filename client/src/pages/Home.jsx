@@ -5,7 +5,7 @@ import { SearchIcon, Home01Icon } from "@hugeicons/core-free-icons";
 import io from "socket.io-client";
 import axios from "axios";
 import { BACKEND_URL } from "../config/config.js";
-function Home() {
+function Home(props) {
    const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
    const [renderMsg, setRenderMsg] = useState([]);
@@ -16,7 +16,8 @@ function Home() {
    });
    const [displayMsg, setDisplayMsg] = useState("father");
    const socket = io("http://localhost:4400");
-
+   const user = props.validUser;
+   console.log(user);
    useEffect(() => {
       socket.on("load_brod", (data) => {
          setRenderMsg(data);
@@ -52,7 +53,7 @@ function Home() {
             message: "Please login to continue",
          });
       const body = { message, sender };
-      socket.emit("send_message", { message: body });
+      // socket.emit("send_message", { message: body });
       setMessage("");
    };
    useEffect(() => {
