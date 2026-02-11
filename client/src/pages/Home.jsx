@@ -53,7 +53,6 @@ function Home(props) {
       getUsers();
    }, []);
 
-   /* -------------------- SEND MESSAGE -------------------- */
    const sendMessage = () => {
       const loggedUser = JSON.parse(localStorage.getItem("user"));
 
@@ -101,9 +100,13 @@ function Home(props) {
       return renderMsg.map((item) => (
          <div
             key={item._id}
-            className={`bg-indigo-200 w-60 px-4 py-2 ${item.sender === user.id ? "sqc-lg translate-x-30" : "sqc-lg -translate-x-30"} `}>
-            <p className="text-black text-sm">{item.message}</p>
-            <p className="text-xs text-zinc-500">
+            className={` w-60 px-4 py-2 sqc-lg relative ${item.sender === user.id ? "left-0 bg-indigo-200" : "left-0 bg-zinc-600"} `}>
+            <p
+               className={`${item.sender !== user.id ? "text-zinc-300" : "text-black"} text-sm font-bold`}>
+               {item.message}
+            </p>
+            <p
+               className={`${item.sender !== user.id ? "text-zinc-400" : "text-zinc-400"} text-sm`}>
                {new Date(item.createdAt).toLocaleString()}
             </p>
          </div>
@@ -111,16 +114,24 @@ function Home(props) {
    };
 
    return (
-      <div className="flex items-start justify-between h-screen">
+      <div className="flex items-start h-screen">
          <div className="h-screen bg-indigo-50 p-5 px-10">
+            <div
+               className={`bg-indigo-200 flex flex-col items-start w-59 px-3 sqc-lg py-1`}>
+               <p className="text-lg text-zinc-900 font-black">
+                  {user.firstName} {user.lastName}
+               </p>
+               <p className="text-sm text-zinc-500 font-semibold">
+                  {user.username}
+               </p>
+            </div>
             <h1 className="text-2xl font-bold px-3 py-4">Users</h1>
             <div className="flex flex-col gap-3">{renderUsers()}</div>
          </div>
-
-         <div className="bg-zinc-300">
+         <div className="bg-zinc-300 flex-1">
             <h1 className="text-2xl font-bold">Messages</h1>
             <p className="text-sm text-zinc-600">{displayMsg}</p>
-            <div className="flex flex-col gap-3 mt-3 bg-zinc-300">
+            <div className="flex flex-col gap-3 mt-3 relative bg-zinc-300">
                {renderMessage()}
             </div>
          </div>
