@@ -1,162 +1,140 @@
 import { useEffect, useRef, useState } from "react";
-import Navbar from "../components/Navbar.jsx";
 import axios from "axios";
 import io from "socket.io-client";
 import { BACKEND_URL } from "../config/config.js";
 
-function Home(props) {
+function Home({ validUser }) {
    const socketRef = useRef(null);
+   const bottomRef = useRef(null);
 
-   const [message, setMessage] = useState("");
    const [users, setUsers] = useState([]);
-   const [renderMsg, setRenderMsg] = useState([]);
-   const [displayMsg, setDisplayMsg] = useState("");
-   const [generalMsg, setGeneralMsg] = useState({
-      error: false,
-      message: "",
-   });
+   const [messages, setMessages] = useState([]);
+   const [message, setMessage] = useState("");
+   const [status, setStatus] = useState("");
 
-   const user = props.validUser;
-
-   /* -------------------- SOCKET SETUP -------------------- */
+   /* ---------------- SOCKET (CLEAN LIFECYCLE) ---------------- */
    useEffect(() => {
       socketRef.current = io("http://localhost:4400", {
          transports: ["websocket"],
       });
 
       socketRef.current.on("connect", () => {
-         setDisplayMsg(`Connected as ${socketRef.current.id}`);
+         setStatus("Connected");
       });
 
-      socketRef.current.on("load_brod", (data) => {
-         setRenderMsg(data);
-      });
-
-      socketRef.current.on("receive_messages", (data) => {
-         setRenderMsg(data);
-      });
+      socketRef.current.on("load_brod", setMessages);
+      socketRef.current.on("receive_messages", setMessages);
 
       return () => {
          socketRef.current.disconnect();
       };
    }, []);
 
-   /* -------------------- FETCH USERS -------------------- */
+   /* ---------------- AUTO SCROLL (SMOOTH) ---------------- */
+   useEffect(() => {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+   }, [messages]);
+
+   /* ---------------- FETCH USERS ---------------- */
    useEffect(() => {
       const getUsers = async () => {
-         try {
-            const res = await axios.get(`${BACKEND_URL}/api/v1/auth/user`);
-            setUsers(res.data);
-         } catch (err) {
-            console.error(err);
-         }
+         const res = await axios.get(`${BACKEND_URL}/api/v1/auth/user`);
+         setUsers(res.data);
       };
       getUsers();
    }, []);
 
-   /* -------------------- SEND MESSAGE -------------------- */
+   /* ---------------- SEND MESSAGE ---------------- */
    const sendMessage = () => {
-      const loggedUser = JSON.parse(localStorage.getItem("user"));
-
-      if (!loggedUser) {
-         return setGeneralMsg({
-            error: true,
-            message: "Please login to continue",
-         });
-      }
-
-      if (!message.trim()) {
-         return setGeneralMsg({
-            error: true,
-            message: "Message cannot be empty",
-         });
-      }
+      if (!message.trim()) return;
 
       socketRef.current.emit("send_message", {
          message,
-         sender: loggedUser.id,
+         sender: validUser.id,
       });
 
       setMessage("");
    };
 
-   /* -------------------- RENDER USERS -------------------- */
-   const renderUsers = () =>
-      users.map((item) => (
-         <div
-            key={item._id}
-            className="bg-indigo-200 flex flex-col items-start w-59 px-3 sqc-lg py-1">
-            <p className="text-lg text-zinc-900 font-semibold">
-               {item.firstName} {item.lastName}
-            </p>
-            <p className="text-sm text-zinc-600">{item.username}</p>
-         </div>
-      ));
-
-   /* -------------------- RENDER MESSAGES -------------------- */
-   const renderMessages = () =>
-      renderMsg.map((item) => {
-         const isMe = item.sender === user.id;
-
-         return (
-            <div
-               key={item._id}
-               className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
-               <div
-                  className={`max-w-[70%] px-4 py-2 sqc-lg
-              ${isMe ? "bg-indigo-200" : "bg-zinc-600"}
-            `}>
-                  <p
-                     className={`text-sm font-bold ${
-                        isMe ? "text-black" : "text-zinc-300"
-                     }`}>
-                     {item.message}
-                  </p>
-                  <p className="text-xs text-zinc-400">
-                     {new Date(item.createdAt).toLocaleString()}
-                  </p>
-               </div>
-            </div>
-         );
-      });
-
+   /* ---------------- RENDER ---------------- */
    return (
       <div className="flex h-screen">
-         <div className="bg-indigo-50 p-5 px-10 w-80">
+         {/* USERS */}
+         <aside className="w-80 bg-indigo-50 p-5">
             <div className="bg-indigo-200 sqc-lg px-3 py-2 mb-5">
-               <p className="text-lg font-black">
-                  {user.firstName} {user.lastName}
+               <p className="font-bold">
+                  {validUser.firstName} {validUser.lastName}
                </p>
-               <p className="text-sm text-zinc-500">{user.username}</p>
+               <p className="text-sm text-zinc-600">{validUser.username}</p>
             </div>
 
-            <h1 className="text-2xl font-bold mb-4">Users</h1>
-            <div className="flex flex-col gap-3">{renderUsers()}</div>
-         </div>
+            <h2 className="text-xl font-bold mb-3">Users</h2>
+            <div className="flex flex-col gap-3">
+               {users.map((u) => (
+                  <div key={u._id} className="bg-indigo-200 sqc-lg px-3 py-2">
+                     <p className="font-semibold">
+                        {u.firstName} {u.lastName}
+                     </p>
+                     <p className="text-sm text-zinc-600">{u.username}</p>
+                  </div>
+               ))}
+            </div>
+         </aside>
 
-         <div className="flex-1 bg-zinc-300 p-4 flex flex-col">
-            <h1 className="text-2xl font-bold">Messages</h1>
-            <p className="text-sm text-zinc-600 mb-3">{displayMsg}</p>
-
-            <div className="flex-1 overflow-y-auto flex flex-col gap-3 px-5">
-               {renderMessages()}
+         {/* CHAT */}
+         <main className="flex-1 bg-zinc-300 flex flex-col relative">
+            {/* GLASS HEADER (OVERLAY) */}
+            <div className="absolute top-0 left-0 right-0 z-20 bg-white/30 backdrop-blur-md border-b border-white/20 px-4 py-3">
+               <h1 className="text-2xl font-bold">Messages</h1>
+               <p className="text-sm text-zinc-600">{status}</p>
             </div>
 
-            <div className="flex gap-2 mt-3">
+            {/* MESSAGES (SCROLL UNDER HEADER) */}
+            <div className="flex-1 overflow-y-auto px-4 pt-20 pb-4 flex flex-col gap-3">
+               {messages.map((msg) => {
+                  const isMe = msg.sender === validUser.id;
+
+                  return (
+                     <div
+                        key={msg._id}
+                        className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
+                        <div
+                           className={`max-w-[70%] px-4 py-2 sqc-lg ${
+                              isMe ? "bg-indigo-200" : "bg-zinc-600"
+                           }`}>
+                           <p
+                              className={`text-sm font-semibold ${
+                                 isMe ? "text-black" : "text-zinc-200"
+                              }`}>
+                              {msg.message}
+                           </p>
+                           <p className="text-xs text-zinc-400 mt-1">
+                              {new Date(msg.createdAt).toLocaleTimeString()}
+                           </p>
+                        </div>
+                     </div>
+                  );
+               })}
+               <div ref={bottomRef} />
+            </div>
+
+            {/* INPUT */}
+            <div className="p-4 flex gap-2 bg-zinc-300">
                <input
                   type="text"
-                  className="flex-1 sqc-lg px-4 py-2 text-sm bg-gray-300 focus:outline-2"
+                  className="flex-1 sqc-lg px-4 py-2 bg-gray-200 text-sm focus:outline-none"
                   placeholder="type a message..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                />
                <button
-                  className="bg-zinc-700 sqc-lg px-5 py-2 text-white text-sm"
+                  className="bg-zinc-700 text-white px-5 py-2 sqc-lg"
                   onClick={sendMessage}>
                   Send
                </button>
             </div>
-         </div>
+         </main>
       </div>
    );
 }
