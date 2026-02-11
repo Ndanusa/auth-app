@@ -92,11 +92,6 @@ function Home({ validUser }) {
                <h1 className="text-xl font-bold text-indigo-900">Messages</h1>
                <p className="text-sm text-gray-700">{status}</p>
             </div>
-            {/* style={{
-      background: "#ffffff",
-      backgroundImage: "radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)",
-      backgroundSize: "20px 20px",
-    }} */}
             {/* MESSAGES */}
             <div
                className="flex-1 overflow-y-auto px-4 pt-20 pb-24 flex flex-col gap-3"
