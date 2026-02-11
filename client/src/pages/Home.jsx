@@ -14,7 +14,7 @@ function Home({ validUser }) {
    const [active, setActive] = useState("");
    /* ---------------- SOCKET ---------------- */
    useEffect(() => {
-      socketRef.current = io("http://localhost:4400", {
+      socketRef.current = io(BACKEND_URL, {
          transports: ["websocket"],
       });
 
