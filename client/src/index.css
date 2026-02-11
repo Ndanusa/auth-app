@@ -43,6 +43,20 @@ body {
    border-bottom-right-radius: 25px;
 }
 
+.sqc-tbr-lg {
+   corner-shape: superellipse(2);
+   border-top-right-radius: 15px;
+   border-top-left-radius: 15px;
+   border-bottom-right-radius: 15px;
+}
+
+.sqc-tbl-lg {
+   corner-shape: superellipse(2);
+   border-top-right-radius: 15px;
+   border-top-left-radius: 15px;
+   border-bottom-left-radius: 15px;
+}
+
 @supports (corner-shape: superellipse(2)) {
    .sqc-sm {
       corner-shape: superellipse(2);
@@ -86,5 +100,11 @@ body {
       border-top-right-radius: 30px;
       border-top-left-radius: 30px;
       border-bottom-left-radius: 30px;
+   }
+   .sqc-tbr-lg {
+      corner-shape: superellipse(2);
+      border-top-right-radius: 30px;
+      border-top-left-radius: 30px;
+      border-bottom-right-radius: 30px;
    }
 }

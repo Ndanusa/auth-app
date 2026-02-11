@@ -17,8 +17,6 @@ function Home(props) {
    });
 
    const user = props.validUser;
-
-   /* -------------------- SOCKET SETUP -------------------- */
    useEffect(() => {
       socketRef.current = io("http://localhost:4400", {
          transports: ["websocket"],
@@ -82,7 +80,6 @@ function Home(props) {
       setMessage("");
    };
 
-   /* -------------------- RENDER USERS -------------------- */
    const renderUsers = () => {
       if (users.length === 0) return null;
 
@@ -98,23 +95,21 @@ function Home(props) {
       ));
    };
 
-   /* -------------------- RENDER MESSAGES -------------------- */
    const renderMessage = () => {
       if (renderMsg.length === 0) return null;
 
       return renderMsg.map((item) => (
          <div
             key={item._id}
-            className="bg-indigo-200 w-60 px-4 py-2 sqc-tbl-lg">
+            className={`bg-indigo-200 w-60 px-4 py-2 ${item.sender === user.id ? "sqc-lg translate-x-30" : "sqc-lg -translate-x-30"} `}>
             <p className="text-black text-sm">{item.message}</p>
             <p className="text-xs text-zinc-500">
-               {new Date(item.createdAt).toLocaleTimeString()}
+               {new Date(item.createdAt).toLocaleString()}
             </p>
          </div>
       ));
    };
 
-   /* -------------------- JSX -------------------- */
    return (
       <div className="flex items-start justify-between h-screen">
          <div className="h-screen bg-indigo-50 p-5 px-10">
@@ -122,10 +117,12 @@ function Home(props) {
             <div className="flex flex-col gap-3">{renderUsers()}</div>
          </div>
 
-         <div>
+         <div className="bg-zinc-300">
             <h1 className="text-2xl font-bold">Messages</h1>
             <p className="text-sm text-zinc-600">{displayMsg}</p>
-            <div className="flex flex-col gap-3 mt-3">{renderMessage()}</div>
+            <div className="flex flex-col gap-3 mt-3 bg-zinc-300">
+               {renderMessage()}
+            </div>
          </div>
 
          <div className="flex items-center justify-center flex-col">

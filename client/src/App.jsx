@@ -11,7 +11,6 @@ function App() {
    const [validUser, setValidUser] = useState({});
    const token = localStorage.getItem("token");
    const user = JSON.parse(localStorage.getItem("user"));
-   console.log(user);
    useEffect(() => {
       if (!token) {
          return setLoading(false);
@@ -36,12 +35,6 @@ function App() {
          .finally(() => setLoading(false));
    }, [token]);
 
-   useEffect(() => {
-      if (isAuth) {
-         setValidUser(user);
-      }
-   }, []);
-
    if (loading) {
       return <p>Checking Authentication...</p>;
    }
@@ -57,7 +50,7 @@ function App() {
          <Route path="/signup" element={<Signup />} />
          <Route
             path="/home"
-            element={isAuth ? <Home validUser={validUser} /> : <Login />}
+            element={isAuth ? <Home validUser={user} /> : <Login />}
          />
       </Routes>
    );
