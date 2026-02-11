@@ -20,6 +20,9 @@ function Home({ validUser }) {
 
       socketRef.current.on("connect", () => {
          setStatus("Connected");
+
+         // Request all messages from the server on initial connection
+         socketRef.current.emit("request_messages");
       });
 
       socketRef.current.on("load_brod", setMessages);
@@ -82,15 +85,27 @@ function Home({ validUser }) {
          </aside>
 
          {/* CHAT SECTION */}
+
          <main className="flex-1 relative flex flex-col bg-white">
             {/* GLASS HEADER */}
-            <div className="absolute top-0 left-0 right-0 z-20 bg-white/30 backdrop-blur-md border-b border-gray-300 px-4 py-3">
+            <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b border-gray-300 px-4 py-3">
                <h1 className="text-xl font-bold text-indigo-900">Messages</h1>
                <p className="text-sm text-gray-700">{status}</p>
             </div>
-
+            {/* style={{
+      background: "#ffffff",
+      backgroundImage: "radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)",
+      backgroundSize: "20px 20px",
+    }} */}
             {/* MESSAGES */}
-            <div className="flex-1 overflow-y-auto px-4 pt-20 pb-24 flex flex-col gap-3">
+            <div
+               className="flex-1 overflow-y-auto px-4 pt-20 pb-24 flex flex-col gap-3"
+               style={{
+                  background: "#fff",
+                  backgroundImage:
+                     "radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)",
+                  backgroundSize: "20px 20px",
+               }}>
                {messages.map((msg) => {
                   const isMe = msg.sender === validUser.id;
                   return (
@@ -98,9 +113,7 @@ function Home({ validUser }) {
                         key={msg._id}
                         className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
                         <div
-                           className={`max-70 px-4 py-2 sqc-lg shadow-sm
-                  ${isMe ? "bg-indigo-100 text-black" : "bg-gray-800 text-white"}
-                `}>
+                           className={`max-70 px-4 py-2 sqc-lg shadow-sm ${isMe ? "bg-indigo-100 text-black" : "bg-gray-800 text-white"}`}>
                            <p className="text-sm font-medium">{msg.message}</p>
                            <p className="text-xs mt-1 text-gray-500">
                               {new Date(msg.createdAt).toLocaleTimeString()}

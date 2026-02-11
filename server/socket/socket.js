@@ -12,20 +12,15 @@ const initSocket = async (server) => {
    });
    io.on("connection", async (socket) => {
       console.log("Socket connected:", socket.id);
-      const messages = await Message.find().select(
-         "_id sender message createdAt",
-      );
-      socket.broadcast.emit("load_brod", messages);
+
+      socket.on("request_messages", async (data) => {
+         const messages = await Message.find({}).sort({ createdAt: 1 });
+         socket.emit("load_brod", messages);
+      });
+
       socket.on("send_message", async (data) => {
-         const { message, sender } = data;
-         const newMessage = await Message.create({
-            message,
-            sender,
-         });
-         const messages = await Message.find().select(
-            "_id sender message createdAt",
-         );
-         // socket.broadcast.emit("recieve_messages", messages);
+         const newMessage = await Message.create(data);
+         const messages = await Message.find({}).sort({ createdAt: 1 });
          io.emit("receive_messages", messages);
       });
 
