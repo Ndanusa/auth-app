@@ -11,7 +11,7 @@ function Home({ validUser }) {
    const [messages, setMessages] = useState([]);
    const [message, setMessage] = useState("");
    const [status, setStatus] = useState("");
-
+   const [active, setActive] = useState("");
    /* ---------------- SOCKET ---------------- */
    useEffect(() => {
       socketRef.current = io("http://localhost:4400", {
@@ -71,10 +71,17 @@ function Home({ validUser }) {
 
             <h2 className="text-lg font-bold mb-3">Users</h2>
             <div className="flex flex-col gap-2">
+               <div className="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer transition-colors">
+                  <p className="font-semibold">Global</p>
+               </div>
                {users.map((u) => (
                   <div
                      key={u._id}
-                     className="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer transition-colors">
+                     className="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer transition-colors"
+                     data-userID={() => {
+                        console.log(u._id);
+                        return "";
+                     }}>
                      <p className="font-semibold">
                         {u.firstName} {u.lastName}
                      </p>
@@ -98,7 +105,7 @@ function Home({ validUser }) {
                style={{
                   background: "#fff",
                   backgroundImage:
-                     "radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)",
+                     "radial-gradient(circle at 1px 1px, rgba(60, 13, 250, .3) 1.4px, transparent 0)",
                   backgroundSize: "20px 20px",
                }}>
                {messages.map((msg) => {
