@@ -17,13 +17,15 @@ function Home(props) {
    });
 
    const user = props.validUser;
+
+   /* -------------------- SOCKET SETUP -------------------- */
    useEffect(() => {
       socketRef.current = io("http://localhost:4400", {
          transports: ["websocket"],
       });
 
       socketRef.current.on("connect", () => {
-         setDisplayMsg(`Connected with id: ${socketRef.current.id}`);
+         setDisplayMsg(`Connected as ${socketRef.current.id}`);
       });
 
       socketRef.current.on("load_brod", (data) => {
@@ -40,19 +42,19 @@ function Home(props) {
    }, []);
 
    /* -------------------- FETCH USERS -------------------- */
-   const getUsers = async () => {
-      try {
-         const response = await axios.get(`${BACKEND_URL}/api/v1/auth/user`);
-         setUsers(response.data);
-      } catch (error) {
-         console.error(error);
-      }
-   };
-
    useEffect(() => {
+      const getUsers = async () => {
+         try {
+            const res = await axios.get(`${BACKEND_URL}/api/v1/auth/user`);
+            setUsers(res.data);
+         } catch (err) {
+            console.error(err);
+         }
+      };
       getUsers();
    }, []);
 
+   /* -------------------- SEND MESSAGE -------------------- */
    const sendMessage = () => {
       const loggedUser = JSON.parse(localStorage.getItem("user"));
 
@@ -70,85 +72,90 @@ function Home(props) {
          });
       }
 
-      const body = {
+      socketRef.current.emit("send_message", {
          message,
          sender: loggedUser.id,
-      };
+      });
 
-      socketRef.current.emit("send_message", body);
       setMessage("");
    };
 
-   const renderUsers = () => {
-      if (users.length === 0) return null;
-
-      return users.map((item) => (
+   /* -------------------- RENDER USERS -------------------- */
+   const renderUsers = () =>
+      users.map((item) => (
          <div
             key={item._id}
             className="bg-indigo-200 flex flex-col items-start w-59 px-3 sqc-lg py-1">
-            <p className="text-lg text-zinc-900">
+            <p className="text-lg text-zinc-900 font-semibold">
                {item.firstName} {item.lastName}
             </p>
             <p className="text-sm text-zinc-600">{item.username}</p>
          </div>
       ));
-   };
 
-   const renderMessage = () => {
-      if (renderMsg.length === 0) return null;
+   /* -------------------- RENDER MESSAGES -------------------- */
+   const renderMessages = () =>
+      renderMsg.map((item) => {
+         const isMe = item.sender === user.id;
 
-      return renderMsg.map((item) => (
-         <div
-            key={item._id}
-            className={` w-60 px-4 py-2 sqc-lg relative ${item.sender === user.id ? "left-0 bg-indigo-200" : "left-0 bg-zinc-600"} `}>
-            <p
-               className={`${item.sender !== user.id ? "text-zinc-300" : "text-black"} text-sm font-bold`}>
-               {item.message}
-            </p>
-            <p
-               className={`${item.sender !== user.id ? "text-zinc-400" : "text-zinc-400"} text-sm`}>
-               {new Date(item.createdAt).toLocaleString()}
-            </p>
-         </div>
-      ));
-   };
+         return (
+            <div
+               key={item._id}
+               className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
+               <div
+                  className={`max-w-[70%] px-4 py-2 sqc-lg
+              ${isMe ? "bg-indigo-200" : "bg-zinc-600"}
+            `}>
+                  <p
+                     className={`text-sm font-bold ${
+                        isMe ? "text-black" : "text-zinc-300"
+                     }`}>
+                     {item.message}
+                  </p>
+                  <p className="text-xs text-zinc-400">
+                     {new Date(item.createdAt).toLocaleString()}
+                  </p>
+               </div>
+            </div>
+         );
+      });
 
    return (
-      <div className="flex items-start h-screen">
-         <div className="h-screen bg-indigo-50 p-5 px-10">
-            <div
-               className={`bg-indigo-200 flex flex-col items-start w-59 px-3 sqc-lg py-1`}>
-               <p className="text-lg text-zinc-900 font-black">
+      <div className="flex h-screen">
+         <div className="bg-indigo-50 p-5 px-10 w-80">
+            <div className="bg-indigo-200 sqc-lg px-3 py-2 mb-5">
+               <p className="text-lg font-black">
                   {user.firstName} {user.lastName}
                </p>
-               <p className="text-sm text-zinc-500 font-semibold">
-                  {user.username}
-               </p>
+               <p className="text-sm text-zinc-500">{user.username}</p>
             </div>
-            <h1 className="text-2xl font-bold px-3 py-4">Users</h1>
+
+            <h1 className="text-2xl font-bold mb-4">Users</h1>
             <div className="flex flex-col gap-3">{renderUsers()}</div>
          </div>
-         <div className="bg-zinc-300 flex-1">
-            <h1 className="text-2xl font-bold">Messages</h1>
-            <p className="text-sm text-zinc-600">{displayMsg}</p>
-            <div className="flex flex-col gap-3 mt-3 relative bg-zinc-300">
-               {renderMessage()}
-            </div>
-         </div>
 
-         <div className="flex items-center justify-center flex-col">
-            <input
-               type="text"
-               className="sqc-lg px-4 py-1 placeholder:text-sm text-sm bg-gray-300 focus:outline-2"
-               placeholder="type a message..."
-               value={message}
-               onChange={(e) => setMessage(e.target.value)}
-            />
-            <button
-               className="mt-2 text-sm cursor-pointer bg-zinc-700 sqc-lg px-5 py-1 text-white"
-               onClick={sendMessage}>
-               Send
-            </button>
+         <div className="flex-1 bg-zinc-300 p-4 flex flex-col">
+            <h1 className="text-2xl font-bold">Messages</h1>
+            <p className="text-sm text-zinc-600 mb-3">{displayMsg}</p>
+
+            <div className="flex-1 overflow-y-auto flex flex-col gap-3 px-5">
+               {renderMessages()}
+            </div>
+
+            <div className="flex gap-2 mt-3">
+               <input
+                  type="text"
+                  className="flex-1 sqc-lg px-4 py-2 text-sm bg-gray-300 focus:outline-2"
+                  placeholder="type a message..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+               />
+               <button
+                  className="bg-zinc-700 sqc-lg px-5 py-2 text-white text-sm"
+                  onClick={sendMessage}>
+                  Send
+               </button>
+            </div>
          </div>
       </div>
    );
