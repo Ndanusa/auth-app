@@ -62,7 +62,7 @@ function Home({ validUser }) {
       <div className="flex h-screen bg-white text-black">
          {/* USERS SIDEBAR */}
          <aside className="w-80 bg-white border-r border-gray-200 p-5">
-            <div className="bg-gray-100 rounded-lg px-3 py-2 mb-5 shadow-sm">
+            <div className="bg-gray-100 sqc-lg px-3 py-2 mb-5 shadow-sm">
                <p className="font-bold">
                   {validUser.firstName} {validUser.lastName}
                </p>
@@ -71,13 +71,13 @@ function Home({ validUser }) {
 
             <h2 className="text-lg font-bold mb-3">Users</h2>
             <div className="flex flex-col gap-2">
-               <div className="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer transition-colors">
+               <div className="bg-gray-100 hover:bg-gray-200 sqc-lg px-3 py-2 cursor-pointer transition-colors">
                   <p className="font-semibold">Global</p>
                </div>
                {users.map((u) => (
                   <div
                      key={u._id}
-                     className="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer transition-colors"
+                     className="bg-gray-100 hover:bg-gray-200 sqc-lg px-3 py-2 cursor-pointer transition-colors"
                      data-userID={() => {
                         console.log(u._id);
                         return "";
@@ -132,14 +132,14 @@ function Home({ validUser }) {
                <div className="flex gap-2">
                   <input
                      type="text"
-                     className="flex-1 rounded-lg px-4 py-2 bg-white/60 text-black text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 focus:ring-offset-white/20 transition-all duration-200"
+                     className="flex-1 sqc-lg px-4 py-2 bg-white/60 text-black text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 focus:ring-offset-white/20 transition-all duration-200"
                      placeholder="Type a message..."
                      value={message}
                      onChange={(e) => setMessage(e.target.value)}
                      onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                   />
                   <button
-                     className="bg-indigo-700 text-white px-5 py-2 rounded-lg hover:bg-indigo-800 transition-colors"
+                     className="bg-indigo-700 text-white px-5 py-2 sqc-lg hover:bg-indigo-800 transition-colors"
                      onClick={sendMessage}>
                      Send
                   </button>
