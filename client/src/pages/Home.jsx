@@ -139,9 +139,9 @@ function Home({ validUser }) {
                               <div
                                  className={`absolute z-30 ${
                                     isMe ? "right-6" : "left-6"
-                                 } top-8 bg-white text-black border rounded-lg shadow-lg w-32`}>
+                                 } top-8 bg-white text-black border sqc-lg shadow-lg w-32`}>
                                  <button
-                                    className="w-full px-3 py-2 text-left hover:bg-gray-100"
+                                    className="w-full px-3 py-2 text-left hover:bg-gray-100 border-b-zinc-900"
                                     onClick={() => {
                                        navigator.clipboard.writeText(
                                           msg.message,
@@ -152,14 +152,13 @@ function Home({ validUser }) {
                                  </button>
 
                                  <button
-                                    className="w-full px-3 py-2 text-left hover:bg-gray-100"
+                                    className={`w-full px-3 py-2 text-left transition-all duration-200 hover:bg-gray-100 ${isMe && "border-b"}`}
                                     onClick={() => {
                                        console.log("Reply:", msg._id);
                                        setOpenMenuId(null);
                                     }}>
                                     Reply
                                  </button>
-
                                  {isMe && (
                                     <button
                                        className="w-full px-3 py-2 text-left text-red-600 hover:bg-red-50"
