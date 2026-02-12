@@ -9,6 +9,9 @@ function Home({ validUser }) {
    const socketRef = useRef(null);
    const bottomRef = useRef(null);
 
+   const [currentChat, setCurrentChat] = useState({
+      id: "global",
+   });
    const [users, setUsers] = useState([]);
    const [messages, setMessages] = useState([]);
    const [message, setMessage] = useState("");
