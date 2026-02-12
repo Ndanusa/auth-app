@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import io from "socket.io-client";
 import { BACKEND_URL } from "../config/config.js";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { MoreVertical } from "@hugeicons/core-free-icons";
 
 function Home({ validUser }) {
    const socketRef = useRef(null);
@@ -11,7 +13,8 @@ function Home({ validUser }) {
    const [messages, setMessages] = useState([]);
    const [message, setMessage] = useState("");
    const [status, setStatus] = useState("");
-   const [active, setActive] = useState("");
+   const [openMenuId, setOpenMenuId] = useState(null);
+
    /* ---------------- SOCKET ---------------- */
    useEffect(() => {
       socketRef.current = io(BACKEND_URL, {
@@ -20,8 +23,6 @@ function Home({ validUser }) {
 
       socketRef.current.on("connect", () => {
          setStatus("Connected");
-
-         // Request all messages from the server on initial connection
          socketRef.current.emit("request_messages");
       });
 
@@ -35,6 +36,13 @@ function Home({ validUser }) {
    useEffect(() => {
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
    }, [messages]);
+
+   /* ---------------- CLOSE MENU ON OUTSIDE CLICK ---------------- */
+   useEffect(() => {
+      const closeMenu = () => setOpenMenuId(null);
+      window.addEventListener("click", closeMenu);
+      return () => window.removeEventListener("click", closeMenu);
+   }, []);
 
    /* ---------------- FETCH USERS ---------------- */
    useEffect(() => {
@@ -57,12 +65,11 @@ function Home({ validUser }) {
       setMessage("");
    };
 
-   /* ---------------- RENDER ---------------- */
    return (
       <div className="flex h-screen bg-white text-black">
          {/* USERS SIDEBAR */}
-         <aside className="w-80 bg-white border-r border-gray-200 p-5">
-            <div className="bg-gray-100 sqc-lg px-3 py-2 mb-5 shadow-sm">
+         <aside className="w-80 border-r border-gray-200 p-5">
+            <div className="bg-gray-100 sqc-lg px-3 py-2 mb-5">
                <p className="font-bold">
                   {validUser.firstName} {validUser.lastName}
                </p>
@@ -71,17 +78,12 @@ function Home({ validUser }) {
 
             <h2 className="text-lg font-bold mb-3">Users</h2>
             <div className="flex flex-col gap-2">
-               <div className="bg-gray-100 hover:bg-gray-200 sqc-lg px-3 py-2 cursor-pointer transition-colors">
-                  <p className="font-semibold">Global</p>
+               <div className="bg-gray-100 sqc-lg px-3 py-2 font-semibold">
+                  Global
                </div>
+
                {users.map((u) => (
-                  <div
-                     key={u._id}
-                     className="bg-gray-100 hover:bg-gray-200 sqc-lg px-3 py-2 cursor-pointer transition-colors"
-                     data-userID={() => {
-                        console.log(u._id);
-                        return "";
-                     }}>
+                  <div key={u._id} className="bg-gray-100 sqc-lg px-3 py-2">
                      <p className="font-semibold">
                         {u.firstName} {u.lastName}
                      </p>
@@ -92,31 +94,88 @@ function Home({ validUser }) {
          </aside>
 
          {/* CHAT SECTION */}
-
-         <main className="flex-1 relative flex flex-col bg-white">
-            {/* GLASS HEADER */}
-            <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b border-gray-300 px-4 py-3">
-               <h1 className="text-xl font-bold text-indigo-900">Messages</h1>
-               <p className="text-sm text-gray-700">{status}</p>
+         <main className="flex-1 relative flex flex-col">
+            {/* HEADER */}
+            <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b px-4 py-3">
+               <h1 className="text-xl font-bold">Messages</h1>
+               <p className="text-sm text-gray-600">{status}</p>
             </div>
+
             {/* MESSAGES */}
-            <div
-               className="flex-1 overflow-y-auto px-4 pt-20 pb-24 flex flex-col gap-3"
-               style={{
-                  background: "#fff",
-                  backgroundImage:
-                     "radial-gradient(circle at 1px 1px, rgba(60, 13, 250, .3) 1.4px, transparent 0)",
-                  backgroundSize: "20px 20px",
-               }}>
+            <div className="flex-1 overflow-y-auto px-4 pt-20 pb-24 flex flex-col gap-3">
                {messages.map((msg) => {
                   const isMe = msg.sender === validUser.id;
+
                   return (
                      <div
                         key={msg._id}
-                        className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
+                        className={`flex ${
+                           isMe ? "justify-end" : "justify-start"
+                        }`}>
                         <div
-                           className={`max-70 px-4 py-2 sqc-lg shadow-sm ${isMe ? "bg-indigo-100 text-black" : "bg-gray-800 text-white"}`}>
-                           <p className="text-sm font-medium">{msg.message}</p>
+                           className={`relative max-w-[70%] px-4 py-2 sqc-lg ${
+                              isMe
+                                 ? "bg-indigo-100 text-black"
+                                 : "bg-gray-800 text-white"
+                           }`}>
+                           {/* MESSAGE MENU ICON */}
+                           <div
+                              className="absolute top-2 right-2 cursor-pointer"
+                              onClick={(e) => {
+                                 e.stopPropagation();
+                                 setOpenMenuId(
+                                    openMenuId === msg._id ? null : msg._id,
+                                 );
+                              }}>
+                              <HugeiconsIcon
+                                 icon={MoreVertical}
+                                 size={15}
+                                 strokeWidth={1.8}
+                              />
+                           </div>
+
+                           {/* POPUP MENU */}
+                           {openMenuId === msg._id && (
+                              <div
+                                 className={`absolute z-30 ${
+                                    isMe ? "right-6" : "left-6"
+                                 } top-8 bg-white text-black border rounded-lg shadow-lg w-32`}>
+                                 <button
+                                    className="w-full px-3 py-2 text-left hover:bg-gray-100"
+                                    onClick={() => {
+                                       navigator.clipboard.writeText(
+                                          msg.message,
+                                       );
+                                       setOpenMenuId(null);
+                                    }}>
+                                    Copy
+                                 </button>
+
+                                 <button
+                                    className="w-full px-3 py-2 text-left hover:bg-gray-100"
+                                    onClick={() => {
+                                       console.log("Reply:", msg._id);
+                                       setOpenMenuId(null);
+                                    }}>
+                                    Reply
+                                 </button>
+
+                                 {isMe && (
+                                    <button
+                                       className="w-full px-3 py-2 text-left text-red-600 hover:bg-red-50"
+                                       onClick={() => {
+                                          console.log("Delete:", msg._id);
+                                          setOpenMenuId(null);
+                                       }}>
+                                       Delete
+                                    </button>
+                                 )}
+                              </div>
+                           )}
+
+                           <p className="text-sm font-medium pr-6">
+                              {msg.message}
+                           </p>
                            <p className="text-xs mt-1 text-gray-500">
                               {new Date(msg.createdAt).toLocaleTimeString()}
                            </p>
@@ -127,19 +186,18 @@ function Home({ validUser }) {
                <div ref={bottomRef} />
             </div>
 
-            {/* GLASS INPUT */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 bg-white/30 backdrop-blur-md border-t border-gray-300 px-4 py-3">
+            {/* INPUT */}
+            <div className="absolute bottom-0 left-0 right-0 bg-white/30 backdrop-blur-md border-t px-4 py-3">
                <div className="flex gap-2">
                   <input
-                     type="text"
-                     className="flex-1 sqc-lg px-4 py-2 bg-white/60 text-black text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 focus:ring-offset-white/20 transition-all duration-200"
+                     className="flex-1 sqc-lg px-4 py-2"
                      placeholder="Type a message..."
                      value={message}
                      onChange={(e) => setMessage(e.target.value)}
                      onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                   />
                   <button
-                     className="bg-indigo-700 text-white px-5 py-2 sqc-lg hover:bg-indigo-800 transition-colors"
+                     className="bg-indigo-700 text-white px-5 py-2 sqc-lg"
                      onClick={sendMessage}>
                      Send
                   </button>
