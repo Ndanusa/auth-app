@@ -12,16 +12,45 @@ const initSocket = async (server) => {
    });
    io.on("connection", async (socket) => {
       console.log("Socket connected:", socket.id);
+      socket.on("join_global", () => {
+         socket.join("global");
+      });
 
-      socket.on("request_messages", async (data) => {
-         const messages = await Message.find({}).sort({ createdAt: 1 });
-         socket.emit("get_messages", messages);
+      socket.on("request_global_messages", async () => {
+         const messages = await Message.find({ type: "global" }).sort({
+            createdAt: 1,
+         });
+         socket.emit("load_global", messages);
+      });
+      socket.on("join_private", (chatId) => {
+         socket.join(chatId);
+      });
+
+      socket.on("request_private_messages", async (chatId) => {
+         const messages = await Message.find({
+            type: "private",
+            chatId,
+         }).sort({ createdAt: 1 });
+
+         socket.emit("load_private", messages);
       });
 
       socket.on("send_message", async (data) => {
          const newMessage = await Message.create(data);
-         const messages = await Message.find({}).sort({ createdAt: 1 });
-         io.emit("receive_messages", messages);
+
+         if (data.type === "global") {
+            const messages = await Message.find({ type: "global" }).sort({
+               createdAt: 1,
+            });
+            io.to("global").emit("receive_global_messages", messages);
+         }
+         if (data.type === "private") {
+            const messages = await Message.find({
+               type: "private",
+               chatId: data.chatId,
+            }).sort({ createdAt: 1 });
+            io.to(data.chatId).emit("receive_private_messages", messages);
+         }
       });
 
       socket.on("disconnect", () => {
