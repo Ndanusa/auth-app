@@ -38,7 +38,6 @@ function Home({ validUser }) {
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
    }, [messages]);
 
-   /* ---------------- CLOSE MENU ON OUTSIDE CLICK ---------------- */
    useEffect(() => {
       const closeMenu = () => setOpenMenuId(null);
       window.addEventListener("click", closeMenu);
