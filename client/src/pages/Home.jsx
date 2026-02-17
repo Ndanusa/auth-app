@@ -71,6 +71,7 @@ function Home({ validUser }) {
    };
    function sendPrivateMessage() {
       if (!message.trim()) return;
+      // socketRef.current.on('send_private_messages')
    }
 
    function sendMessage() {

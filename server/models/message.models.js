@@ -11,13 +11,12 @@ const messageSchema = new mongoose.Schema({
    },
    chatId: {
       type: String,
-      required: false,
       default: null,
    },
    receiver: {
       type: mongoose.Schema.Types.ObjectId,
       default: null,
-      required: false,
+      required: true,
    },
    createdAt: {
       type: Date,
