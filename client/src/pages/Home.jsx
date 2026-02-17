@@ -9,7 +9,7 @@ function Home({ validUser }) {
    const socketRef = useRef(null);
    const bottomRef = useRef(null);
    const chatID = useRef(null);
-   const currentChat = useRef(null);
+   const [currentChat, setCurrentChat] = useState(null);
    const [users, setUsers] = useState([]);
    const [messages, setMessages] = useState([]);
    const [message, setMessage] = useState("");
@@ -55,7 +55,7 @@ function Home({ validUser }) {
    }, []);
 
    const joinRoom = (user) => {
-      currentChat.current = user;
+      setCurrentChat(user);
       chatID.current = [user._id, validUser.id].sort().join("_");
       socketRef.current.emit("join_room", chatID.current);
    };
@@ -89,10 +89,8 @@ function Home({ validUser }) {
                <div
                   className="bg-gray-100 sqc-lg px-3 py-2 font-semibold"
                   onClick={() => {
-                     currentChat.current = null;
+                     setCurrentChat(null);
                      chatID.current = null;
-                     console.log(chatID.current);
-                     console.log(currentChat.current);
                   }}>
                   Global
                </div>
@@ -118,14 +116,13 @@ function Home({ validUser }) {
             {/* HEADER */}
             <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b px-4 py-3">
                <div>
-                  {currentChat.current ? (
+                  {currentChat ? (
                      <div>
-                        <p className="text-xl font-bold">
-                           {currentChat.current.firstName}{" "}
-                           {currentChat.current.lastName}
+                        <p className="text-xl">
+                           {currentChat.firstName} {currentChat.lastName}
                         </p>
                         <p className="text-gray-700 text-sm flex items-center gap-2">
-                           {currentChat.current.username}{" "}
+                           {currentChat.username}{" "}
                            <div
                               className={`w-2 h-2 rounded-full ${status.toLowerCase() === "connected" ? "bg-[#04ff00]" : "bg-red-500"}`}></div>
                         </p>
