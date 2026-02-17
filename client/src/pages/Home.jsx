@@ -23,12 +23,11 @@ function Home({ validUser }) {
 
       socketRef.current.on("connect", () => {
          setStatus(true);
-         socketRef.current.emit("request_global_messages");
+         socketRef.current.emit("request_messages");
       });
 
       socketRef.current.on("get_messages", setMessages);
-      socketRef.current.on("receive_global_messages", setMessages);
-
+      socketRef.current.on("receive_messages", setMessages);
       return () => socketRef.current.disconnect();
    }, []);
 
@@ -60,26 +59,15 @@ function Home({ validUser }) {
    };
 
    /* ---------------- SEND MESSAGE ---------------- */
-   const sendGlobalMessage = () => {
+
+   function sendMessage() {
       if (!message.trim()) return;
-      socketRef.current.emit("send_global_message", {
+      socketRef.current.emit("send_message", {
          message,
          sender: validUser.id,
       });
 
       setMessage("");
-   };
-   function sendPrivateMessage() {
-      if (!message.trim()) return;
-      // socketRef.current.on('send_private_messages')
-   }
-
-   function sendMessage() {
-      if (chatID.current) {
-         sendPrivateMessage();
-      } else if (!chatID.current) {
-         sendGlobalMessage();
-      }
    }
 
    return (
@@ -100,6 +88,7 @@ function Home({ validUser }) {
                   onClick={() => {
                      setCurrentChat(null);
                      chatID.current = null;
+                     socketRef.current.emit();
                   }}>
                   Global
                </div>
@@ -130,11 +119,11 @@ function Home({ validUser }) {
                         <p className="text-xl">
                            {currentChat.firstName} {currentChat.lastName}
                         </p>
-                        <p className="text-gray-700 text-sm flex items-center gap-2">
+                        <div className="text-gray-700 text-sm flex items-center gap-2">
                            {currentChat.username}{" "}
                            <div
                               className={`w-2 h-2 rounded-full ${status ? "bg-[#04ff00]" : "bg-red-500"}`}></div>
-                        </p>
+                        </div>
                      </div>
                   ) : (
                      <div className="flex gap-2 items-center">
@@ -238,7 +227,7 @@ function Home({ validUser }) {
                      placeholder="Type a message..."
                      value={message}
                      onChange={(e) => setMessage(e.target.value)}
-                     onKeyDown={(e) => e.key === "Enter" && sendGlobalMessage()}
+                     onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                   />
                   <button
                      className="bg-indigo-700 text-white px-5 py-2 sqc-lg"

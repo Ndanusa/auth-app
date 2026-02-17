@@ -16,7 +16,7 @@ const messageSchema = new mongoose.Schema({
    receiver: {
       type: mongoose.Schema.Types.ObjectId,
       default: null,
-      required: true,
+      required: false,
    },
    createdAt: {
       type: Date,
