@@ -23,16 +23,13 @@ function Home({ validUser }) {
 
       socketRef.current.on("connect", () => {
          setStatus("Connected");
-         // join global room by default
          socketRef.current.emit("join_global");
          socketRef.current.emit("request_global_messages");
       });
 
-      /* Global messages */
       socketRef.current.on("load_global", setMessages);
       socketRef.current.on("receive_global_messages", setMessages);
 
-      /* Private messages */
       socketRef.current.on("load_private", setMessages);
       socketRef.current.on("receive_private_messages", setMessages);
 
@@ -63,37 +60,34 @@ function Home({ validUser }) {
       getUsers();
    }, []);
 
-   const openChat = (user) => {
+   const openPrivateChat = (user) => {
       setCurrentUser(user);
       chatID.current = [user._id, validUser.id].sort().join("_");
       console.log(user);
-      socketRef.current.emit("join_room", chatID.current);
-      socketRef.current.on("private_messages");
       setMessages([]);
-      socketRef.current.emit("join_chat", chatID.current);
-      socketRef.current.emit("get");
+      socketRef.current.emit("join_private", chatID.current);
+      socketRef.current.emit("request_private_messages", chatID.current);
    };
 
    /* ---------------- SEND MESSAGE ---------------- */
 
-   function sendPrivateMessages() {
-      if (!message.trim() || !chatID.current || !currentUser) return;
-      socketRef.current.emit("send_message", {
-         type: "private",
-         chatId: chatID.current,
-         sender: currentUser._id,
-         message,
-      });
-   }
-
    function sendMessage() {
-      if (!message.trim() || !chatID.current) return;
-      socketRef.current.emit("send_message", {
-         message,
-         sender: validUser.id,
-         receiver: currentUser?._id,
-         chatId: chatID?.current,
-      });
+      if (!message.trim()) return;
+      if (chatID.current && currentUser) {
+         socketRef.current.emit("send_message", {
+            type: "private",
+            message,
+            sender: validUser.id,
+            receiver: currentUser?._id,
+            chatId: chatID.current,
+         });
+      } else {
+         socketRef.current.emit("send_message", {
+            type: "global",
+            sender: validUser.id,
+            message,
+         });
+      }
 
       setMessage("");
    }
@@ -116,7 +110,10 @@ function Home({ validUser }) {
                   onClick={() => {
                      setCurrentUser(null);
                      chatID.current = null;
+                     setMessages([]);
                      socketRef.current.emit();
+                     socketRef.current.emit("join_global");
+                     socketRef.current.emit("request_global_messages");
                   }}>
                   Global
                </div>
@@ -126,7 +123,7 @@ function Home({ validUser }) {
                      key={u._id}
                      className="bg-gray-100 sqc-lg px-3 py-2"
                      onClick={() => {
-                        openChat(u);
+                        openPrivateChat(u);
                      }}>
                      <p className="font-semibold">
                         {u.firstName} {u.lastName}
