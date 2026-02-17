@@ -23,7 +23,7 @@ function Home({ validUser }) {
       });
 
       socketRef.current.on("connect", () => {
-         setStatus("Connected");
+         setStatus(true);
          socketRef.current.emit("request_messages");
       });
 
@@ -61,17 +61,26 @@ function Home({ validUser }) {
    };
 
    /* ---------------- SEND MESSAGE ---------------- */
-   const sendMessage = () => {
+   const sendGlobalMessage = () => {
       if (!message.trim()) return;
-      if (!chatID || !currentChat) {
-         socketRef.current.emit("send_message", {
-            message,
-            sender: validUser.id,
-         });
-      }
+      socketRef.current.emit("send_message", {
+         message,
+         sender: validUser.id,
+      });
 
       setMessage("");
    };
+   function sendPrivateMessage() {
+      if (!message.trim()) return;
+   }
+
+   function sendMessage() {
+      if (chatID.current) {
+         sendPrivateMessage();
+      } else if (!chatID.current) {
+         sendGlobalMessage();
+      }
+   }
 
    return (
       <div className="flex h-screen bg-white text-black">
@@ -124,14 +133,14 @@ function Home({ validUser }) {
                         <p className="text-gray-700 text-sm flex items-center gap-2">
                            {currentChat.username}{" "}
                            <div
-                              className={`w-2 h-2 rounded-full ${status.toLowerCase() === "connected" ? "bg-[#04ff00]" : "bg-red-500"}`}></div>
+                              className={`w-2 h-2 rounded-full ${status ? "bg-[#04ff00]" : "bg-red-500"}`}></div>
                         </p>
                      </div>
                   ) : (
-                     <div className="flex gap-2">
+                     <div className="flex gap-2 items-center">
                         Global{" "}
                         <div
-                           className={`w-2 h-2 rounded-full ${status.toLowerCase() === "connected" ? "bg-[#00ff1a]" : "bg-red-500"}`}></div>
+                           className={`w-2 h-2 rounded-full ${status ? "bg-[#00ff1a]" : "bg-red-500"}`}></div>
                      </div>
                   )}
                </div>
@@ -229,7 +238,7 @@ function Home({ validUser }) {
                      placeholder="Type a message..."
                      value={message}
                      onChange={(e) => setMessage(e.target.value)}
-                     onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                     onKeyDown={(e) => e.key === "Enter" && sendGlobalMessage()}
                   />
                   <button
                      className="bg-indigo-700 text-white px-5 py-2 sqc-lg"
