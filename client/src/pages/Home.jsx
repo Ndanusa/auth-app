@@ -54,16 +54,21 @@ function Home({ validUser }) {
       getUsers();
    }, []);
 
+   const joinRoom = (user) => {
+      currentChat.current = user;
+      chatID.current = [user._id, validUser.id].sort().join("_");
+      socketRef.current.emit("join_room", chatID.current);
+   };
+
    /* ---------------- SEND MESSAGE ---------------- */
    const sendMessage = () => {
       if (!message.trim()) return;
-      if (chatID) {
-         socketRef.current.emit;
+      if (!chatID || !currentChat) {
+         socketRef.current.emit("send_message", {
+            message,
+            sender: validUser.id,
+         });
       }
-      socketRef.current.emit("send_message", {
-         message,
-         sender: validUser.id,
-      });
 
       setMessage("");
    };
@@ -97,10 +102,7 @@ function Home({ validUser }) {
                      key={u._id}
                      className="bg-gray-100 sqc-lg px-3 py-2"
                      onClick={() => {
-                        currentChat.current = u;
-                        chatID.current = `${validUser.id}_${u._id}`;
-                        console.log(currentChat.current);
-                        console.log(chatID.current);
+                        joinRoom(u);
                      }}>
                      <p className="font-semibold">
                         {u.firstName} {u.lastName}
@@ -115,8 +117,27 @@ function Home({ validUser }) {
          <main className="flex-1 relative flex flex-col">
             {/* HEADER */}
             <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b px-4 py-3">
-               <h1 className="text-xl font-bold">Messages</h1>
-               <p className="text-sm text-gray-600">{status}</p>
+               <div>
+                  {currentChat.current ? (
+                     <div>
+                        <p className="text-xl font-bold">
+                           {currentChat.current.firstName}{" "}
+                           {currentChat.current.lastName}
+                        </p>
+                        <p className="text-gray-700 text-sm flex items-center gap-2">
+                           {currentChat.current.username}{" "}
+                           <div
+                              className={`w-2 h-2 rounded-full ${status.toLowerCase() === "connected" ? "bg-[#04ff00]" : "bg-red-500"}`}></div>
+                        </p>
+                     </div>
+                  ) : (
+                     <div className="flex gap-2">
+                        Global{" "}
+                        <div
+                           className={`w-2 h-2 rounded-full ${status.toLowerCase() === "connected" ? "bg-[#00ff1a]" : "bg-red-500"}`}></div>
+                     </div>
+                  )}
+               </div>
             </div>
 
             {/* MESSAGES */}

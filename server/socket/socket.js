@@ -13,6 +13,10 @@ const initSocket = async (server) => {
    io.on("connection", async (socket) => {
       console.log("Socket connected:", socket.id);
 
+      socket.on("join_room", (data) => {
+         socket.join(data);
+      });
+
       socket.on("request_messages", async (data) => {
          const messages = await Message.find({}).sort({ createdAt: 1 });
          socket.emit("get_messages", messages);

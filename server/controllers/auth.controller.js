@@ -91,7 +91,7 @@ export const signIn = async (req, res, next) => {
          data: {
             firstName: user.firstName,
             lastName: user.lastName,
-            username: user.firstName,
+            username: user.username,
             email: user.email,
             id: user._id,
          },
