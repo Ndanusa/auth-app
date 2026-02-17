@@ -9,7 +9,7 @@ function Home({ validUser }) {
    const socketRef = useRef(null);
    const bottomRef = useRef(null);
    const chatID = useRef(null);
-   const [currentChat, setCurrentChat] = useState(null);
+   const [currentUser, setCurrentUser] = useState(null);
    const [users, setUsers] = useState([]);
    const [messages, setMessages] = useState([]);
    const [message, setMessage] = useState("");
@@ -51,9 +51,10 @@ function Home({ validUser }) {
       getUsers();
    }, []);
 
-   const joinRoom = (user) => {
-      setCurrentChat(user);
+   const openChat = (user) => {
+      setCurrentUser(user);
       chatID.current = [user._id, validUser.id].sort().join("_");
+      console.log(user);
       socketRef.current.emit("join_room", chatID.current);
       socketRef.current.on("private_messages");
    };
@@ -61,10 +62,12 @@ function Home({ validUser }) {
    /* ---------------- SEND MESSAGE ---------------- */
 
    function sendMessage() {
-      if (!message.trim()) return;
+      if (!message.trim() || !chatID.current) return;
       socketRef.current.emit("send_message", {
          message,
          sender: validUser.id,
+         receiver: currentUser?._id,
+         chatId: chatID?.current,
       });
 
       setMessage("");
@@ -86,7 +89,7 @@ function Home({ validUser }) {
                <div
                   className="bg-gray-100 sqc-lg px-3 py-2 font-semibold"
                   onClick={() => {
-                     setCurrentChat(null);
+                     setCurrentUser(null);
                      chatID.current = null;
                      socketRef.current.emit();
                   }}>
@@ -98,7 +101,7 @@ function Home({ validUser }) {
                      key={u._id}
                      className="bg-gray-100 sqc-lg px-3 py-2"
                      onClick={() => {
-                        joinRoom(u);
+                        openChat(u);
                      }}>
                      <p className="font-semibold">
                         {u.firstName} {u.lastName}
@@ -114,13 +117,13 @@ function Home({ validUser }) {
             {/* HEADER */}
             <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b px-4 py-3">
                <div>
-                  {currentChat ? (
+                  {currentUser ? (
                      <div>
                         <p className="text-xl">
-                           {currentChat.firstName} {currentChat.lastName}
+                           {currentUser.firstName} {currentUser.lastName}
                         </p>
                         <div className="text-gray-700 text-sm flex items-center gap-2">
-                           {currentChat.username}{" "}
+                           {currentUser.username}{" "}
                            <div
                               className={`w-2 h-2 rounded-full ${status ? "bg-[#04ff00]" : "bg-red-500"}`}></div>
                         </div>
