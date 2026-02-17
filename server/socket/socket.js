@@ -17,15 +17,24 @@ const initSocket = async (server) => {
          socket.join(data);
       });
 
-      socket.on("request_messages", async (data) => {
+      socket.on("send_private_messages", async (data) => {
+         const message = {
+            message: data.message,
+            sender: data.sender,
+            chatID: data.chatID,
+            receiver: data.receiver,
+         };
+      });
+
+      socket.on("request_global_messages", async (data) => {
          const messages = await Message.find({}).sort({ createdAt: 1 });
          socket.emit("get_messages", messages);
       });
 
-      socket.on("send_message", async (data) => {
+      socket.on("send_global_message", async (data) => {
          const newMessage = await Message.create(data);
          const messages = await Message.find({}).sort({ createdAt: 1 });
-         io.emit("receive_messages", messages);
+         io.emit("receive_global_messages", messages);
       });
 
       socket.on("disconnect", () => {

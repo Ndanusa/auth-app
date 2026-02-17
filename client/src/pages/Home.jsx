@@ -15,7 +15,6 @@ function Home({ validUser }) {
    const [message, setMessage] = useState("");
    const [status, setStatus] = useState("");
    const [openMenuId, setOpenMenuId] = useState(null);
-
    /* ---------------- SOCKET ---------------- */
    useEffect(() => {
       socketRef.current = io(BACKEND_URL, {
@@ -24,11 +23,11 @@ function Home({ validUser }) {
 
       socketRef.current.on("connect", () => {
          setStatus(true);
-         socketRef.current.emit("request_messages");
+         socketRef.current.emit("request_global_messages");
       });
 
       socketRef.current.on("get_messages", setMessages);
-      socketRef.current.on("receive_messages", setMessages);
+      socketRef.current.on("receive_global_messages", setMessages);
 
       return () => socketRef.current.disconnect();
    }, []);
@@ -57,12 +56,13 @@ function Home({ validUser }) {
       setCurrentChat(user);
       chatID.current = [user._id, validUser.id].sort().join("_");
       socketRef.current.emit("join_room", chatID.current);
+      socketRef.current.on("private_messages");
    };
 
    /* ---------------- SEND MESSAGE ---------------- */
    const sendGlobalMessage = () => {
       if (!message.trim()) return;
-      socketRef.current.emit("send_message", {
+      socketRef.current.emit("send_global_message", {
          message,
          sender: validUser.id,
       });
