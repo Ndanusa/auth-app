@@ -15,7 +15,7 @@ const initSocket = async (server) => {
 
       socket.on("request_messages", async (data) => {
          const messages = await Message.find({}).sort({ createdAt: 1 });
-         socket.emit("load_brod", messages);
+         socket.emit("get_messages", messages);
       });
 
       socket.on("send_message", async (data) => {

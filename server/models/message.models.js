@@ -9,6 +9,16 @@ const messageSchema = new mongoose.Schema({
    message: {
       type: String,
    },
+   chatId: {
+      type: String,
+      required: false,
+      default: null,
+   },
+   receiver: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+      required: false,
+   },
    createdAt: {
       type: Date,
       default: Date.now(),

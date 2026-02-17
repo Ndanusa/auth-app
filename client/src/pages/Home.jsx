@@ -8,11 +8,8 @@ import { MoreVertical } from "@hugeicons/core-free-icons";
 function Home({ validUser }) {
    const socketRef = useRef(null);
    const bottomRef = useRef(null);
-
-   const [isGlobal, setIsGlobal] = useState({
-      global: true,
-      id: "",
-   });
+   const chatID = useRef(null);
+   const currentChat = useRef(null);
    const [users, setUsers] = useState([]);
    const [messages, setMessages] = useState([]);
    const [message, setMessage] = useState("");
@@ -30,7 +27,7 @@ function Home({ validUser }) {
          socketRef.current.emit("request_messages");
       });
 
-      socketRef.current.on("load_brod", setMessages);
+      socketRef.current.on("get_messages", setMessages);
       socketRef.current.on("receive_messages", setMessages);
 
       return () => socketRef.current.disconnect();
@@ -60,7 +57,9 @@ function Home({ validUser }) {
    /* ---------------- SEND MESSAGE ---------------- */
    const sendMessage = () => {
       if (!message.trim()) return;
-
+      if (chatID) {
+         socketRef.current.emit;
+      }
       socketRef.current.emit("send_message", {
          message,
          sender: validUser.id,
@@ -87,7 +86,13 @@ function Home({ validUser }) {
                </div>
 
                {users.map((u) => (
-                  <div key={u._id} className="bg-gray-100 sqc-lg px-3 py-2">
+                  <div
+                     key={u._id}
+                     className="bg-gray-100 sqc-lg px-3 py-2"
+                     onClick={() => {
+                        console.log(chatID.current);
+                        chatID.current = `${validUser.id}_${u._id}`;
+                     }}>
                      <p className="font-semibold">
                         {u.firstName} {u.lastName}
                      </p>
