@@ -81,7 +81,14 @@ function Home({ validUser }) {
 
             <h2 className="text-lg font-bold mb-3">Users</h2>
             <div className="flex flex-col gap-2">
-               <div className="bg-gray-100 sqc-lg px-3 py-2 font-semibold">
+               <div
+                  className="bg-gray-100 sqc-lg px-3 py-2 font-semibold"
+                  onClick={() => {
+                     currentChat.current = null;
+                     chatID.current = null;
+                     console.log(chatID.current);
+                     console.log(currentChat.current);
+                  }}>
                   Global
                </div>
 
@@ -90,8 +97,10 @@ function Home({ validUser }) {
                      key={u._id}
                      className="bg-gray-100 sqc-lg px-3 py-2"
                      onClick={() => {
-                        console.log(chatID.current);
+                        currentChat.current = u;
                         chatID.current = `${validUser.id}_${u._id}`;
+                        console.log(currentChat.current);
+                        console.log(chatID.current);
                      }}>
                      <p className="font-semibold">
                         {u.firstName} {u.lastName}
