@@ -22,12 +22,24 @@ function Home({ validUser }) {
       });
 
       socketRef.current.on("connect", () => {
-         setStatus(true);
-         socketRef.current.emit("request_messages");
+         setStatus("Connected");
+         // join global room by default
+         socketRef.current.emit("join_global");
+         socketRef.current.emit("request_global_messages");
       });
 
-      socketRef.current.on("get_messages", setMessages);
-      socketRef.current.on("receive_messages", setMessages);
+      /* Global messages */
+      socketRef.current.on("load_global", setMessages);
+      socketRef.current.on("receive_global_messages", setMessages);
+
+      /* Private messages */
+      socketRef.current.on("load_private", setMessages);
+      socketRef.current.on("receive_private_messages", setMessages);
+
+      socketRef.current.on("disconnect", () => {
+         setStatus("Disconnected");
+      });
+
       return () => socketRef.current.disconnect();
    }, []);
 
@@ -57,9 +69,22 @@ function Home({ validUser }) {
       console.log(user);
       socketRef.current.emit("join_room", chatID.current);
       socketRef.current.on("private_messages");
+      setMessages([]);
+      socketRef.current.emit("join_chat", chatID.current);
+      socketRef.current.emit("get");
    };
 
    /* ---------------- SEND MESSAGE ---------------- */
+
+   function sendPrivateMessages() {
+      if (!message.trim() || !chatID.current || !currentUser) return;
+      socketRef.current.emit("send_message", {
+         type: "private",
+         chatId: chatID.current,
+         sender: currentUser._id,
+         message,
+      });
+   }
 
    function sendMessage() {
       if (!message.trim() || !chatID.current) return;

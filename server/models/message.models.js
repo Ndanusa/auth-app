@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 const messageSchema = new mongoose.Schema({
+   type: {
+      type: String,
+      default: "global",
+   },
    sender: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
