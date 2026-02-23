@@ -37,5 +37,5 @@ app.use(errorMiddleware);
 
 // Server start
 server.listen(PORT, () => {
-   console.log("API + Socket.IO running on http://localhost:" + PORT);
+  console.log("API + Socket.IO running on http://localhost:" + PORT);
 });

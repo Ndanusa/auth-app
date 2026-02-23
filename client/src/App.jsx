@@ -6,54 +6,51 @@ import { useEffect, useState } from "react";
 import { BACKEND_URL } from "./config/config";
 import axios from "axios";
 function App() {
-   const [isAuth, setIsAuth] = useState(false);
-   const [loading, setLoading] = useState(true);
-   const [validUser, setValidUser] = useState({});
-   const token = localStorage.getItem("token");
-   const user = JSON.parse(localStorage.getItem("user"));
-   useEffect(() => {
-      if (!token) {
-         return setLoading(false);
-      }
-      fetch(`${BACKEND_URL}/api/v1/auth/protected`, {
-         headers: {
-            Authorization: `Bearer ${token}`,
-         },
+  const [isAuth, setIsAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [validUser, setValidUser] = useState({});
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    if (!token) {
+      return setLoading(false);
+    }
+    fetch(`${BACKEND_URL}/api/v1/auth/protected`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
       })
-         .then((res) => {
-            if (!res.ok) throw new Error("Unauthorized");
-            return res.json();
-         })
-         .then(() => {
-            setIsAuth(true);
-         })
-         .catch(() => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            setIsAuth(false);
-         })
-         .finally(() => setLoading(false));
-   }, [token]);
+      .then(() => {
+        setIsAuth(true);
+      })
+      .catch(() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setIsAuth(false);
+      })
+      .finally(() => setLoading(false));
+  }, [token]);
 
-   if (loading) {
-      return <p>Checking Authentication...</p>;
-   }
-   return (
-      <Routes>
-         <Route
-            path="/"
-            element={<Navigate to={isAuth ? "/home" : "/login"} />}
-         />
-         <Route
-            path="/login"
-            element={isAuth ? <Navigate to={"/home"} /> : <Login />}></Route>
-         <Route path="/signup" element={<Signup />} />
-         <Route
-            path="/home"
-            element={isAuth ? <Home validUser={user} /> : <Login />}
-         />
-      </Routes>
-   );
+  if (loading) {
+    return <p>Checking Authentication...</p>;
+  }
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to={isAuth ? "/home" : "/login"} />} />
+      <Route
+        path="/login"
+        element={isAuth ? <Navigate to={"/home"} /> : <Login />}></Route>
+      <Route path="/signup" element={<Signup />} />
+      <Route
+        path="/home"
+        element={isAuth ? <Home validUser={user} /> : <Login />}
+      />
+    </Routes>
+  );
 }
 
 export default App;
