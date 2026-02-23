@@ -50,7 +50,6 @@ function Home({ validUser }) {
       window.addEventListener("click", closeMenu);
       return () => window.removeEventListener("click", closeMenu);
    }, []);
-
    /* ---------------- FETCH USERS ---------------- */
    useEffect(() => {
       const getUsers = async () => {
@@ -70,7 +69,6 @@ function Home({ validUser }) {
    };
 
    /* ---------------- SEND MESSAGE ---------------- */
-
    function sendMessage() {
       if (!message.trim()) return;
       if (chatID.current && currentUser) {
@@ -222,7 +220,25 @@ function Home({ validUser }) {
                                     <button
                                        className="w-full px-3 py-2 text-left text-red-600 hover:bg-red-50"
                                        onClick={() => {
-                                          console.log("Delete:", msg._id);
+                                          if (msg.type === "private") {
+                                             socketRef.current.emit(
+                                                "delete_message",
+                                                msg._id,
+                                             );
+                                             socketRef.current.emit(
+                                                "request_private_messages",
+                                                chatID.current,
+                                             );
+                                          } else if (msg.type === "global") {
+                                             socketRef.current.emit(
+                                                "delete_message",
+                                                msg._id,
+                                             );
+                                             socketRef.current.emit(
+                                                "request_global_messages",
+                                                chatID.current,
+                                             );
+                                          }
                                           setOpenMenuId(null);
                                        }}>
                                        Delete

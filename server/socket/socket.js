@@ -26,6 +26,10 @@ const initSocket = async (server) => {
          socket.join(chatId);
       });
 
+      socket.on("delete_message", async (messageId) => {
+         const message = await Message.deleteOne({ _id: messageId });
+      });
+
       socket.on("request_private_messages", async (chatId) => {
          const messages = await Message.find({
             type: "private",
