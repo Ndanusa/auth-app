@@ -8,7 +8,6 @@ import axios from "axios";
 function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [validUser, setValidUser] = useState({});
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
