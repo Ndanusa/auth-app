@@ -10,7 +10,6 @@ import protectedRoutes from "./routes/protected.routes.js";
 import messageRouter from "./routes/message.routes.js";
 import http from "http";
 import initSocket from "./socket/socket.js";
-import { Server } from "socket.io";
 
 const app = express();
 const server = http.createServer(app);
