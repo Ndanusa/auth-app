@@ -1,13 +1,13 @@
 import User from "../models/user.models.js";
 
 export const getUsers = async (req, res) => {
-   const users = await User.find().select(
-      "firstName lastName username email _id",
-   );
-   res.json(users);
+  const users = await User.find().select(
+    "firstName lastName username email _id",
+  );
+  res.json(users);
 };
 
 export const postUser = async (req, res) => {
-   console.log(req.body);
-   res.send("change");
+  console.log(req.body);
+  res.send("change");
 };
