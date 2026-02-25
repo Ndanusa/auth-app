@@ -164,7 +164,7 @@ function Home({ validUser }) {
         {/* MESSAGES */}
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
-            No messages yet, start chatting
+            No messages yet, rt chatting
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto px-4 pt-20 pb-24 flex flex-col gap-3">
