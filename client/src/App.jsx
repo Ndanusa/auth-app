@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "./config/config";
+import Settings from "./pages/Settings";
 import axios from "axios";
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -47,6 +48,10 @@ function App() {
       <Route
         path="/home"
         element={isAuth ? <Home validUser={user} /> : <Login />}
+      />
+      <Route
+        path="/settings"
+        element={isAuth ? <Settings validUser={user} /> : <Login />}
       />
     </Routes>
   );

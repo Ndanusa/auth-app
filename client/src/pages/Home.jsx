@@ -15,6 +15,7 @@ function Home({ validUser }) {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [highlightUser, setHighlightUser] = useState({ id: "global" });
   /* ---------------- SOCKET ---------------- */
   useEffect(() => {
     socketRef.current = io(BACKEND_URL, {
@@ -94,8 +95,9 @@ function Home({ validUser }) {
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
-      <aside className="w-80 border-r border-gray-200 p-5">
-        <div className="bg-gray-100 sqc-lg px-3 py-2 mb-5">
+      <aside className="w-80 border-r border-gray-200 py-5">
+        <div className="px-5 py-2 mb-5 relative bg-linear-to-r from-indigo-300 to-indigo-100">
+          <div className="absolute left-0 top-0 bottom-0 bg-indigo-700 h-full w-3"></div>
           <p className="font-bold">
             {validUser.firstName} {validUser.lastName}
           </p>
@@ -105,7 +107,7 @@ function Home({ validUser }) {
         <h2 className="text-lg font-bold mb-3">Users</h2>
         <div className="flex flex-col gap-2">
           <div
-            className="bg-gray-100 sqc-lg px-3 py-2 font-semibold"
+            className="bg-gray-100 px-3 py-2 font-semibold"
             onClick={() => {
               setCurrentUser(null);
               chatID.current = null;
