@@ -95,7 +95,7 @@ function Home({ validUser }) {
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
-      <aside className="w-80 border-r border-gray-200 py-5">
+      <aside className="w-80 border-r border-gray-200 py-5 px-3">
         <div className="px-5 py-2 mb-5 relative bg-linear-to-r from-indigo-300 to-indigo-100">
           <div className="absolute left-0 top-0 bottom-0 bg-indigo-700 h-full w-3"></div>
           <p className="font-bold">
@@ -105,9 +105,9 @@ function Home({ validUser }) {
         </div>
 
         <h2 className="text-2xl font-bold mb-3 text-center">Users</h2>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 relative">
           <div
-            className={`${!chatID.current ? "from-indigo-50 to-indigo-100" : "bg-gray-50"} bg-linear-to-r px-5 py-2 font-semibold cursor-pointer relative`}
+            className={`${!chatID.current ? "from-indigo-50 to-indigo-100" : "bg-gray-50"} bg-linear-to-r px-5 py-2 font-semibold cursor-pointer relative mb-10`}
             onClick={() => {
               setCurrentUser(null);
               chatID.current = null;
@@ -117,11 +117,11 @@ function Home({ validUser }) {
               socketRef.current.emit("request_global_messages");
             }}>
             {!chatID.current && (
-              <div className="absolute left-0 top-0 h-full w-3 bg-gray-400"></div>
+              <div className="absolute left-0 top-0 h-full w-3 bg-indigo-300 sqc-2xl"></div>
             )}
             Global
           </div>
-
+          <div className="absolute h-1 bg-amber-500 left-0 right-0 mt-5 top-10"></div>
           {users.map((u) => {
             const userChatId = [u._id, validUser.id].sort().join("_");
             return (
