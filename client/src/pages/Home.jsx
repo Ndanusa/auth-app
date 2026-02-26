@@ -124,11 +124,10 @@ function Home({ validUser }) {
             return (
               <div
                 key={u._id}
-                className="bg-gray-100 px-3 py-2"
+                className={`${userChatId === chatID.current ? "bg-purple-100" : "bg-gray-100"} px-3 py-2`}
                 onClick={() => {
                   openPrivateChat(u);
                   setHighlightUser(chatID.current);
-                  console.log(userChatId);
                 }}>
                 <p className="font-semibold">
                   {u.firstName} {u.lastName}
