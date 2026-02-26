@@ -15,7 +15,7 @@ function Home({ validUser }) {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
-  const [highlightUser, setHighlightUser] = useState({ id: "global" });
+  const [highlightUser, setHighlightUser] = useState(null);
   /* ---------------- SOCKET ---------------- */
   useEffect(() => {
     socketRef.current = io(BACKEND_URL, {
@@ -119,19 +119,24 @@ function Home({ validUser }) {
             Global
           </div>
 
-          {users.map((u) => (
-            <div
-              key={u._id}
-              className="bg-gray-100 sqc-lg px-3 py-2"
-              onClick={() => {
-                openPrivateChat(u);
-              }}>
-              <p className="font-semibold">
-                {u.firstName} {u.lastName}
-              </p>
-              <p className="text-sm text-gray-600">{u.username}</p>
-            </div>
-          ))}
+          {users.map((u) => {
+            const userChatId = [u._id, validUser.id].sort().join("_");
+            return (
+              <div
+                key={u._id}
+                className="bg-gray-100 px-3 py-2"
+                onClick={() => {
+                  openPrivateChat(u);
+                  setHighlightUser(chatID.current);
+                  console.log(userChatId);
+                }}>
+                <p className="font-semibold">
+                  {u.firstName} {u.lastName}
+                </p>
+                <p className="text-sm text-gray-600">{u.username}</p>
+              </div>
+            );
+          })}
         </div>
       </aside>
 
@@ -167,7 +172,7 @@ function Home({ validUser }) {
             No messages yet, start chatting
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto px-4 pt-20 pb-24 flex flex-col gap-3 bg-linear-to-b from-indigo-100 to-blue-50">
+          <div className="flex-1 overflow-y-auto px-4 pt-20 pb-24 flex flex-col gap-3 bg-linear-to-b from-indigo-50 to-amber-50">
             {messages.map((msg) => {
               const isMe = msg.sender === validUser.id;
 
