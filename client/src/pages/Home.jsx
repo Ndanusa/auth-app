@@ -104,10 +104,10 @@ function Home({ validUser }) {
           <p className="text-sm text-gray-600">{validUser.username}</p>
         </div>
 
-        <h2 className="text-lg font-bold mb-3">Users</h2>
+        <h2 className="text-2xl font-bold mb-3 text-center">Users</h2>
         <div className="flex flex-col gap-2">
           <div
-            className={`${!chatID.current ? "bg-purple-100" : "bg-gray-100"} px-3 py-2 font-semibold cursor-pointer`}
+            className={`${!chatID.current ? "from-indigo-50 to-indigo-100" : "bg-gray-50"} bg-linear-to-r px-5 py-2 font-semibold cursor-pointer relative`}
             onClick={() => {
               setCurrentUser(null);
               chatID.current = null;
@@ -116,6 +116,9 @@ function Home({ validUser }) {
               socketRef.current.emit("join_global");
               socketRef.current.emit("request_global_messages");
             }}>
+            {!chatID.current && (
+              <div className="absolute left-0 top-0 h-full w-3 bg-gray-400"></div>
+            )}
             Global
           </div>
 
@@ -124,15 +127,21 @@ function Home({ validUser }) {
             return (
               <div
                 key={u._id}
-                className={`${userChatId === chatID.current ? "bg-purple-100" : "bg-gray-100"} px-3 py-2 cursor-pointer`}
+                className={`${userChatId === chatID.current ? "bg-purple-100" : "bg-gray-50"} px-5 py-2 cursor-pointer flex items-center gap-5 relative`}
                 onClick={() => {
                   openPrivateChat(u);
                   setHighlightUser(chatID.current);
                 }}>
+                {chatID.current === userChatId && (
+                  <div className="absolute left-0 top-0 h-full w-3 bg-gray-400"></div>
+                )}
                 <p className="font-semibold">
                   {u.firstName} {u.lastName}
                 </p>
-                <p className="text-sm text-gray-600">{u.username}</p>
+                <p className="text-sm text-gray-600 flex items-center gap-3">
+                  {u.username}
+                  <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                </p>{" "}
               </div>
             );
           })}
