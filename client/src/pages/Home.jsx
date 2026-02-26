@@ -107,7 +107,7 @@ function Home({ validUser }) {
         <h2 className="text-lg font-bold mb-3">Users</h2>
         <div className="flex flex-col gap-2">
           <div
-            className="bg-gray-100 px-3 py-2 font-semibold"
+            className={`${!chatID.current ? "bg-purple-100" : "bg-gray-100"} px-3 py-2 font-semibold cursor-pointer`}
             onClick={() => {
               setCurrentUser(null);
               chatID.current = null;
@@ -124,7 +124,7 @@ function Home({ validUser }) {
             return (
               <div
                 key={u._id}
-                className={`${userChatId === chatID.current ? "bg-purple-100" : "bg-gray-100"} px-3 py-2`}
+                className={`${userChatId === chatID.current ? "bg-purple-100" : "bg-gray-100"} px-3 py-2 cursor-pointer`}
                 onClick={() => {
                   openPrivateChat(u);
                   setHighlightUser(chatID.current);
