@@ -95,7 +95,9 @@ function Home({ validUser }) {
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
-      <aside className="w-80 border-r border-gray-200 py-5 px-3">
+      <aside className="flex-1 py-5 px-3 relative bg-[#070823]">
+        <div className="absolute h-0.5 bg-gray-100 left-0 right-0 mt-5 top-46"></div>
+
         <div className="px-5 py-2 mb-5 relative bg-linear-to-r from-indigo-300 to-indigo-100">
           <div className="absolute left-0 top-0 bottom-0 bg-indigo-700 h-full w-3"></div>
           <p className="font-bold">
@@ -104,10 +106,10 @@ function Home({ validUser }) {
           <p className="text-sm text-gray-600">{validUser.username}</p>
         </div>
 
-        <h2 className="text-2xl font-bold mb-3 text-center">Users</h2>
+        <h2 className="text-2xl font-bold mb-3 text-center">Chats</h2>
         <div className="flex flex-col gap-2 relative">
           <div
-            className={`${!chatID.current ? "from-indigo-50 to-indigo-100" : "bg-gray-50"} bg-linear-to-r px-5 py-2 font-semibold cursor-pointer relative mb-10`}
+            className={`${!chatID.current ? "from-indigo-300/90 via-indigo-300/10 to-indigo-200/0 to-indi" : "bg-gray-50"} bg-linear-to-r px-5 py-2 font-semibold cursor-pointer relative mb-10 sqc-2xl`}
             onClick={() => {
               setCurrentUser(null);
               chatID.current = null;
@@ -117,11 +119,10 @@ function Home({ validUser }) {
               socketRef.current.emit("request_global_messages");
             }}>
             {!chatID.current && (
-              <div className="absolute left-0 top-0 h-full w-3 bg-indigo-300 sqc-2xl"></div>
+              <div className="absolute left-0 top-0 h-full w-3 bg-indigo-900 sqc-2xl"></div>
             )}
-            Global
+            <p className="text-indigo-800">Global</p>
           </div>
-          <div className="absolute h-1 bg-amber-500 left-0 right-0 mt-5 top-10"></div>
           {users.map((u) => {
             const userChatId = [u._id, validUser.id].sort().join("_");
             return (
@@ -149,7 +150,7 @@ function Home({ validUser }) {
       </aside>
 
       {/* CHAT SECTION */}
-      <main className="flex-1 relative flex flex-col">
+      <main className="flex-1/2 relative flex flex-col">
         {/* HEADER */}
         <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b px-4 py-3">
           <div>
