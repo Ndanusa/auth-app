@@ -103,7 +103,10 @@ function Home({ validUser }) {
           <p className="font-bold">
             {validUser.firstName} {validUser.lastName}
           </p>
-          <p className="text-sm text-gray-600">{validUser.username}</p>
+          <p
+            className={`w-2 h-2 rounded-full ${status ? "text-[#5cff59]" : "text-red-500"}`}>
+            {status ? "Online" : "Offline"}
+          </p>
         </div>
 
         <h2 className="text-2xl font-bold mb-3 text-center">Chats</h2>
@@ -159,15 +162,14 @@ function Home({ validUser }) {
                 <p className="text-xl">
                   {currentUser.firstName} {currentUser.lastName}
                 </p>
-                <div className="text-gray-700 text-sm flex items-center gap-2">
+                <div className="text-gray-700 text-sm">
                   {currentUser.username}{" "}
-                  <div
-                    className={`w-2 h-2 rounded-full ${status ? "bg-[#04ff00]" : "bg-red-500"}`}></div>
                 </div>
               </div>
             ) : (
               <div className="flex gap-2 items-center">
-                Global{" "}
+                <img src={``} alt="" />
+                <p>Global</p>
                 <div
                   className={`w-2 h-2 rounded-full ${status ? "bg-[#00ff1a]" : "bg-red-500"}`}></div>
               </div>
