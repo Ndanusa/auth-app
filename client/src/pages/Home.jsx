@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import { BACKEND_URL } from "../config/config.js";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { MoreVertical } from "@hugeicons/core-free-icons";
+import profileImage from "../assets/profile.jpg";
 
 function Home({ validUser }) {
   const socketRef = useRef(null);
@@ -95,18 +96,22 @@ function Home({ validUser }) {
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
-      <aside className="flex-1 py-5 px-3 relative bg-[#070823]">
-        <div className="absolute h-0.5 bg-gray-100 left-0 right-0 mt-5 top-46"></div>
-
-        <div className="px-5 py-2 mb-5 relative bg-linear-to-r from-indigo-300 to-indigo-100">
-          <div className="absolute left-0 top-0 bottom-0 bg-indigo-700 h-full w-3"></div>
-          <p className="font-bold">
-            {validUser.firstName} {validUser.lastName}
-          </p>
-          <p
-            className={`w-2 h-2 rounded-full ${status ? "text-[#5cff59]" : "text-red-500"}`}>
-            {status ? "Online" : "Offline"}
-          </p>
+      <aside className="flex-1 p-10  relative flex flex-col gap-10 bg-[#51538f]">
+        <div className="px-5 py-2 mb-5 relative bg-linear-to-r from-indigo-300 to-indigo-100 flex">
+          <img
+            src={profileImage}
+            alt="profile"
+            className="w-10 h-10 object-center object-cover"
+          />
+          <div>
+            <p className="font-bold">
+              {validUser.firstName} {validUser.lastName}
+            </p>
+            <p
+              className={`w-2 h-2 rounded-full ${status ? "text-[#5cff59]" : "text-red-500"}`}>
+              {status ? "Online" : "Offline"}
+            </p>
+          </div>
         </div>
 
         <h2 className="text-2xl font-bold mb-3 text-center">Chats</h2>
@@ -153,7 +158,7 @@ function Home({ validUser }) {
       </aside>
 
       {/* CHAT SECTION */}
-      <main className="flex-1/2 relative flex flex-col">
+      <main className="flex-4 relative flex flex-col">
         {/* HEADER */}
         <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b px-4 py-3">
           <div>
@@ -259,8 +264,8 @@ function Home({ validUser }) {
                       </div>
                     )}
 
-                    <p className="text-sm font-medium pr-6">{msg.message}</p>
-                    <p className="text-xs mt-1 text-gray-500">
+                    <p className="text-sm pr-6">{msg.message}</p>
+                    <p className="text-xs mt-1 font-medium text-gray-500">
                       {new Date(msg.createdAt).toLocaleTimeString()}
                     </p>
                   </div>
