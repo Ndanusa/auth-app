@@ -115,7 +115,7 @@ function Home({ validUser }) {
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
-      <aside className="flex-1 p-7 pt-4 flex flex-col gap-10">
+      <aside className="flex-1 p-7 pt-4 flex flex-col gap-10 border-r-3 border-[#e5e5e5]">
         <div className="flex items-center justify-between">
           <div className="text-2xl relative font-bold">Messages</div>
           <div className="flex items-center">
@@ -186,7 +186,7 @@ function Home({ validUser }) {
       {/* CHAT SECTION */}
       <main className="flex-4 relative flex flex-col">
         {/* HEADER */}
-        <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b px-4 py-3">
+        <div className="absolute top-0 left-0 right-0 z-20 bg-white-100/30 backdrop-blur-md border-b-3 border-[#dbdbdb] px-4 py-3">
           <div>
             {currentUser ? (
               <div>
@@ -302,7 +302,7 @@ function Home({ validUser }) {
         )}
 
         {/* INPUT */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white/30 backdrop-blur-md border-t px-4 py-3">
+        <div className="absolute bottom-0 left-0 right-0 bg-white/30 backdrop-blur-md border-t-3 border-[#dbdbdb] px-4 py-3">
           <div className="flex gap-2">
             <input
               className="flex-1 sqc-lg px-4 py-2"
