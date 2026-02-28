@@ -97,11 +97,11 @@ function Home({ validUser }) {
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
       <aside className="flex-1 p-10  relative flex flex-col gap-10 bg-[#51538f]">
-        <div className="px-5 py-2 mb-5 relative bg-linear-to-r from-indigo-300 to-indigo-100 flex">
+        <div className="px-5 py-2 mb-5 relative bg-linear-to-r flex items-center">
           <img
             src={profileImage}
             alt="profile"
-            className="w-10 h-10 object-center object-cover"
+            className="w-10 h-10 object-center object-fit object-cover rounded-full"
           />
           <div>
             <p className="font-bold">
