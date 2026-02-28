@@ -21,6 +21,7 @@ function Home({ validUser }) {
   const [status, setStatus] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
   const [highlightUser, setHighlightUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   /* ---------------- SOCKET ---------------- */
   useEffect(() => {
     socketRef.current = io(BACKEND_URL, {
@@ -97,6 +98,20 @@ function Home({ validUser }) {
     setMessage("");
   }
 
+  const filteredUsers = users.filter((item) => {
+    "".toLowerCase;
+    return (
+      item.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+  function searchUser(e) {
+    setSearchTerm(e.target.value);
+    // setUsers(filteredUsers);
+  }
+
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
@@ -137,6 +152,8 @@ function Home({ validUser }) {
             type="text"
             className="px-12 text-sm w-full h-10 py-3 focus:outline-0 rounded-full bg-[#1c1d3c] text-[#bcbcbc] placeholder:text-[#bcbcbc] sqc-3xl"
             placeholder="search for people or a group"
+            value={searchTerm}
+            onChange={searchUser}
           />
         </div>
 
@@ -174,7 +191,6 @@ function Home({ validUser }) {
                 </p>
                 <p className="text-sm text-gray-600 flex items-center gap-3">
                   {u.username}
-                  <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
                 </p>{" "}
               </div>
             );
@@ -198,7 +214,6 @@ function Home({ validUser }) {
               </div>
             ) : (
               <div className="flex gap-2 items-center">
-                <img src={``} alt="" />
                 <p>Global</p>
                 <div
                   className={`w-2 h-2 rounded-full ${status ? "bg-[#00ff1a]" : "bg-red-500"}`}></div>
