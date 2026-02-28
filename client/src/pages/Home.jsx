@@ -102,58 +102,43 @@ function Home({ validUser }) {
     "".toLowerCase;
     return (
       item.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+      `${item.firstName} ${item.lastName}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
     );
   });
 
   function searchUser(e) {
     setSearchTerm(e.target.value);
-    // setUsers(filteredUsers);
   }
 
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
-      <aside className="flex-1 p-7 pr-10 flex flex-col gap-10 bg-[#0f1026]">
+      <aside className="flex-1 p-7 pt-4 flex flex-col gap-10">
         <div className="flex items-center justify-between">
-          <div className="px-5 py-2 mb-5 relative bg-linear-to-r flex items-center gap-2">
+          <div className="text-2xl relative font-bold">Messages</div>
+          <div className="flex items-center">
             <img
               src={profileImage}
               alt="profile"
               className="w-10 h-10 object-center object-fit object-cover rounded-full"
             />
-            <div className="flex flex-col">
-              <p className=" text-white">
-                {validUser.firstName} {validUser.lastName}
-              </p>
-              <p
-                className={`text-sm font-bold ${status ? "text-[#ffb58e]" : "text-red-600"}`}>
-                {status ? "active" : "inactive"}
-              </p>
-            </div>
-          </div>
-          <div className="text-white relative -top-3">
-            <HugeiconsIcon
-              icon={MoreHorizontal}
-              size={30}
-              className="text-[#ffb58e]"
-            />
           </div>
         </div>
 
         <div className="flex items-center relative">
+          <input
+            type="text"
+            className="px-12 pl-3 text-sm w-full h-10 py-3 focus:outline-0 rounded-full bg-[#eeedf2] text-[#8b8993] placeholder:text-[#857fa8] placeholder:font-medium sqc-3xl"
+            placeholder="search.."
+            value={searchTerm}
+            onChange={searchUser}
+          />
           <HugeiconsIcon
             icon={Search}
             size={20}
-            className="text-white absolute left-4"
-          />
-          <input
-            type="text"
-            className="px-12 text-sm w-full h-10 py-3 focus:outline-0 rounded-full bg-[#1c1d3c] text-[#bcbcbc] placeholder:text-[#bcbcbc] sqc-3xl"
-            placeholder="search for people or a group"
-            value={searchTerm}
-            onChange={searchUser}
+            className="text-[#878295] absolute right-4"
           />
         </div>
 
@@ -173,7 +158,7 @@ function Home({ validUser }) {
             )}
             <p className="text-indigo-800">Global</p>
           </div>
-          {users.map((u) => {
+          {filteredUsers.map((u) => {
             const userChatId = [u._id, validUser.id].sort().join("_");
             return (
               <div
@@ -199,7 +184,7 @@ function Home({ validUser }) {
       </aside>
 
       {/* CHAT SECTION */}
-      <main className="flex-3 relative flex flex-col">
+      <main className="flex-4 relative flex flex-col">
         {/* HEADER */}
         <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b px-4 py-3">
           <div>
