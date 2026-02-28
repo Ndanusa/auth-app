@@ -96,8 +96,8 @@ function Home({ validUser }) {
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
-      <aside className="flex-1 p-10  relative flex flex-col gap-10 bg-[#51538f]">
-        <div className="px-5 py-2 mb-5 relative bg-linear-to-r flex items-center">
+      <aside className="flex-1 p-10 flex flex-col gap-10 bg-[#51538f]">
+        <div className="px-5 py-2 mb-5 relative bg-linear-to-r flex gap-5">
           <img
             src={profileImage}
             alt="profile"
@@ -105,7 +105,8 @@ function Home({ validUser }) {
           />
           <div>
             <p className="font-bold">
-              {validUser.firstName} {validUser.lastName}
+              {" "}
+              {validUser.firstName} {validUser.lastName}{" "}
             </p>
             <p
               className={`w-2 h-2 rounded-full ${status ? "text-[#5cff59]" : "text-red-500"}`}>
