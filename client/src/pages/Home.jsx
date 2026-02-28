@@ -9,6 +9,7 @@ import {
   Search,
 } from "@hugeicons/core-free-icons";
 import profileImage from "../assets/profile.jpg";
+import globalProfile from "../assets/global profile.jpg";
 
 function Home({ validUser }) {
   const socketRef = useRef(null);
@@ -144,7 +145,7 @@ function Home({ validUser }) {
 
         <div className="flex flex-col gap-2 relative">
           <div
-            className={`${!chatID.current ? "from-indigo-300/90 via-indigo-300/10 to-indigo-200/0 to-indi" : "bg-gray-50"} bg-linear-to-r px-5 py-2 font-semibold cursor-pointer relative mb-10 sqc-2xl`}
+            className={`${!chatID.current ? "from-indigo-300/90 via-indigo-300/10 to-indigo-200/0 to-indi" : "bg-gray-50"} items-center flex gap-5 bg-linear-to-r px-5 py-2 font-semibold cursor-pointer relative mb-10 sqc-2xl`}
             onClick={() => {
               setCurrentUser(null);
               chatID.current = null;
@@ -153,30 +154,35 @@ function Home({ validUser }) {
               socketRef.current.emit("join_global");
               socketRef.current.emit("request_global_messages");
             }}>
-            {!chatID.current && (
-              <div className="absolute left-0 top-0 h-full w-3 bg-indigo-900 sqc-2xl"></div>
-            )}
-            <p className="text-indigo-800">Global</p>
+            <img
+              src={globalProfile}
+              alt=""
+              className="w-10 h-10 object-fit object-cover rounded-full"
+            />
+            <div>
+              <p className="text-indigo-800">Global</p>
+            </div>
           </div>
           {filteredUsers.map((u) => {
             const userChatId = [u._id, validUser.id].sort().join("_");
             return (
               <div
                 key={u._id}
-                className={`${userChatId === chatID.current ? "bg-purple-100" : "bg-gray-50"} px-5 py-2 cursor-pointer flex items-center gap-5 relative`}
+                className={`${userChatId === chatID.current && "bg-gray-50"} px-5 py-2 cursor-pointer flex items-center gap-5 relative`}
                 onClick={() => {
                   openPrivateChat(u);
                   setHighlightUser(chatID.current);
                 }}>
-                {chatID.current === userChatId && (
-                  <div className="absolute left-0 top-0 h-full w-3 bg-gray-400"></div>
-                )}
-                <p className="font-semibold">
-                  {u.firstName} {u.lastName}
-                </p>
-                <p className="text-sm text-gray-600 flex items-center gap-3">
-                  {u.username}
-                </p>{" "}
+                <img
+                  src={globalProfile}
+                  alt=""
+                  className="w-10 h-10 object-fit object-cover rounded-full"
+                />
+                <div>
+                  <p className="font-semibold">
+                    {u.firstName} {u.lastName}
+                  </p>
+                </div>
               </div>
             );
           })}
