@@ -3,7 +3,11 @@ import axios from "axios";
 import io from "socket.io-client";
 import { BACKEND_URL } from "../config/config.js";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { MoreVertical, MoreHorizontal } from "@hugeicons/core-free-icons";
+import {
+  MoreVertical,
+  MoreHorizontal,
+  Search,
+} from "@hugeicons/core-free-icons";
 import profileImage from "../assets/profile.jpg";
 
 function Home({ validUser }) {
@@ -109,7 +113,7 @@ function Home({ validUser }) {
                 {validUser.firstName} {validUser.lastName}
               </p>
               <p
-                className={`text-sm font-bold ${status ? "text-[#ff955d]" : "text-red-600"}`}>
+                className={`text-sm font-bold ${status ? "text-[#ffb58e]" : "text-red-600"}`}>
                 {status ? "active" : "inactive"}
               </p>
             </div>
@@ -118,12 +122,24 @@ function Home({ validUser }) {
             <HugeiconsIcon
               icon={MoreHorizontal}
               size={30}
-              className="text-[#ff955d]"
+              className="text-[#ffb58e]"
             />
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold mb-3 text-center">Chats</h2>
+        <div className="flex items-center relative">
+          <HugeiconsIcon
+            icon={Search}
+            size={20}
+            className="text-white absolute left-4"
+          />
+          <input
+            type="text"
+            className="px-12 text-sm w-full h-10 py-3 focus:outline-0 rounded-full bg-[#1c1d3c] text-[#bcbcbc] placeholder:text-[#bcbcbc] sqc-3xl"
+            placeholder="search for people or a group"
+          />
+        </div>
+
         <div className="flex flex-col gap-2 relative">
           <div
             className={`${!chatID.current ? "from-indigo-300/90 via-indigo-300/10 to-indigo-200/0 to-indi" : "bg-gray-50"} bg-linear-to-r px-5 py-2 font-semibold cursor-pointer relative mb-10 sqc-2xl`}
@@ -167,7 +183,7 @@ function Home({ validUser }) {
       </aside>
 
       {/* CHAT SECTION */}
-      <main className="flex-4 relative flex flex-col">
+      <main className="flex-3 relative flex flex-col">
         {/* HEADER */}
         <div className="absolute top-0 left-0 right-0 z-20 bg-indigo-100/30 backdrop-blur-md border-b px-4 py-3">
           <div>
