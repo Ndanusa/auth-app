@@ -116,8 +116,8 @@ function Home({ validUser }) {
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
-      <aside className="flex-1 p-7 pt-4 flex flex-col gap-10 border-r-3 border-[#e5e5e5]">
-        <div className="flex items-center justify-between">
+      <aside className="flex-1 p-7 pt-4 px-0 flex flex-col gap-10 border-r-3 border-[#e5e5e5]">
+        <div className="flex items-center justify-between px-7">
           <div className="text-2xl relative font-bold">Messages</div>
           <div className="flex items-center">
             <img
@@ -128,7 +128,7 @@ function Home({ validUser }) {
           </div>
         </div>
 
-        <div className="flex items-center relative">
+        <div className="flex items-center relative px-7">
           <input
             type="text"
             className="px-12 pl-3 text-sm w-full h-10 py-3 focus:outline-0 rounded-full bg-[#eeedf2] text-[#8b8993] placeholder:text-[#857fa8] placeholder:font-medium sqc-3xl"
@@ -139,13 +139,13 @@ function Home({ validUser }) {
           <HugeiconsIcon
             icon={Search}
             size={20}
-            className="text-[#878295] absolute right-4"
+            className="text-[#878295] absolute right-10"
           />
         </div>
 
         <div className="flex flex-col gap-2 relative">
           <div
-            className={`${!chatID.current ? "from-indigo-300/90 via-indigo-300/10 to-indigo-200/0 to-indi" : "bg-gray-50"} items-center flex gap-5 bg-linear-to-r px-5 py-2 font-semibold cursor-pointer relative mb-10 sqc-2xl`}
+            className={`${!chatID.current && "bg-indigo-100"} items-center flex px-7 gap-5 py-2 font-semibold cursor-pointer relative mb-10`}
             onClick={() => {
               setCurrentUser(null);
               chatID.current = null;
@@ -159,8 +159,17 @@ function Home({ validUser }) {
               alt=""
               className="w-10 h-10 object-fit object-cover rounded-full"
             />
-            <div>
-              <p className="text-indigo-800">Global</p>
+            <div className="flex items-center justify-between flex-1">
+              <div>
+                <p className="text-indigo-700">Global</p>
+                <p className="text-xs text-indigo-400">typing...</p>
+              </div>
+              <div>
+                <p className="text-sm text-indigo-400">3:30 PM</p>
+                <p className="flex items-center justify-center w-4 h-4 p-1 rounded-full bg-red-600 text-white text-xs">
+                  3
+                </p>
+              </div>
             </div>
           </div>
           {filteredUsers.map((u) => {
@@ -168,7 +177,7 @@ function Home({ validUser }) {
             return (
               <div
                 key={u._id}
-                className={`${userChatId === chatID.current && "bg-gray-50"} px-5 py-2 cursor-pointer flex items-center gap-5 relative`}
+                className={`${userChatId === chatID.current && "bg-gray-50"} px-7 py-2 cursor-pointer flex items-center gap-5 relative`}
                 onClick={() => {
                   openPrivateChat(u);
                   setHighlightUser(chatID.current);
@@ -190,7 +199,7 @@ function Home({ validUser }) {
       </aside>
 
       {/* CHAT SECTION */}
-      <main className="flex-4 relative flex flex-col">
+      <main className="flex-3/6 relative flex flex-col">
         {/* HEADER */}
         <div className="absolute top-0 left-0 right-0 z-20 bg-white-100/30 backdrop-blur-md border-b-3 border-[#dbdbdb] px-4 py-3">
           <div>
