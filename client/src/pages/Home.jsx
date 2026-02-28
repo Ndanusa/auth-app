@@ -3,7 +3,7 @@ import axios from "axios";
 import io from "socket.io-client";
 import { BACKEND_URL } from "../config/config.js";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { MoreVertical } from "@hugeicons/core-free-icons";
+import { MoreVertical, MoreHorizontal } from "@hugeicons/core-free-icons";
 import profileImage from "../assets/profile.jpg";
 
 function Home({ validUser }) {
@@ -96,22 +96,30 @@ function Home({ validUser }) {
   return (
     <div className="flex h-screen bg-white text-black">
       {/* USERS SIDEBAR */}
-      <aside className="flex-1 p-10 flex flex-col gap-10 bg-[#51538f]">
-        <div className="px-5 py-2 mb-5 relative bg-linear-to-r flex gap-5">
-          <img
-            src={profileImage}
-            alt="profile"
-            className="w-10 h-10 object-center object-fit object-cover rounded-full"
-          />
-          <div>
-            <p className="font-bold">
-              {" "}
-              {validUser.firstName} {validUser.lastName}{" "}
-            </p>
-            <p
-              className={`w-2 h-2 rounded-full ${status ? "text-[#5cff59]" : "text-red-500"}`}>
-              {status ? "Online" : "Offline"}
-            </p>
+      <aside className="flex-1 p-7 pr-10 flex flex-col gap-10 bg-[#0f1026]">
+        <div className="flex items-center justify-between">
+          <div className="px-5 py-2 mb-5 relative bg-linear-to-r flex items-center gap-2">
+            <img
+              src={profileImage}
+              alt="profile"
+              className="w-10 h-10 object-center object-fit object-cover rounded-full"
+            />
+            <div className="flex flex-col">
+              <p className=" text-white">
+                {validUser.firstName} {validUser.lastName}
+              </p>
+              <p
+                className={`text-sm font-bold ${status ? "text-[#ff955d]" : "text-red-600"}`}>
+                {status ? "active" : "inactive"}
+              </p>
+            </div>
+          </div>
+          <div className="text-white relative -top-3">
+            <HugeiconsIcon
+              icon={MoreHorizontal}
+              size={30}
+              className="text-[#ff955d]"
+            />
           </div>
         </div>
 
