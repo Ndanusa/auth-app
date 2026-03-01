@@ -146,7 +146,7 @@ function Home({ validUser }) {
         <div className="flex flex-col gap-2 relative">
           <div className="border-b-2 border-[#dbdbdb] pb-5">
             <div
-              className={`${!chatID.current && "bg-indigo-100"} duration-300 transition-all ease-in items-center flex px-7 gap-5 py-2 font-semibold cursor-pointer relative `}
+              className={`${!chatID.current && "bg-indigo-100"} duration-300 transition-all ease-in items-center flex px-7 gap-5 py-3 font-semibold cursor-pointer relative `}
               onClick={() => {
                 setCurrentUser(null);
                 chatID.current = null;
