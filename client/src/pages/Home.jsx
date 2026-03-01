@@ -144,31 +144,35 @@ function Home({ validUser }) {
         </div>
 
         <div className="flex flex-col gap-2 relative">
-          <div
-            className={`${!chatID.current && "bg-indigo-100"} items-center flex px-7 gap-5 py-2 font-semibold cursor-pointer relative mb-10`}
-            onClick={() => {
-              setCurrentUser(null);
-              chatID.current = null;
-              setMessages([]);
-              socketRef.current.emit();
-              socketRef.current.emit("join_global");
-              socketRef.current.emit("request_global_messages");
-            }}>
-            <img
-              src={globalProfile}
-              alt=""
-              className="w-10 h-10 object-fit object-cover rounded-full"
-            />
-            <div className="flex items-center justify-between flex-1">
-              <div>
-                <p className="text-indigo-700">Global</p>
-                <p className="text-xs text-indigo-400">typing...</p>
-              </div>
-              <div>
-                <p className="text-sm text-indigo-400">3:30 PM</p>
-                <p className="flex items-center justify-center w-4 h-4 p-1 rounded-full bg-red-600 text-white text-xs">
-                  3
-                </p>
+          <div className="border-b-2 border-[#dbdbdb] pb-5">
+            <div
+              className={`${!chatID.current && "bg-indigo-100"} duration-300 transition-all ease-in items-center flex px-7 gap-5 py-2 font-semibold cursor-pointer relative `}
+              onClick={() => {
+                setCurrentUser(null);
+                chatID.current = null;
+                setMessages([]);
+                socketRef.current.emit();
+                socketRef.current.emit("join_global");
+                socketRef.current.emit("request_global_messages");
+              }}>
+              <img
+                src={globalProfile}
+                alt=""
+                className="w-10 h-10 object-fit object-cover rounded-full"
+              />
+              <div className="flex items-center justify-between flex-1">
+                <div>
+                  <p className={`${!chatID.current && "text-indigo-600"}`}>
+                    Global
+                  </p>
+                  <p className="text-xs text-indigo-400">typing...</p>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                  <p className="text-[#9896a9] text-xs">3:30 PM</p>
+                  <p className="flex items-center justify-center w-4 h-4 p-1 rounded-full bg-red-600 text-white text-xs">
+                    3
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -177,7 +181,7 @@ function Home({ validUser }) {
             return (
               <div
                 key={u._id}
-                className={`${userChatId === chatID.current && "bg-gray-50"} px-7 py-2 cursor-pointer flex items-center gap-5 relative`}
+                className={`${userChatId === chatID.current && "bg-gray-50"} px-7 py-2 cursor-pointer flex items-center gap-5 pt-5 relative`}
                 onClick={() => {
                   openPrivateChat(u);
                   setHighlightUser(chatID.current);
