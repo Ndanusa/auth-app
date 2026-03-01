@@ -114,9 +114,9 @@ function Home({ validUser }) {
   }
 
   return (
-    <div className="flex h-screen bg-white text-black">
+    <div className="flex h-screen bg-white text-black ">
       {/* USERS SIDEBAR */}
-      <aside className="flex-1 p-7 pt-4 px-0 flex flex-col gap-10 border-r-3 border-[#e5e5e5]">
+      <aside className="flex-1 p-7 pt-4 px-0 flex flex-col gap-10 border-r-3 border-[#e5e5e5] overflow-y-auto side-bar">
         <div className="flex items-center justify-between px-7">
           <div className="text-2xl relative font-bold">Messages</div>
           <div className="flex items-center">
@@ -144,9 +144,10 @@ function Home({ validUser }) {
         </div>
 
         <div className="flex flex-col gap-2 relative">
-          <div className="border-b-2 border-[#dbdbdb] pb-5">
+          <div
+            className={`${!chatID.current && "border-y-2 border-[#dbdbdb]"}`}>
             <div
-              className={`${!chatID.current && "bg-indigo-100"} duration-300 transition-all ease-in items-center flex px-7 gap-5 py-3 font-semibold cursor-pointer relative `}
+              className={`${!chatID.current && "bg-gray-100"} duration-300 transition ease-in items-center flex px-7 gap-5 py-3 font-semibold cursor-pointer relative `}
               onClick={() => {
                 setCurrentUser(null);
                 chatID.current = null;
@@ -162,9 +163,7 @@ function Home({ validUser }) {
               />
               <div className="flex items-center justify-between flex-1">
                 <div>
-                  <p className={`${!chatID.current && "text-indigo-600"}`}>
-                    Global
-                  </p>
+                  <p className={``}>Global</p>
                   <p className="text-xs text-indigo-400">typing...</p>
                 </div>
                 <div className="flex flex-col items-end gap-2">
@@ -181,7 +180,7 @@ function Home({ validUser }) {
             return (
               <div
                 key={u._id}
-                className={`${userChatId === chatID.current && "bg-gray-50"} px-7 py-2 cursor-pointer flex items-center gap-5 pt-5 relative`}
+                className={`${userChatId === chatID.current && "bg-gray-50"} px-7 py-2 cursor-pointer flex items-center gap-5 relative`}
                 onClick={() => {
                   openPrivateChat(u);
                   setHighlightUser(chatID.current);
