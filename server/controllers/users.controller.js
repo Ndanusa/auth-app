@@ -1,4 +1,5 @@
 import User from "../models/user.models.js";
+import Message from "../models/message.models.js";
 
 export const getUsers = async (req, res) => {
   const users = await User.find().select(

@@ -58,7 +58,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 0px;
 }
 
 ::-webkit-scrollbar-track {
@@ -74,11 +74,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #bdb3ff;
-}
-
-* {
-  scrollbar-width: 3px;
-  scrollbar-color: #534dff transparent;
 }
 
 @supports (corner-shape: superellipse(2)) {

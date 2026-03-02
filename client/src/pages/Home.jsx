@@ -118,7 +118,7 @@ function Home({ validUser }) {
       {/* USERS SIDEBAR */}
       <aside className="flex-1 p-7 pt-4 px-0 flex flex-col gap-10 border-r-3 border-[#e5e5e5] overflow-y-auto side-bar">
         <div className="flex items-center justify-between px-7">
-          <div className="text-2xl relative font-bold">Messages</div>
+          <div className="text-2xl relative font-bold">Chats</div>
           <div className="flex items-center">
             <img
               src={profileImage}
@@ -147,7 +147,7 @@ function Home({ validUser }) {
           <div
             className={`${!chatID.current && "border-y-2 border-[#dbdbdb]"}`}>
             <div
-              className={`${!chatID.current && "bg-gray-100"} duration-300 transition ease-in items-center flex px-7 gap-5 py-3 font-semibold cursor-pointer relative `}
+              className={`${!chatID.current && "bg-gray-100"} items-center flex px-7 gap-5 py-3 font-semibold cursor-pointer relative `}
               onClick={() => {
                 setCurrentUser(null);
                 chatID.current = null;
@@ -180,7 +180,7 @@ function Home({ validUser }) {
             return (
               <div
                 key={u._id}
-                className={`${userChatId === chatID.current && "bg-gray-50"} px-7 py-2 cursor-pointer flex items-center gap-5 relative`}
+                className={`${userChatId === chatID.current && "bg-gray-50 border-y-2 border-[#dbdbdb]"} px-7 py-3 cursor-pointer flex items-center gap-5 relative`}
                 onClick={() => {
                   openPrivateChat(u);
                   setHighlightUser(chatID.current);
@@ -190,10 +190,21 @@ function Home({ validUser }) {
                   alt=""
                   className="w-10 h-10 object-fit object-cover rounded-full"
                 />
-                <div>
-                  <p className="font-semibold">
-                    {u.firstName} {u.lastName}
-                  </p>
+                <div className="flex flex-1 items-center justify-between">
+                  <div className="">
+                    <p className="font-semibold">
+                      {u.firstName} {u.lastName}
+                    </p>
+                    <p className="text-xs text-[#ababab] font-bold">
+                      last message
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <p className="text-[#9896a9] text-xs">3:30 PM</p>
+                    <p className="flex items-center justify-center w-4 h-4 p-1 rounded-full bg-red-600 text-white text-xs">
+                      3
+                    </p>
+                  </div>
                 </div>
               </div>
             );
