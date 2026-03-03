@@ -78,7 +78,7 @@ function Home({ validUser }) {
       setLastMessage(data);
     };
     getLastMessages();
-  }, []);
+  }, [message]);
 
   const openPrivateChat = (user) => {
     setCurrentUser(user);
