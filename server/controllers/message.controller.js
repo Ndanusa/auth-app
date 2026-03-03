@@ -13,6 +13,6 @@ export const sendMessage = async (req, res) => {
 };
 
 export const getMessages = async (req, res) => {
-  const messages = await Message.find().select("sender createdAt message");
+  const messages = await Message.find();
   res.json(messages);
 };

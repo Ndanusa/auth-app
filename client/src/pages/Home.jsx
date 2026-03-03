@@ -23,6 +23,7 @@ function Home({ validUser }) {
   const [openMenuId, setOpenMenuId] = useState(null);
   const [highlightUser, setHighlightUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [lastMessage, setLastMessage] = useState([]);
   /* ---------------- SOCKET ---------------- */
   useEffect(() => {
     socketRef.current = io(BACKEND_URL, {
@@ -41,6 +42,8 @@ function Home({ validUser }) {
 
     socketRef.current.on("load_private", setMessages);
     socketRef.current.on("receive_private_messages", setMessages);
+
+    socketRef.current.on("request_last_messages", setLastMessage);
 
     socketRef.current.on("disconnect", () => {
       setStatus("Disconnected");
@@ -68,10 +71,18 @@ function Home({ validUser }) {
     getUsers();
   }, []);
 
+  useEffect(() => {
+    const getLastMessages = async () => {
+      const response = await fetch(`${BACKEND_URL}/api/v1/message/render`);
+      const data = await response.json();
+      setLastMessage(data);
+    };
+    getLastMessages();
+  }, []);
+
   const openPrivateChat = (user) => {
     setCurrentUser(user);
     chatID.current = [user._id, validUser.id].sort().join("_");
-    console.log(user);
     setMessages([]);
     socketRef.current.emit("join_private", chatID.current);
     socketRef.current.emit("request_private_messages", chatID.current);
@@ -177,6 +188,11 @@ function Home({ validUser }) {
           </div>
           {filteredUsers.map((u) => {
             const userChatId = [u._id, validUser.id].sort().join("_");
+            let msg = lastMessage.filter((item) => {
+              return item.chatId === userChatId;
+            });
+            msg = msg[msg.length - 1];
+            const isMe = msg?.sender === validUser.id;
             return (
               <div
                 key={u._id}
@@ -196,7 +212,8 @@ function Home({ validUser }) {
                       {u.firstName} {u.lastName}
                     </p>
                     <p className="text-xs text-[#ababab] font-bold">
-                      last message
+                      {isMe && "You: "}
+                      {msg?.message || ""}
                     </p>
                   </div>
                   <div className="flex flex-col items-end gap-2">
@@ -288,7 +305,6 @@ function Home({ validUser }) {
                         <button
                           className={`w-full px-3 py-2 text-left transition-all duration-200 hover:bg-gray-100 ${isMe && "border-b"}`}
                           onClick={() => {
-                            console.log("Reply:", msg._id);
                             setOpenMenuId(null);
                           }}>
                           Reply
