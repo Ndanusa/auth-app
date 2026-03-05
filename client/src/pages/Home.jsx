@@ -219,7 +219,7 @@ function Home({ validUser }) {
                   <div className="flex flex-col items-end gap-2">
                     <p className="text-[#9896a9] text-xs">3:30 PM</p>
                     <p className="flex items-center justify-center w-4 h-4 p-1 rounded-full bg-red-600 text-white text-xs">
-                      3
+                      2
                     </p>
                   </div>
                 </div>
